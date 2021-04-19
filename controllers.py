@@ -38,3 +38,10 @@ url_signer = URLSigner(session)
 def index():
     print("User:", get_user_email())
     return dict()
+
+@action('content')
+@action.uses(db, auth, 'content.html')
+def content():
+    print("User:", get_user_email())
+    print("Content page")
+    return dict()
