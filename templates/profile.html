@@ -1,65 +1,58 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="Content Type" content="text/html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="static/scss/content.css" />
-    <script
-      defer
-      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-    ></script>
-    <!-- update later -->
-    <link
-      rel="shortcut icon"
-      type="image/png"
-      href="/apps/183-project/assets/favicon.png"
-    />
-    <title>Profile</title>
-  </head>
+<html lang="en">
 
-  <body>
-    <nav class="navbar">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="#">
-          <img src="../assets/logo.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content Type" content="text/html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="static/scss/profile.css" />
+  <link rel="shortcut icon" type="image/png" href="../static/assets/favicon.png" />
+  <title>Profile</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="#">
+        <img src="../assets/logo.png" />
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item has-text-white">
+          <strong>Locate Vaccine</strong>
         </a>
-      </div>
-      <div class="navbar-menu">
-        <div class="navbar-end">
-          <a class="navbar-item has-text-white">
-            <strong>Locate Vaccine</strong>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link has-text-white">
+            <strong>Name's Profile</strong>
           </a>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link has-text-white">
-              <strong>Name's Profile</strong>
-            </a>
-            <div class="navbar-dropdown">
-              <a class="navbar-item"> Profile </a>
-              <hr class="navbar-divider" />
-              <a class="navbar-item"> Sign Out </a>
-            </div>
+          <div class="navbar-dropdown">
+            <a class="navbar-item"> Profile </a>
+            <hr class="navbar-divider" />
+            <a class="navbar-item"> Sign Out </a>
           </div>
         </div>
       </div>
-    </nav>
-    <section class="section">
-      <div class="container">
-        <h1 class="title is-1">John Doe's Profile</h1>
-        <div class="columns">
-          <div class="column is-two-fifths">
-            <h4 class="subtitle is-4">Username: johndoe</h4>
-            <h4 class="subtitle is-4">Email: johndoe@ucsc.edu</h4>
-            <h4 class="subtitle is-4">Vaccinated: Yes</h4>
-            <h4 class="subtitle is-4">Saved Locations:</h4>
-          </div>
-          <div class="column">
-            <figure class="image">
-              <img src="../assets/placeholder-map.png" />
-            </figure>
-          </div>
+    </div>
+  </nav>
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-1">John Doe's Profile</h1>
+      <div class="columns">
+        <div class="column is-two-fifths">
+          <h4 class="subtitle is-4">Username: johndoe</h4>
+          <h4 class="subtitle is-4">Email: johndoe@ucsc.edu</h4>
+          <h4 class="subtitle is-4">Vaccinated: Yes</h4>
+          <h4 class="subtitle is-4">Saved Locations:</h4>
+        </div>
+        <div class="column">
+          <figure class="image">
+            <img src="../assets/placeholder-map.png" />
+          </figure>
         </div>
       </div>
-    </section>
-  </body>
+    </div>
+  </section>
+</body>
+
 </html>
