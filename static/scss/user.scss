@@ -1,0 +1,215 @@
+// run command below in root py4web directory
+// sass --no-source-map apps/183-project/scss/user.scss apps/183-project/scss/user.css
+
+@charset "utf-8";
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+$input-placeholder-color: bulmaRgba(hsl(0, 0%, 21%), 0.3);
+$link: #cc0000;
+$error_color: #cc00000a;
+$hover_border: #0e1f21;
+$main_display_color: hsl(204, 71%, 39%);
+$family-primary: "Roboto", sans-serif;
+$footer-background-color: $main_display_color;
+
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-container {
+  @extend .container;
+  max-width: 400px !important;
+}
+
+@import "../static/bulma.sass";
+
+// input boxes for email and password
+.input.is-normal {
+  margin-bottom: 1rem;
+  &:focus,
+  &.is-focused,
+  &:active,
+  &.is-active {
+    border-color: $hover_border;
+    border-style: solid;
+    box-shadow: $input-focus-box-shadow-size bulmaRgba($hover_border, 0.25);
+  }
+}
+
+// prompt for forgot password
+.forgot_password {
+  margin-bottom: 0.75rem;
+  a {
+    color: $hover_border;
+  }
+  a:hover {
+    color: $main_display_color;
+  }
+}
+
+// remember me checkbox
+label.checkbox {
+  border-color: $main_display_color;
+  input[type="checkbox"] {
+    width: 1.5em;
+    height: 1.4em;
+  }
+}
+
+// log-in button
+.level-item > input.button.is-medium {
+  background-color: $main_display_color;
+  color: white;
+  border-radius: 2em;
+  width: 8rem;
+  &:hover {
+    background-color: hsl(205, 69%, 29%);
+  }
+  &:hover,
+  &:focus,
+  &.is-focused,
+  &:active,
+  &.is-active {
+    box-shadow: 0 0 0 rgb(135, 224, 253); /* Old browsers */
+  }
+  &:active:hover {
+    box-shadow: $input-focus-box-shadow-size
+      bulmaRgba($main_display_color, 0.25);
+  }
+}
+
+// border under log-in button and remember me checkbox
+.first-level {
+  padding-bottom: 2em;
+  border-bottom: 0.01em solid $grey-light;
+}
+
+@mixin button-view {
+  width: 100%;
+  border-width: 0.1em;
+  border-color: hsl(204, 71%, 39%);
+  color: black;
+  border-radius: 2em;
+  &:hover,
+  &:focus,
+  &.is-focused,
+  &:active,
+  &.is-active {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#87e0fd+0,53cbf1+40,05abe0+100;Blue+3D+%23+16 */
+    box-shadow: 0 0 0 rgb(135, 224, 253); /* Old browsers */
+    background: 0 0 0 -moz-linear-gradient(45deg, rgba(135, 224, 253, 1) 0%, rgba(
+            83,
+            203,
+            241,
+            1
+          )
+          40%, rgba(5, 171, 224, 1) 100%); /* FF3.6-15 */
+    background: 0 0 0 -webkit-linear-gradient(45deg, rgba(135, 224, 253, 1) 0%, rgba(
+            83,
+            203,
+            241,
+            1
+          )
+          40%, rgba(5, 171, 224, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: 0 0 0
+      linear-gradient(
+        45deg,
+        rgba(135, 224, 253, 1) 0%,
+        rgba(83, 203, 241, 1) 40%,
+        rgba(5, 171, 224, 1) 100%
+      ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  }
+  &:active:hover {
+    box-shadow: $input-focus-box-shadow-size
+      bulmaRgba($main_display_color, 0.25);
+  }
+}
+
+// sign up button
+.media-content > .button.is-medium {
+  @include button-view;
+  &:hover,
+  &:focus,
+  &.is-focused,
+  &:active,
+  &.is-active {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#87e0fd+0,53cbf1+40,05abe0+100;Blue+3D+%23+16 */
+    background: rgb(135, 224, 253); /* Old browsers */
+    background: -moz-linear-gradient(
+      45deg,
+      rgba(135, 224, 253, 1) 0%,
+      rgba(83, 203, 241, 1) 40%,
+      rgba(5, 171, 224, 1) 100%
+    ); /* FF3.6-15 */
+    background: -webkit-linear-gradient(
+      45deg,
+      rgba(135, 224, 253, 1) 0%,
+      rgba(83, 203, 241, 1) 40%,
+      rgba(5, 171, 224, 1) 100%
+    ); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(
+      45deg,
+      rgba(135, 224, 253, 1) 0%,
+      rgba(83, 203, 241, 1) 40%,
+      rgba(5, 171, 224, 1) 100%
+    ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  }
+}
+
+#reset {
+  font-size: 2rem;
+  display: inherit;
+  flex-grow: 1;
+  align-items: center;
+}
+
+#pass-reset {
+  font-size: 1.1em;
+  font-weight: bolder;
+}
+
+.forgot-text {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.input.is-medium {
+  @extend .input, .is-normal;
+  font-size: 1.1rem;
+}
+
+#send-button {
+  @include button-view;
+  &:hover,
+  &:focus,
+  &.is-focused,
+  &:active,
+  &.is-active {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#87e0fd+0,53cbf1+40,05abe0+100;Blue+3D+%23+16 */
+    background: rgb(135, 224, 253); /* Old browsers */
+    background: -moz-linear-gradient(
+      45deg,
+      rgba(135, 224, 253, 1) 0%,
+      rgba(83, 203, 241, 1) 40%,
+      rgba(5, 171, 224, 1) 100%
+    ); /* FF3.6-15 */
+    background: -webkit-linear-gradient(
+      45deg,
+      rgba(135, 224, 253, 1) 0%,
+      rgba(83, 203, 241, 1) 40%,
+      rgba(5, 171, 224, 1) 100%
+    ); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(
+      45deg,
+      rgba(135, 224, 253, 1) 0%,
+      rgba(83, 203, 241, 1) 40%,
+      rgba(5, 171, 224, 1) 100%
+    ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  }
+}
