@@ -1,0 +1,40 @@
+// run command below in root py4web directory
+// sass --no-source-map apps/183-project/scss/content.scss apps/183-project/scss/content.css
+
+@charset "utf-8";
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+$family-primary: "Roboto", sans-serif;
+$input-placeholder-color: bulmaRgba(hsl(0, 0%, 21%), 0.3);
+$link: #cc0000;
+$error_color: #cc00000a;
+$hover_border: #0e1f21;
+$main_display_color: hsl(204, 71%, 39%);
+
+.form-container {
+  @extend .container;
+  max-width: 400px !important;
+}
+
+@import "../static/bulma.sass";
+
+.color-example {
+  color: $main_display_color;
+}
+
+.navbar {
+  background-color: $main_display_color;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: white;
+}
+
+.level-item > button.button.is-medium {
+  background-color: $main_display_color;
+  color: white;
+  border-radius: 2em;
+  width: 10rem;
+  &:hover {
+    background-color: hsl(205, 69%, 29%);
+  }
+}
