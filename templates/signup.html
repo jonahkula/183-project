@@ -2,11 +2,12 @@
 <html lang="en">
 
 <head>
+  <base href="[[=URL('static')]]/">
   <meta charset="UTF-8" />
   <meta http-equiv="Content Type" content="text/html" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="static/scss/user.css" />
-  <link rel="shortcut icon" type="image/png" href="static/assets/favicon.png" />
+  <link rel="stylesheet" href="scss/user.css" />
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
   <title>Sign Up</title>
 </head>
 
@@ -25,7 +26,7 @@
             <input class="input is-normal" type="text" placeholder="Last name" />
           </div>
           <div class="control">
-            <input class="input is-normal" type="text" placeholder="Username" />
+            <input class="input is-normal" type="text" placeholder="Email" />
           </div>
           <div class="control">
             <input class="input is-normal" type="password" placeholder="Password" />
@@ -43,13 +44,19 @@
               </div>
             </div>
             <div class="level-right level-item">
-              <input class="button is-medium" type="submit" value="Sign Up" />
+              <!-- temporary -->
+              <a href="[[=URL('main')]]">
+                <input class="button is-medium" type="submit" value="Sign Up" />
+              </a>
             </div>
           </nav>
           <h5 class="title is-5 has-text-centered">
             Already have an account?
           </h5>
-          <input class="button is-medium" type="submit" value="Sign In" />
+          <!-- temporary -->
+          <a href="[[=URL('login')]]">
+            <input class="button is-medium" type="submit" value="Sign In" />
+          </a>
         </div>
       </article>
     </div>

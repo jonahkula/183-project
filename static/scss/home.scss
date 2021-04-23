@@ -1,12 +1,12 @@
 // run command below in root py4web directory
-// sass --no-source-map apps/183-project/scss/home.scss apps/183-project/scss/home.css
+// sass --no-source-map apps/183-project/static/scss/home.scss apps/183-project/static/scss/home.css
 
 @charset "utf-8";
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 $family-primary: 'Roboto', sans-serif;
 
-@import "../static/bulma.sass";
+@import "../bulma.sass";
 
 .center {
   display: flex;

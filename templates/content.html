@@ -2,11 +2,12 @@
 <html lang="en">
 
 <head>
+  <base href="[[=URL('static')]]/">
   <meta charset="UTF-8" />
   <meta http-equiv="Content Type" content="text/html" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="static/scss/content.css" />
-  <link rel="shortcut icon" type="image/png" href="static/assets/favicon.png" />
+  <link rel="stylesheet" href="scss/content.css" />
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
   <title>Content</title>
 </head>
 
@@ -14,8 +15,8 @@
   <!-- navbar -->
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="#">
-        <img src="static/assets/logo.png">
+      <a class="navbar-item" href="[[=URL('main')]]">
+        <img src="../static/assets/logo.png">
       </a>
     </div>
     <div class="navbar-menu">
@@ -28,11 +29,11 @@
             <strong>Name's Profile</strong>
           </a>
           <div class="navbar-dropdown">
-            <a class="navbar-item">
+            <a class="navbar-item" href="[[=URL('profile')]]">
               Profile
             </a>
             <hr class="navbar-divider">
-            <a class="navbar-item">
+            <a class="navbar-item" href="[[=URL('index')]]">
               Sign Out
             </a>
           </div>

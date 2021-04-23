@@ -2,11 +2,12 @@
 <html lang="en">
 
 <head>
+  <base href="[[=URL('static')]]/">
   <meta charset="UTF-8" />
   <meta http-equiv="Content Type" content="text/html" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="static/scss/user.css" />
-  <link rel="shortcut icon" type="image/png" href="static/assets/favicon.png" />
+  <link rel="stylesheet" href="scss/user.css" />
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
   <title>Login</title>
 </head>
 
@@ -19,13 +20,13 @@
             Sign In To Your Account
           </h3>
           <div class="control">
-            <input class="input is-normal" type="text" placeholder="Email address or username" />
+            <input class="input is-normal" type="text" placeholder="Email address" />
           </div>
           <div class="control">
             <input class="input is-normal" type="password" placeholder="Password" />
           </div>
           <p class="forgot_password">
-            <a href="#">Forgot your password?</a>
+            <a href="[[=URL('forgot_password')]]">Forgot your password?</a>
           </p>
           <nav class="level is-mobile first-level">
             <div class="level-left">
@@ -37,11 +38,17 @@
               </div>
             </div>
             <div class="level-right level-item">
-              <input class="button is-medium" type="submit" value="Log In" />
+              <!-- temporary -->
+              <a href="[[=URL('main')]]">
+                <input class="button is-medium" type="submit" value="Log In" href="[[=URL('main')]]" />
+              </a>
             </div>
           </nav>
           <h5 class="title is-5 has-text-centered">Don't have an account?</h5>
-          <input class="button is-medium" type="submit" value="Sign Up" />
+          <!-- temporary -->
+          <a href="[[=URL('sign_up')]]">
+            <input class="button is-medium" type="submit" value="Sign Up" href="[[=URL('sign_up')]]" />
+          </a>
         </div>
       </article>
     </div>
