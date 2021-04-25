@@ -3,6 +3,7 @@ ZIPCODE = "95258" # the zipcode will be provided by the the modal extracted from
 MAXWAIT = 60 # 60 seconds is the maximum time we wait for a page to load (Note: most computers load pages in the miliseconds)
 DOB = "02111999" # the dob will be provided again by the user
 AGE = 22 # modal will provide the age
+IMPLICIT_WAIT = 5
 
 KROGER_FIELDS = 7
 
@@ -78,9 +79,11 @@ states = {
     "Wisconsin":"WI",
     "Wyoming":"WY"
 }
-# /html/body/cvs-root/div/cvs-covid-questionnaire/main/div[3]/button
+
 cvs_xpaths = {
-    "Schedule": "/html/body/div[2]/div/div[24]/div/div/div/div/div/div[1]/div[2]/div/div/div[2]/div/div[3]/div/p[2]/a",
+    "State": "//*[@id='selectstate']",
+    "Get Started": "/html/body/content/div/div/div/div[3]/div/div[2]/form/div[2]",
+    "Schedule": "//*[@id='vaccineinfo-CA']/div/div/div/div[1]/div[2]/div/div/div[2]/div/div[3]/div/p[2]/a", # NOTICE: this only applies to CA, no other state
     "Tested Positive": "/html/body/cvs-root/div/cvs-covid-questionnaire/main/div[2]/div/cvs-questionnaire/form/fieldset/section/div[2]/fieldset/div[2]/div[2]",
     "Close Contact": "/html/body/cvs-root/div/cvs-covid-questionnaire/main/div[2]/div/cvs-questionnaire/form/fieldset/section/div[3]/fieldset/div[2]/div[2]",
     "Current Conditions": "/html/body/cvs-root/div/cvs-covid-questionnaire/main/div[2]/div/cvs-questionnaire/form/fieldset/section/div[4]/fieldset/div[2]/div[2]",
@@ -97,18 +100,7 @@ cvs_xpaths = {
     "Search Input": "/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/section/form/div[1]/div/div[1]/input",
     "Search Button": "/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/section/form/div/div/div[1]/button",
     "First Dose Date": "/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/section/form/div[2]/div/select",
-    
+    "Current Locations": "//*[@id='content']/div[2]/cvs-store-locator/div/div/div[1]",
+    "See More Locations": "//*[@id='content']/div[2]/cvs-store-locator/div/div/div[5]",
+    "Continue Scheduling(3)": "//*[@id='content']/div[3]",
 }
-
-# don't need this, since they just send to the same link anyway's, could probably skip this part then
-state_xpaths = {
-    "Alabama": "/html/body/content/div/div/div/div[3]/div/div/div[2]/div/div[5]/div/div/div/div/div/div[1]/div[2]/div/div[2]/div/div/div/div/div[1]/ul/li[1]/div/a",
-    "Alaska": "/html/body/content/div/div/div/div[3]/div/div/div[2]/div/div[5]/div/div/div/div/div/div[1]/div[2]/div/div[2]/div/div/div/div/div[1]/ul/li[2]/div/a",
-}
-
-# /html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/div/div[2]
-# 
-
-# /html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/div/div[2]
-# /html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/div/div[3]
-# /html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/div/div[4]
