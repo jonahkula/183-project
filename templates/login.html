@@ -16,39 +16,49 @@
     <div class="form-container">
       <article class="media">
         <div class="media-content">
+          <!-- home reroute -->
+          <a href="[[=URL('index')]]">
+            <h1 class="title is-1 has-text-centered">Suppress19</h1>
+          </a>
+          <hr>
+          <!-- title -->
           <h3 class="title is-3 has-text-centered has-text-info">
             Sign In To Your Account
           </h3>
-          <div class="control">
-            <input class="input is-normal" type="text" placeholder="Email address" />
+          <!-- email address -->
+          <div class="field">
+            <div class="control">
+              <input class="input" type="text" placeholder="Email address">
+            </div>
           </div>
-          <div class="control">
-            <input class="input is-normal" type="password" placeholder="Password" />
+          <!-- password input -->
+          <div class="field">
+            <div class="control">
+              <input class="input" type="password" placeholder="Password">
+            </div>
           </div>
-          <p class="forgot_password">
-            <a href="[[=URL('forgot_password')]]">Forgot your password?</a>
-          </p>
-          <nav class="level is-mobile first-level">
-            <div class="level-left">
-              <div class="level-item">
-                <label class="checkbox">
-                  <input type="checkbox" />
-                  Remember me
-                </label>
+          <nav class="level is-mobile">
+            <!-- forgot password -->
+            <div class="level-left level-item">
+              <div class="field">
+                <div class="control">
+                  <a href="[[=URL('forgot_password')]]">Forgot your password?</a>
+                </div>
               </div>
             </div>
+            <!-- log in button -->
             <div class="level-right level-item">
-              <!-- temporary -->
-              <a href="[[=URL('main')]]">
-                <input class="button is-medium" type="submit" value="Log In" href="[[=URL('main')]]" />
-              </a>
+              <div class="field">
+                <div class="control">
+                  <a class="button is-rounded is-info" href="[[=URL('main')]]">Log In</a>
+                </div>
+              </div>
             </div>
           </nav>
+          <hr>
+          <!-- sign up if no account -->
           <h5 class="title is-5 has-text-centered">Don't have an account?</h5>
-          <!-- temporary -->
-          <a href="[[=URL('sign_up')]]">
-            <input class="button is-medium" type="submit" value="Sign Up" href="[[=URL('sign_up')]]" />
-          </a>
+          <a class="button is-fullwidth is-rounded is-info is-outlined is-medium" href="[[=URL('sign_up')]]">Sign Up</a>
         </div>
       </article>
     </div>
