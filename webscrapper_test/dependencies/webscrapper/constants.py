@@ -3,7 +3,7 @@ ZIPCODE = "95258" # the zipcode will be provided by the the modal extracted from
 MAXWAIT = 60 # 60 seconds is the maximum time we wait for a page to load (Note: most computers load pages in the miliseconds)
 DOB = "02111999" # the dob will be provided again by the user
 AGE = 22 # modal will provide the age
-IMPLICIT_WAIT = 5
+IMPLICIT_WAIT = 10
 
 KROGER_FIELDS = 7
 
@@ -101,6 +101,9 @@ cvs_xpaths = {
     "Search Button": "/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/section/form/div/div/div[1]/button",
     "First Dose Date": "/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/section/form/div[2]/div/select",
     "Current Locations": "//*[@id='content']/div[2]/cvs-store-locator/div/div/div[1]",
-    "See More Locations": "//*[@id='content']/div[2]/cvs-store-locator/div/div/div[5]",
     "Continue Scheduling(3)": "//*[@id='content']/div[3]",
 }
+
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[5]
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[8]
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[11]

@@ -40,13 +40,17 @@ def clickable_wait(driver: webdriver, element_type: str, locator: str) -> WebDri
 class interactive():
 
     @staticmethod
-    def button_auto_clicker(driver: webdriver, xpath: str, return_button=False) -> Union[WebDriverWait, None]:
+    def button_auto_clicker(driver: webdriver, xpath: str, return_button=False, continue_on=False) -> Union[WebDriverWait, None]:
         try:
+            driver.implicitly_wait(IMPLICIT_WAIT)
             button = clickable_wait(driver, By.XPATH, xpath)
-        except TimeoutException:
-            print("some button wasn't present")
-            driver.quit()
-            sys.exit()
+        except(TimeoutException, NoSuchElementException):
+            if not continue_on:
+                print("some button wasn't present")
+                driver.quit()
+                sys.exit()
+            else:
+                return
         else:    
             ActionChains(driver).move_to_element(button).click().perform()
             return button if return_button else None
@@ -143,16 +147,22 @@ class cvs_pages():
         return (select, select.options)
 
     # page 7 - part 2 (private method)
-    def _get_locations(self: cvs_pages, num_locations: str) -> List[str]:
+    def _get_locations(self: cvs_pages, num_locations: int) -> List[str]:
         current_location_info = []
         location_text_index = 2 # div value begins at 2 for class="clinic-info"
-        for index in range(int(num_locations)):
-            interactive.button_auto_clicker(self.driver, f"//*[@id='availableTimes{index}']", False) # Show available times button
+        print("in get_locations def")
+        for _ in range(num_locations):
+            print("check location_text_index:", location_text_index)
+            
             self.driver.implicitly_wait(IMPLICIT_WAIT)
+            interactive.button_auto_clicker(self.driver, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]/div[2]", False, True) # Show available times button
+           
             # all text for the location (e.g. times, location, and distance)
             current_location = self.driver.find_element_by_xpath(f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]").text
             current_location_info.append(current_location)
-        return current_location
+            location_text_index += 1
+        print("current_location info:", current_location_info)
+        return current_location_info
 
     # page 7
     def get_times(self: cvs_pages) -> None:
@@ -165,18 +175,21 @@ class cvs_pages():
                 num_locations = interactive.button_auto_clicker(self.driver, cvs_xpaths["Current Locations"], return_button=True).text
                 num_locations = int(num_locations.split()[0]) # only need the number from the listing (# of pharmacy locations...)
                 print("num_locations:", num_locations)
-                if num_locations > 3: # there being more than 3 locations presents the + See more locations button
-                    for _ in range(num_locations // 3): # we need to click + See more locations n / 3 times where n is the # of locations
-                        interactive.button_auto_clicker(self.driver, cvs_xpaths["See More Locations"])
-                        self.driver.implicitly_wait(IMPLICIT_WAIT)
-        
-# //*[@id="availableTimes0"]
-# //*[@id="availableTimes1"]
-# //*[@id="availableTimes11"]
 
-# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[2]
-# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[4]
-# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[5]
+                if num_locations > 3: # there being more than 3 locations presents the + See more locations button
+                    times_to_click = (num_locations // 3) - 1 if num_locations % 3 == 0 else (num_locations // 3)
+                    see_more_div = 2 # the div value begins at 2 and increments by 3 each time
+                    for _ in range(times_to_click): # we need to click + See more locations n / 3 times where n is the # of locations                        
+                        self.driver.implicitly_wait(IMPLICIT_WAIT)
+                        see_more_div += 3
+                        print("see_more_div:", see_more_div)
+                        interactive.button_auto_clicker(self.driver, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{see_more_div}]/button")
+                        self.driver.implicitly_wait(IMPLICIT_WAIT)
+
+                all_locations = self._get_locations(num_locations)
+                all_info.append(all_locations)
+                self.driver.implicitly_wait(IMPLICIT_WAIT)
+        print("All information:", all_info)
 
 # driver.get("https://www.cvs.com/immunizations/covid-19-vaccine")
 # button_auto_clicker(driver, state_xpaths["Alabama"])
