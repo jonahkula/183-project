@@ -4,8 +4,8 @@ MAXWAIT = 60 # 60 seconds is the maximum time we wait for a page to load (Note: 
 DOB = "02111999" # the dob will be provided again by the user
 AGE = 22 # modal will provide the age
 IMPLICIT_WAIT = 10
-
 KROGER_FIELDS = 7
+INDEX_CAP = 100
 
 eligibility_xpath = {
     "I Agree": "/html/body/div[1]/div/div[3]/div[1]/main/div/section[2]/div/div/div/div/div/div/div/div/ul/li/div/div[2]/div[2]/div/div/div/button[1]",
@@ -82,7 +82,7 @@ states = {
 
 cvs_xpaths = {
     "State": "//*[@id='selectstate']",
-    "Get Started": "/html/body/content/div/div/div/div[3]/div/div[2]/form/div[2]",
+    "Get Started": "/html/body/content/div/div/div/div[4]/div/div[2]/form/div[2]/button",
     "Schedule": "//*[@id='vaccineinfo-CA']/div/div/div/div[1]/div[2]/div/div/div[2]/div/div[3]/div/p[2]/a", # NOTICE: this only applies to CA, no other state
     "Tested Positive": "/html/body/cvs-root/div/cvs-covid-questionnaire/main/div[2]/div/cvs-questionnaire/form/fieldset/section/div[2]/fieldset/div[2]/div[2]",
     "Close Contact": "/html/body/cvs-root/div/cvs-covid-questionnaire/main/div[2]/div/cvs-questionnaire/form/fieldset/section/div[3]/fieldset/div[2]/div[2]",
@@ -101,7 +101,7 @@ cvs_xpaths = {
     "Search Button": "/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/section/form/div/div/div[1]/button",
     "First Dose Date": "/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/section/form/div[2]/div/select",
     "Current Locations": "//*[@id='content']/div[2]/cvs-store-locator/div/div/div[1]",
-    "Continue Scheduling(3)": "//*[@id='content']/div[3]",
+    "Continue Scheduling(3)": "//*[@id='content']/div[3]/button",
 }
 
 # //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[5]

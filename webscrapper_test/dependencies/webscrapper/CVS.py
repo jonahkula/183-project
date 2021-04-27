@@ -5,12 +5,17 @@ from selenium_stealth import stealth
 from constants import *
 import sys
 import time
+import pprint
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, UnexpectedTagNameException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select
+
+select_date = "Today: April 27, 2021" # this will be selected by the user
+location = "100 W LODI AVE" # location will be chosen by the user
+chosen_time = "04:45 PM" # time will also be chosen by the user
 
 PATH = r"/mnt/c/Users/Omelc/Downloads/chromedriver.exe" # change the path to where your chromedriver is currently located for now
 schedule_second_dose = False
@@ -98,7 +103,8 @@ class cvs_pages():
         self.choosing_state()
         self.current_age()
         self.begin_scheduling()
-        self.get_times()
+        self.filter_showings()
+        self.process_user_selection()
 
     # page 1
     def choose_state(self: cvs_pages) -> None:
@@ -155,66 +161,118 @@ class cvs_pages():
             print("check location_text_index:", location_text_index)
             
             self.driver.implicitly_wait(IMPLICIT_WAIT)
+            time.sleep(1)
             interactive.button_auto_clicker(self.driver, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]/div[2]", False, True) # Show available times button
            
+            time.sleep(3)
             # all text for the location (e.g. times, location, and distance)
-            current_location = self.driver.find_element_by_xpath(f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]").text
+            current_location = presence_wait(driver, By.XPATH, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]").text
+            # current_location = self.driver.find_element_by_xpath(f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]").text
             current_location_info.append(current_location)
             location_text_index += 1
-        print("current_location info:", current_location_info)
+        # print("current_location info:")
+        # pprint.pprint(current_location_info)
         return current_location_info
 
+    def _see_more_locations(self: cvs_pages) -> int:
+        num_locations = interactive.button_auto_clicker(self.driver, cvs_xpaths["Current Locations"], return_button=True).text
+        num_locations = int(num_locations.split()[0]) # only need the number from the listing (# of pharmacy locations...)
+        print("num_locations:", num_locations)
+
+        if num_locations > 3: # there being more than 3 locations presents the + See more locations button
+            times_to_click = (num_locations // 3) - 1 if num_locations % 3 == 0 else (num_locations // 3)
+            see_more_div = 2 # the div value begins at 2 and increments by 3 each time
+            for _ in range(times_to_click): # we need to click + See more locations n / 3 times where n is the # of locations                        
+                self.driver.implicitly_wait(IMPLICIT_WAIT)
+                see_more_div += 3
+                print("see_more_div:", see_more_div)
+                interactive.button_auto_clicker(self.driver, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{see_more_div}]/button")
+                self.driver.implicitly_wait(IMPLICIT_WAIT)
+        return num_locations
+
     # page 7
-    def get_times(self: cvs_pages) -> None:
+    def _get_times(self: cvs_pages) -> List[List[str]]:
         select, dates = self._select_dose_date()
         all_info = []
         for date in dates:
             print('date:', date.text)
             select.select_by_visible_text(date.text)
             if date.is_enabled():
-                num_locations = interactive.button_auto_clicker(self.driver, cvs_xpaths["Current Locations"], return_button=True).text
-                num_locations = int(num_locations.split()[0]) # only need the number from the listing (# of pharmacy locations...)
-                print("num_locations:", num_locations)
+                num_locations = self._see_more_locations()
+                # num_locations = interactive.button_auto_clicker(self.driver, cvs_xpaths["Current Locations"], return_button=True).text
+                # num_locations = int(num_locations.split()[0]) # only need the number from the listing (# of pharmacy locations...)
+                # print("num_locations:", num_locations)
 
-                if num_locations > 3: # there being more than 3 locations presents the + See more locations button
-                    times_to_click = (num_locations // 3) - 1 if num_locations % 3 == 0 else (num_locations // 3)
-                    see_more_div = 2 # the div value begins at 2 and increments by 3 each time
-                    for _ in range(times_to_click): # we need to click + See more locations n / 3 times where n is the # of locations                        
-                        self.driver.implicitly_wait(IMPLICIT_WAIT)
-                        see_more_div += 3
-                        print("see_more_div:", see_more_div)
-                        interactive.button_auto_clicker(self.driver, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{see_more_div}]/button")
-                        self.driver.implicitly_wait(IMPLICIT_WAIT)
+                # if num_locations > 3: # there being more than 3 locations presents the + See more locations button
+                #     times_to_click = (num_locations // 3) - 1 if num_locations % 3 == 0 else (num_locations // 3)
+                #     see_more_div = 2 # the div value begins at 2 and increments by 3 each time
+                #     for _ in range(times_to_click): # we need to click + See more locations n / 3 times where n is the # of locations                        
+                #         self.driver.implicitly_wait(IMPLICIT_WAIT)
+                #         see_more_div += 3
+                #         print("see_more_div:", see_more_div)
+                #         interactive.button_auto_clicker(self.driver, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{see_more_div}]/button")
+                #         self.driver.implicitly_wait(IMPLICIT_WAIT)
 
                 all_locations = self._get_locations(num_locations)
                 all_info.append(all_locations)
                 self.driver.implicitly_wait(IMPLICIT_WAIT)
-        print("All information:", all_info)
+        # print("All information:")
+        # pprint.pprint(all_info)
+        return all_info
 
-# driver.get("https://www.cvs.com/immunizations/covid-19-vaccine")
-# button_auto_clicker(driver, state_xpaths["Alabama"])
-# driver.implicitly_wait(5)
-# button_auto_clicker(driver, cvs_xpaths["Schedule"])
-# driver.implicitly_wait(5)
-# button_auto_clicker(driver, cvs_xpaths["Tested Positive"])
-# button_auto_clicker(driver, cvs_xpaths["Close Contact"])
-# button_auto_clicker(driver, cvs_xpaths["Current Conditions"])
-# button_auto_clicker(driver, cvs_xpaths["Continue"])
-# driver.implicitly_wait(5)
-# button_auto_clicker(driver, cvs_xpaths["Need Vaccination"]) if not schedule_second_dose else button_auto_clicker(driver, cvs_xpaths["Second Dose"])
-# button_auto_clicker(driver, cvs_xpaths["Continue Scheduling(1)"])
-# driver.implicitly_wait(5)
-# drop_down(driver)
-# button_auto_clicker(driver, cvs_xpaths["Continue Scheduling(2)"])
-# driver.implicitly_wait(5)
-# fill_in(driver, cvs_xpaths["Age"], AGE)
-# button_auto_clicker(driver, cvs_xpaths["Acknowledgment"])
-# button_auto_clicker(driver, cvs_xpaths["Confirm Eligiblity"])
-# driver.implicitly_wait(5)
-# button_auto_clicker(driver, cvs_xpaths["Start Scheduling"])
-# driver.implicitly_wait(5)
-# fill_in(driver, cvs_xpaths["Search Input"], ZIPCODE)
-# button_auto_clicker(driver, cvs_xpaths["Search Button"])
+    # removes all the showing times with the comment "No time slots are available for this date at this location\n"
+    # then will return all the showings to the user
+    def filter_showings(self: cvs_pages) -> None:
+        all_info = self._get_times()
+        filtered_all_info = []
+        no_time_slots = "No time slots are available for this date at this location"
+
+        for dates in all_info:
+            filtered_showings = []
+            for showings in dates:
+                if no_time_slots not in showings:
+                    filtered_showings.append(showings)
+            filtered_all_info.append(filtered_showings)
+
+        # pprint.pprint(filtered_all_info)
+
+    def process_user_selection(self: cvs_pages):
+        # 1) Select the date that the user indicated
+        select = interactive.drop_down(self.driver, cvs_xpaths["First Dose Date"], is_state=False)
+        select.select_by_visible_text(select_date)
+
+        # 2) Iterate over all locations, so make sure all places are visible first, then search each place by address
+        num_locations = self._see_more_locations()
+        location_text_index = 2 # div value begins at 2 for class="clinic-info"
+        for _ in range(num_locations):            
+            time.sleep(1)
+            interactive.button_auto_clicker(self.driver, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]/div[2]", False, True) # Show available times button
+           
+            time.sleep(3)
+            # all text for the location (e.g. times, location, and distance)
+            current_location = presence_wait(driver, By.XPATH, f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]").text
+
+            if location in current_location: # if the location is that of the user chosen location, the iterate over possible times
+                for button_index in range(1, INDEX_CAP):
+                    button_xpath = f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]/div[2]/div[2]/div[{button_index}]/div/label/button"
+                    button_text = presence_wait(driver, By.XPATH, button_xpath).text
+                    if chosen_time == button_text:
+                        interactive.button_auto_clicker(driver, button_xpath)
+                        break
+            location_text_index += 1
+
+        # 3) Click on the Continue Schedule button at the very bottom
+        interactive.button_auto_clicker(driver, cvs_xpaths["Continue Scheduling(3)"])
+
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[3]
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[3]/div[2]/div[2]/div[1]/div/label/button
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[3]/div[2]/div[2]/div[2]/div/label/button
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[3]/div[2]/div[2]/div[3]/div/label/button
+
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[4]
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[4]/div[2]/div[2]/div[1]/div/label/button
+# //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[4]/div[2]/div[2]/div[2]/div/label/button
+
 cvs = cvs_pages(driver)
 cvs.iterate_pages()
 time.sleep(20)
