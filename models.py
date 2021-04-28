@@ -18,17 +18,17 @@ def get_time():
 # Location Table
 db.define_table(
     'location',
-    # Field('location_id', 'integer'),
     Field('location_name'),
     Field('location_address'),
     Field('location_phone'),
-    Field('location_website')
+    Field('location_website'),
+    Field('saved_locations_zipcode'),
+    Field('saved_locations_radius'),
 )
 
 # Reviews Table
 db.define_table(
     'reviews',
-    # Field('review_id', 'integer'),
     Field('location_id', 'reference location'),
     Field('user_id', 'reference auth_user'),
     Field('reviews_message'),
@@ -40,11 +40,8 @@ db.define_table(
 # Saved Locations Table
 db.define_table(
     'saved_locations',
-    # Field('saved_locations_id', 'integer'),
     Field('user_id', 'reference auth_user'),
-    Field('saved_locations_name'),
-    Field('saved_locations_address'),
-    Field('saved_locations_zipcode'),
+    Field('location_id', 'reference location'),
     Field('saved_locations_radius'),
 )
 
