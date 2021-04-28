@@ -18,30 +18,35 @@ def get_time():
 # Location Table
 db.define_table(
     'location',
-    Field('location_name'),
-    Field('location_address'),
-    Field('location_phone'),
-    Field('location_website'),
-    Field('location_zipcode'),
-    Field('location_radius', 'float')
+    Field('location_name', requires=IS_NOT_EMPTY()),
+    Field('location_address', requires=IS_NOT_EMPTY()),
 )
 
 # Reviews Table
 db.define_table(
     'review',
-    Field('location_id', 'reference location'),
-    Field('user_id', 'reference auth_user'),
-    Field('review_message'),
-    Field('review_user_rating', 'integer'),
-    Field('review_message_rating', 'integer'),
-    Field('review_threads', 'integer')
+    Field('location_id', 'reference location', requires=IS_NOT_EMPTY()),
+    Field('user_id', 'reference auth_user', requires=IS_NOT_EMPTY()),
+    Field('review_message', requires=IS_NOT_EMPTY()),
+    Field('review_user_rating', 'integer', requires=IS_NOT_EMPTY()),
+    Field('review_message_rating', 'integer', requires=IS_NOT_EMPTY()),
 )
 
 # Saved Locations Table
 db.define_table(
     'saved_location',
-    Field('user_id', 'reference auth_user'),
-    Field('location_id', 'reference location'),
+    Field('user_id', 'reference auth_user', requires=IS_NOT_EMPTY()),
+    Field('location_id', 'reference location', requires=IS_NOT_EMPTY()),
+    Field('location_zipcode', requires=IS_NOT_EMPTY()),
+    Field('location_radius', 'float', requires=IS_NOT_EMPTY())
+)
+
+# Saved Locations Table
+db.define_table(
+    'thread',
+    Field('user_id', 'reference auth_user', requires=IS_NOT_EMPTY()),
+    Field('review_id', 'reference review', requires=IS_NOT_EMPTY()),
+    Field('message', requires=IS_NOT_EMPTY())
 )
 
 

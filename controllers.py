@@ -57,7 +57,7 @@ def get_user_info(user_id):
 
     # Parsing the data into a list
     for i in unparsed_userinfo:
-        if(i == "first_name" or i =="last_name"):
+        if(i == "first_name" or i == "last_name"):
             parsed_userinfo.append(unparsed_userinfo[i])
 
     # Printing the values of the list
@@ -122,15 +122,11 @@ def index():
 def index(user_id=None):
 
     # When authentication works, put it here
-    user_allowed = db((db.auth_user.email == get_user_email()) & (db.auth_user.id == user_id) ).select().first()
-    # temp1 = db(db.auth_user.email).select
-    print("00000")
-    # print(temp1)
-    # print(get_user_email())
+    user_allowed = db((db.auth_user.email == get_user_email())
+                      & (db.auth_user.id == user_id)).select().first()
     print(user_allowed)
     if user_allowed is None:
         redirect(URL('index'))
-    print("00000")
 
     # Getting First/Last Name || userinfo[0] = First name ||  userinfo[1] = Last name
     userinfo = get_user_info(user_id)
