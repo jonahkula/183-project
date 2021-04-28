@@ -19,13 +19,23 @@
         <h3 class="subtitle is-3">Find a vaccine near you</h3>
       </div>
       <div class="block">
+        [[if globals().get('user'):]]
+        <h4 class="subtitle is-4 has-text-centered">
+          Welcome, [[=globals().get('user').get('first_name')]] [[=globals().get('user').get('last_name')]]
+        </h4>
+        <p class="buttons center">
+          <a class="button" href="[[=URL('auth/logout')]]">Sign Out</a>
+          <a class="button" href="[[=URL('main')]]">Locate Vaccine</a>
+        </p>
+        [[else:]]
         <h4 class="subtitle is-4 has-text-centered">
           Sign up or log in today to find your vaccine
         </h4>
         <p class="buttons center">
-          <a class="button" href="[[=URL('sign_up')]]">Sign Up</a>
-          <a class="button" href="[[=URL('login')]]">Log In</a>
+          <a class="button" href="[[=URL('auth/register')]]">Sign Up</a>
+          <a class="button" href="[[=URL('auth/login')]]">Log In</a>
         </p>
+        [[pass]]
       </div>
     </div>
   </section>

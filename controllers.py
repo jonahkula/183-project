@@ -48,7 +48,7 @@ def get_user_info(user_id):
         print("get_userinfo: The id you have entered is not a valid integer.")
         return []
     print(type(user_id))
-    
+
     # Getting the information from the database
     unparsed_userinfo = db(db.auth_user.id == user_id).select().first()
     parsed_userinfo = []
@@ -65,8 +65,25 @@ def get_user_info(user_id):
     # Printing the values of the list
     for i in range(len(parsed_userinfo)):
         print(parsed_userinfo[i])
-        
+
     return parsed_userinfo
+
+
+def get_saved_locations(user_id):
+    # Checking to make sure the user has passed a valid integer
+    if type(user_id) is not int:
+        print("get_userinfo: The id you have entered is not a valid integer.")
+        return []
+    print(type(user_id))
+
+    # Getting the information from the database
+    unparsed_userinfo = db((db.auth_user.id == user_id) and (
+        db.saved_locations.user_id)).select().first()
+    parsed_userinfo = []
+    print(unparsed_userinfo)
+    if(unparsed_userinfo is None):
+        print("get_userinfo: The id you have entered is not in our database")
+        return []
 
 
 url_signer = URLSigner(session)
@@ -113,9 +130,8 @@ def index(user_id=None):
     # userinfo[0] = First name
     # userinfo[1] = Last name
     userinfo = get_user_info(user_id)
-    
-    #Getting Saved Locations
-    saved_locations = get_saved_locations
 
+    # Getting Saved Locations
+    saved_locations = get_saved_locations
 
     return dict()
