@@ -10199,7 +10199,29 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   padding: 3rem 1.5rem 6rem;
 }
 
+h1 {
+  color: #1d72aa !important;
+}
+
 .center {
   display: flex;
   justify-content: center;
+}
+
+.color-example {
+  color: #1d72aa;
+}
+
+a.button {
+  background-color: #1d72aa;
+  color: white;
+  border-radius: 2em;
+  width: 9rem;
+}
+a.button:hover {
+  background-color: #17527d;
+}
+
+.section {
+  padding-top: 10rem;
 }

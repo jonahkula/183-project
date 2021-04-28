@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon"
     href="data:image/x-icon;base64,AAABAAEAAQEAAAEAIAAwAAAAFgAAACgAAAABAAAAAgAAAAEAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAA==" />
-  <link rel="stylesheet" href="css/bulma.css">
+  <link rel="stylesheet" href="scss/content.css">
   <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css">
   [[block page_head]]
   <!-- individual pages can customize header here -->[[end]]
@@ -17,11 +17,10 @@
 
 <body>
   <!-- Navigation bar -->
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="[[=URL('index')]]">
-        Learn py4web
-        <!-- <img class="logo" width="150" src="images/site_icon.png"> -->
+        <img src="../static/assets/logo.png">
       </a>
 
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -44,7 +43,7 @@
           <div class="buttons">
             [[if globals().get('user'):]]
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link is-primary">
+              <a class="navbar-link is-primary has-text-white">
                 [[=globals().get('user').get('email')]]
               </a>
               <div class="navbar-dropdown">
@@ -65,7 +64,9 @@
   </nav>
 
   [[include]]
+  
 </body>
+
 
 <script src="js/sugar.min.js"></script>
 <script src="js/axios.min.js"></script>

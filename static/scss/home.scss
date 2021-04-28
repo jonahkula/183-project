@@ -5,10 +5,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 $family-primary: 'Roboto', sans-serif;
+$main_display_color: hsl(204, 71%, 39%);
+
 
 @import "../bulma.sass";
 
+h1 {
+  color: $main_display_color !important;
+}
 .center {
   display: flex;
   justify-content: center;
+}
+
+.color-example {
+  color: $main_display_color;
+}
+
+a.button {
+  background-color: $main_display_color;
+  color: white;
+  border-radius: 2em;
+  width: 9rem;
+  &:hover {
+    background-color: hsl(205, 69%, 29%);
+  }
+}
+
+.section {
+  padding-top: 10rem;
 }

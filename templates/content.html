@@ -1,46 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <base href="[[=URL('static')]]/">
-  <meta charset="UTF-8" />
-  <meta http-equiv="Content Type" content="text/html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="scss/content.css" />
-  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
-  <title>Content</title>
-</head>
+[[extend './layout.html']]
 
 <body>
-  <!-- navbar -->
-  <nav class="navbar">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="[[=URL('main')]]">
-        <img src="../static/assets/logo.png">
-      </a>
-    </div>
-    <div class="navbar-menu">
-      <div class="navbar-end">
-        <a class="navbar-item has-text-white">
-          <strong>Locate Vaccine</strong>
-        </a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link has-text-white">
-            <strong>Name's Profile</strong>
-          </a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="[[=URL('profile')]]">
-              Profile
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item" href="[[=URL('index')]]">
-              Sign Out
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
   <!-- enter info -->
   <section class="section">
     <nav class="level">
@@ -114,4 +74,3 @@
   <!-- End of All Results -->
 </body>
 
-</html>
