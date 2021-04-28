@@ -22,27 +22,26 @@ db.define_table(
     Field('location_address'),
     Field('location_phone'),
     Field('location_website'),
-    Field('saved_locations_zipcode'),
-    Field('saved_locations_radius'),
+    Field('location_zipcode'),
+    Field('location_radius', 'float')
 )
 
 # Reviews Table
 db.define_table(
-    'reviews',
+    'review',
     Field('location_id', 'reference location'),
     Field('user_id', 'reference auth_user'),
-    Field('reviews_message'),
-    Field('reviews_user_rating'),
-    Field('reviews_message_rating'),
-    Field('reviews_threads', 'integer')
+    Field('review_message'),
+    Field('review_user_rating', 'integer'),
+    Field('review_message_rating', 'integer'),
+    Field('review_threads', 'integer')
 )
 
 # Saved Locations Table
 db.define_table(
-    'saved_locations',
+    'saved_location',
     Field('user_id', 'reference auth_user'),
     Field('location_id', 'reference location'),
-    Field('saved_locations_radius'),
 )
 
 

@@ -47,19 +47,17 @@ def get_user_info(user_id):
     if type(user_id) is not int:
         print("get_userinfo: The id you have entered is not a valid integer.")
         return []
-    print(type(user_id))
 
     # Getting the information from the database
     unparsed_userinfo = db(db.auth_user.id == user_id).select().first()
     parsed_userinfo = []
-    print(unparsed_userinfo)
     if(unparsed_userinfo is None):
         print("get_userinfo: The id you have entered is not in our database")
         return []
 
     # Parsing the data into a list
     for i in unparsed_userinfo:
-        if(i is "first_name" or i is "last_name"):
+        if(i == "first_name" or i =="last_name"):
             parsed_userinfo.append(unparsed_userinfo[i])
 
     # Printing the values of the list
@@ -124,14 +122,20 @@ def index():
 def index(user_id=None):
 
     # When authentication works, put it here
-    # rows = db(db.contact.user_email == get_user_email()).select()
+    user_allowed = db((db.auth_user.email == get_user_email()) & (db.auth_user.id == user_id) ).select().first()
+    # temp1 = db(db.auth_user.email).select
+    print("00000")
+    # print(temp1)
+    # print(get_user_email())
+    print(user_allowed)
+    if user_allowed is None:
+        redirect(URL('index'))
+    print("00000")
 
-    # Getting First/Last Name
-    # userinfo[0] = First name
-    # userinfo[1] = Last name
+    # Getting First/Last Name || userinfo[0] = First name ||  userinfo[1] = Last name
     userinfo = get_user_info(user_id)
 
     # Getting Saved Locations
-    saved_locations = get_saved_locations
+    # saved_locations = get_saved_locations
 
     return dict()
