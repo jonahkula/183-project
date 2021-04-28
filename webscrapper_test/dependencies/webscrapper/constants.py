@@ -1,9 +1,9 @@
 STATE = "California" # will be obtainable from modal
 ZIPCODE = "95258" # the zipcode will be provided by the the modal extracted from the database
-MAXWAIT = 60 # 60 seconds is the maximum time we wait for a page to load (Note: most computers load pages in the miliseconds)
+MAXWAIT = 5 # 5 seconds is the maximum time we wait for a page to load (Note: most computers load pages in the miliseconds)
 DOB = "02111999" # the dob will be provided again by the user
 AGE = 22 # modal will provide the age
-IMPLICIT_WAIT = 10
+IMPLICIT_WAIT = 3
 KROGER_FIELDS = 7
 INDEX_CAP = 100
 
@@ -102,6 +102,9 @@ cvs_xpaths = {
     "First Dose Date": "/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/section/form/div[2]/div/select",
     "Current Locations": "//*[@id='content']/div[2]/cvs-store-locator/div/div/div[1]",
     "Continue Scheduling(3)": "//*[@id='content']/div[3]/button",
+    "Second Dose Date": "//*[@id='availableDate']",
+    "Continue Scheduling(4)": "//*[@id='content']/div[3]/button",
+    "Second Dose Location": "//*[@id='content']/div[2]/cvs-store-locator/div/div",
 }
 
 # //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[5]
