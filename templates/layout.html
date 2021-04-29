@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- change later to own navbar style -->
-
 <head>
   <base href="[[=URL('static')]]/">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon"
-    href="data:image/x-icon;base64,AAABAAEAAQEAAAEAIAAwAAAAFgAAACgAAAABAAAAAgAAAAEAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAA==" />
-  <link rel="stylesheet" href="scss/content.css">
-  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="scss/content.css" />
+  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
+  <title>Suppress19</title>
   [[block page_head]]
   <!-- individual pages can customize header here -->[[end]]
 </head>
 
 <body>
-  <!-- Navigation bar -->
+  <!-- navigation bar -->
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="[[=URL('index')]]">
+      <!-- logo reroute -->
+      <a class="navbar-item" href="[[=URL('main')]]">
         <img src="../static/assets/logo.png">
       </a>
-
+      <!-- minimization bars -->
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
         data-target="the-navbar-menu"
         onclick="this.classList.toggle('is-active');document.getElementById(this.dataset.target).classList.toggle('is-active');">
@@ -31,13 +30,12 @@
         <span aria-hidden="true"></span>
       </a>
     </div>
-
     <div id="the-navbar-menu" class="navbar-menu">
       <div class="navbar-start">
         [[block page_menu_items]]
         <!-- individual pages can add menu items here -->[[end]]
       </div>
-
+      <!-- user options -->
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
@@ -48,14 +46,13 @@
               </a>
               <div class="navbar-dropdown">
                 <a class="navbar-item" href="[[=URL('auth/logout')]]">Logout</a>
-                <a class="navbar-item" href="[[=URL('auth/profile')]]">Profile</a>
+                <a class="navbar-item" href="[[=URL('profile')]]">Profile</a>
                 <a class="navbar-item" href="[[=URL('auth/change_password')]]">Change Password</a></li>
-
               </div>
             </div>
             [[else:]]
-            <a class="button is-link" href="[[=URL('auth/register')]]">Sign up</a>
-            <a class="button is-success" href="[[=URL('auth/login')]]">Log in</a>
+            <a class="button is-link" href="[[=URL('auth/register')]]">Sign Up</a>
+            <a class="button is-success" href="[[=URL('auth/login')]]">Log In</a>
             [[pass]]
           </div>
         </div>
@@ -64,9 +61,7 @@
   </nav>
 
   [[include]]
-  
 </body>
-
 
 <script src="js/sugar.min.js"></script>
 <script src="js/axios.min.js"></script>

@@ -4,15 +4,6 @@
 @charset "utf-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
-// $input-placeholder-color: bulmaRgba(hsl(0, 0%, 21%), 0.3);
-// $error_color: #cc00000a;
-// $hover_border: #0e1f21;
-// $main_display_color: hsl(204, 71%, 39%);
-// $footer-background-color: $main_display_color;
-$link: #575757;
-$link-hover: #868686;
-$family-primary: "Roboto", sans-serif;
-
 .form-container {
   @extend .container;
   max-width: 400px !important;

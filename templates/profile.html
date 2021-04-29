@@ -1,25 +1,24 @@
 [[extend './layout.html']]
 
-<body>
-  
-  <section class="section">
-    <div class="container">
-      <h1 class="title is-1">John Doe's Profile</h1>
-      <div class="columns">
-        <div class="column is-two-fifths">
-          <h4 class="subtitle is-4">Username: johndoe</h4>
-          <h4 class="subtitle is-4">Email: johndoe@ucsc.edu</h4>
-          <h4 class="subtitle is-4">Vaccinated: Yes</h4>
-          <h4 class="subtitle is-4">Saved Locations:</h4>
-        </div>
-        <div class="column">
-          <figure class="image">
-            <img src="../static/assets/placeholder-map.png" />
-          </figure>
-        </div>
+<!-- looking at layout.html this page is connected to content.css
+when it should be connected to profile.css
+still trying to figure out how to add custom header here for its style sheet -->
+
+<section class="section">
+  <div class="container">
+    <h1 class="title is-1">John Doe's Profile</h1>
+    <div class="columns">
+      <div class="column is-two-fifths">
+        <h4 class="subtitle is-4">Username: johndoe</h4>
+        <h4 class="subtitle is-4">Email: johndoe@ucsc.edu</h4>
+        <h4 class="subtitle is-4">Vaccinated: Yes</h4>
+        <h4 class="subtitle is-4">Saved Locations:</h4>
+      </div>
+      <div class="column">
+        <figure class="image">
+          <img src="../static/assets/placeholder-map.png" />
+        </figure>
       </div>
     </div>
-  </section>
-</body>
-
-</html>
+  </div>
+</section>
