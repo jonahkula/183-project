@@ -1,11 +1,18 @@
 STATE = "California" # will be obtainable from modal
 ZIPCODE = "95258" # the zipcode will be provided by the the modal extracted from the database
-MAXWAIT = 5 # 5 seconds is the maximum time we wait for a page to load (Note: most computers load pages in the miliseconds)
 DOB = "02111999" # the dob will be provided again by the user
 AGE = 22 # modal will provide the age
-IMPLICIT_WAIT = 3
+FIRST_NAME = "Olof"
+LAST_NAME = "Omelc"
+ADDRESS = "2319 George St."
+CITY = "San Jose"
+PHONE_NUMBER = "818 571 9120"
+# everything above be provided by the user
+
+IMPLICIT_WAIT = 20
 KROGER_FIELDS = 7
 INDEX_CAP = 100
+MAXWAIT = 30 # 30 seconds is the maximum time we wait for a page to load (Note: most computers load pages in the miliseconds)
 
 eligibility_xpath = {
     "I Agree": "/html/body/div[1]/div/div[3]/div[1]/main/div/section[2]/div/div/div/div/div/div/div/div/ul/li/div/div[2]/div[2]/div/div/div/button[1]",
@@ -105,6 +112,17 @@ cvs_xpaths = {
     "Second Dose Date": "//*[@id='availableDate']",
     "Continue Scheduling(4)": "//*[@id='content']/div[3]/button",
     "Second Dose Location": "//*[@id='content']/div[2]/cvs-store-locator/div/div",
+    "First Name": "//*[@id='firstName']",
+    "Last Name": "//*[@id='lastName']",
+    "DOB": "//*[@id='dob']",
+    "Female": "//*[@id='generic']/fieldset/section/div[5]/fieldset/div/div[1]",
+    "Male": "//*[@id='generic']/fieldset/section/div[5]/fieldset/div/div[2]",
+    "Address": "//*[@id='address']",
+    "City": "//*[@id='city']",
+    "State (Again)": "//*[@id='state']",
+    "Zipcode": "//*[@id='zip']",
+    "Number": "//*[@id='phoneNumber']",
+    "Continue Scheduling(5)": "//*[@id='content']/div[3]/button",
 }
 
 # //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[5]
