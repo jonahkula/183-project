@@ -18,27 +18,26 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 """
 
 from py4web import action, request, abort, redirect, URL
-from yatl.helpers import A
+from yatl.helpers import *
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 
 url_signer = URLSigner(session)
 
-
+# welcome page
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
-    print("User: ", get_user_email())
     return dict()
 
-
+# home page
 @action('main')
 @action.uses(db, auth, 'content.html')
 def index():
     return dict()
 
-
+# profile page
 @action('profile')
 @action.uses(db, auth, 'profile.html')
 def index():
