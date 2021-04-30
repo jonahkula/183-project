@@ -14,56 +14,48 @@
 <body>
   <section class="section">
     <div class="container">
+      <!-- title info -->
       <div class="block has-text-centered">
-        <h1 class="title is-1">Suppress19</h1>
-        <h3 class="subtitle is-3">Find a vaccine near you</h3>
+        <h1 class="title is-1 pb-2 has-text-info">Suppress19</h1>
+        <h3 class="subtitle is-3 pb-3">Find a vaccine near you</h3>
       </div>
+      <!-- user sign up and login or user welcome -->
       <div class="block">
         [[if globals().get('user'):]]
         <h4 class="subtitle is-4 has-text-centered">
           Welcome, [[=globals().get('user').get('first_name')]] [[=globals().get('user').get('last_name')]]
         </h4>
         <p class="buttons center">
-          <a class="button" href="[[=URL('auth/logout')]]">Sign Out</a>
-          <a class="button" href="[[=URL('main')]]">Locate Vaccine</a>
+          <a class="button is-rounded mr-2 is-info" href="[[=URL('auth/logout')]]">Sign Out</a>
+          <a class="button is-rounded ml-2 is-info" href="[[=URL('main')]]">Locate Vaccine</a>
         </p>
         [[else:]]
         <h4 class="subtitle is-4 has-text-centered">
           Sign up or log in today to find your vaccine
         </h4>
         <p class="buttons center">
-          <a class="button" href="[[=URL('auth/register')]]">Sign Up</a>
-          <a class="button" href="[[=URL('auth/login')]]">Log In</a>
+          <a class="button is-rounded mr-2 is-info" href="[[=URL('auth/register')]]">Sign Up</a>
+          <a class="button is-rounded ml-2 is-info" href="[[=URL('auth/login')]]">Log In</a>
         </p>
         [[pass]]
       </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-      <div class="columns">
-
+      <!-- info columns -->
+      <div class="columns block pt-3">
         <div class="column has-text-centered">
           <h3 class="title color-example">Search</h3>
           <p class="is-size-4">Enter in an adress to find the vaccinations clinics near you!</p>
         </div>
-
         <div class="column has-text-centered">
           <h3 class="title color-example">Automate</h3>
           <p class="is-size-4">Our website will allow you to click on any clinic and automatically book an appointment
             if it is available</p>
         </div>
-
         <div class="column has-text-centered">
           <h3 class="title color-example">Review</h3>
           <p class="is-size-4">Go ahead and leave a review on where you went or read reviews from other users</p>
         </div>
-
       </div>
     </div>
-
-
   </section>
 </body>
 
