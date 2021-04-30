@@ -25,13 +25,49 @@ from .models import get_user_email
 
 url_signer = URLSigner(session)
 
-# welcome page
+
+# Gets the users first name, last name, email, and saved locations
+def get_user_info(db):
+    user_info_dict = db(db.auth_user.email ==
+                        get_user_email()).select().first()
+    user_info = []
+    saved_locations = []
+    first_name = user_info_dict['first_name']
+    last_name = user_info_dict['last_name']
+    email = user_info_dict['email']
+    user_id = user_info_dict['id']
+    user_info.extend((first_name, last_name, email))
+
+    saved_locations_dict = db((user_id == db.saved_location.user_id) & (
+        db.saved_location.location_id == db.location.id)).select()
+    print("The saved locations we found for the user is:",
+          saved_locations_dict, type(saved_locations_dict))
+    for saved_locations_info in saved_locations_dict:
+        single_location = []
+        zipcode = saved_locations_info['saved_location']['location_zipcode']
+        radius = saved_locations_info['saved_location']['location_radius']
+        location_name = saved_locations_info['location']['location_name']
+        location_address = saved_locations_info['location']['location_address']
+        print(location_name, location_address, zipcode, radius)
+        single_location.extend(
+            (location_name, location_address, zipcode, radius))
+        print(single_location)
+        saved_locations.append(single_location)
+
+    user_info.append(saved_locations)
+    return user_info
+
+ # welcome page
+
+
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
     return dict()
 
 # home page
+
+
 @action('main')
 @action.uses(db, auth, 'content.html')
 def main():
@@ -40,9 +76,17 @@ def main():
     return dict()
 
 # profile page
+
+
 @action('profile')
 @action.uses(db, auth, 'profile.html')
 def profile():
+
+    # Making sure the user is logged in.
     if get_user_email() == None:
         redirect(URL('index'))
-    return dict()
+
+    # Get user information
+    user_info = get_user_info(db)
+
+    return dict(user_info=user_info)
