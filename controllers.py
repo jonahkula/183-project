@@ -34,11 +34,15 @@ def index():
 # home page
 @action('main')
 @action.uses(db, auth, 'content.html')
-def index():
+def main():
+    if get_user_email() == None:
+        redirect(URL('index'))
     return dict()
 
 # profile page
 @action('profile')
 @action.uses(db, auth, 'profile.html')
-def index():
+def profile():
+    if get_user_email() == None:
+        redirect(URL('index'))
     return dict()
