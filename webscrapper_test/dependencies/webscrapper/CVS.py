@@ -309,7 +309,7 @@ class cvs_pages():
         # 3) click on the continue scheduling button
         interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(4)"])
 
-    # page 9 - last page
+    # page 9
     def patient_information(self: cvs_pages) -> None:
         interactive.fill_in(self.driver, cvs_xpaths["First Name"], FIRST_NAME)
         interactive.fill_in(self.driver, cvs_xpaths["Last Name"], LAST_NAME)
