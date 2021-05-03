@@ -156,7 +156,11 @@ riteaid_paths = {
     "None of the Above(2)":"//*[@id='eligibility']/div/div[2]/div/div[2]/div/div/div/ul/li[29]",
     "Next":"//*[@id='continue']",
     "Continue":"//*[@id='learnmorebttn']",
-}
+    "Find Stores": "//*[@id='btn-find-store']",
+    "All Stores": "covid-store__stores",
+    "Results": "//*[@id='skip-content']/div/div[2]/div[1]/div/div[5]/form/div[1]/div[1]/div[2]/div[2]/div/div/div/div[2]/div/span",
+    # "Select Store": "//*[@id='skip-content']/div/div[2]/div[1]/div/div[5]/form/div[1]/div[1]/div[2]/div[2]/div/div/div/div[3]/div[2]/div[2]/div[2]/div[3]/a[2]",
+} # //*[@id="skip-content"]/div/div[2]/div[1]/div/div[5]/form/div[1]/div[1]/div[2]/div[2]/div/div/div/div[3]/div[2]/div[3]/div[2]/div[3]/a[2]
 
 # //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[5]
 # //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[8]
