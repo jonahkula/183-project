@@ -13,14 +13,16 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select
 
-select_date = "Friday: April 30, 2021" # this will be selected by the user
-location = "100 W LODI AVE" # location will be chosen by the user
-chosen_time = "01:15 PM" # time will also be chosen by the user
+select_date = "Wednesday: May 05, 2021" # this will be selected by the user
+location = "6632 PACIFIC AVE." # location will be chosen by the user
+chosen_time = "2:00 PM" # time will also be chosen by the user
 
-second_select_date = "Friday: May 21, 2021" # this will be selected by the user
-second_dose_time = "01:15 PM" # time will also be chosen by the user
+second_select_date = "Wednesday: June 02, 2021" # this will be selected by the user
+second_dose_time = "1:00 PM" # time will also be chosen by the user
 
 gender = "Male" # gender will be provided by the user
+present_race = "White"
+present_ethnicity = "Not Hispanic or Latino"
 
 PATH = r"/mnt/c/Users/Omelc/Downloads/chromedriver.exe" # change the path to where your chromedriver is currently located for now
 schedule_second_dose = False
@@ -120,6 +122,10 @@ class cvs_pages():
         self._get_second_times()
         self.choose_second_dose()
         self.patient_information()
+        self.insurance()
+        self.medicial_conditions()
+        self.race_and_ethnicity()
+        self.consent_sign()
 
     # page 1
     def choose_state(self: cvs_pages) -> None:
@@ -253,10 +259,15 @@ class cvs_pages():
             print("current_location info:", current_location)
             if location in current_location: # if the location is that of the user chosen location, then iterate over possible times
                 for button_index in range(1, INDEX_CAP):
-                    button_xpath = f"/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/div/div[{location_text_index}]/div[2]/div[2]/div[{button_index}]/div/label/button"
-                    # button_xpath = f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[{location_text_index}]/div[2]/div[2]/div[{button_index}]"
+                    # button_xpath = f"/html/body/cvs-root/div/cvs-cvd-first-dose-select/main/div[2]/cvs-store-locator/div/div/div[{location_text_index}]/div[2]/div[2]/div[{button_index}]/div/label/button"
+                    button_xpath = f"//*[@id='timeSlots']/div[1]/label[{button_index}]"
+                    # //*[@id="timeSlots"]/div[1]/label[1]
+                    # //*[@id="timeSlots"]/div[1]/label[2]
+                    # //*[@id="timeSlots"]/div[1]/label[1]
+                    # //*[@id="timeSlots"]/div[1]/label[7]
                     print("in button_index for loop")
                     button_text = presence_wait(self.driver, By.XPATH, button_xpath).text
+                    print("button_text:", button_text)
                     if chosen_time == button_text:
                         print("The button_text is as follows before clicking:", button_text)
                         interactive.button_auto_clicker(self.driver, button_xpath)
@@ -287,6 +298,7 @@ class cvs_pages():
             if date.is_enabled():
                 dose_info = presence_wait(self.driver, By.XPATH, cvs_xpaths["Second Dose Location"]).text
                 all_dose_times.append(dose_info)
+            time.sleep(2)
         print("all_dose_times:")
         pprint.pprint(all_dose_times)
         return all_dose_times
@@ -300,8 +312,13 @@ class cvs_pages():
 
         # 2) iterate over the times and click on the one we want
         for button_index in range(1, INDEX_CAP):
-            button_xpath = f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[2]/div[2]/div/div[{button_index}]"
+            button_xpath = f"//*[@id='timeSlots']/div[1]/label[{button_index}]"
+            # button_xpath = f"//*[@id='content']/div[2]/cvs-store-locator/div/div/div[2]/div[2]/div/div[{button_index}]"
+            # //*[@id="timeSlots"]/div[1]/label[1]
+            # //*[@id="timeSlots"]/div[1]/label[2]
+            # //*[@id="timeSlots"]/div[1]/label[10]
             button_text = presence_wait(self.driver, By.XPATH, button_xpath).text
+            print("check button_text:",button_text)
             if second_dose_time == button_text:
                 interactive.button_auto_clicker(self.driver, button_xpath)
                 break
@@ -324,8 +341,65 @@ class cvs_pages():
 
         interactive.fill_in(self.driver, cvs_xpaths["Number"], PHONE_NUMBER)
 
-        # won't click on this for now since this might be the last page
-        # interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(5)"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(5)"])
+
+    # page 10 & 11
+    def insurance(self: cvs_pages) -> None:
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Coverage"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(6)"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["No Insurance"])
+
+    # page 12
+    def medicial_conditions(self: cvs_pages) -> None:
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["No Allergies"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Covid Reaction"])
+
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Allergy After"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Polyethylene Glycol"])
+
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Polysorbate"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Pregnant"])
+
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Blood Disorder"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Received Vaccine"])
+
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Treatment"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(7)"])
+    
+    # page 13
+    def race_and_ethnicity(self: cvs_pages) -> None:
+        races = {
+            "American Indian or Alaska Native": 1,
+            "Asian": 2,
+            "African American": 3,
+            "Pacific Islander": 4,
+            "White": 5,
+            "Other Race": 6,
+        }
+
+        for race in race.keys():
+            if present_race == race:
+                interactive.button_auto_clicker(self.driver, f"//*[@id='questionnaire']/section/ol/li[1]/fieldset/div/div[{races[race]}]")
+                break
+
+        ethnicities = {
+            "Hispanic or Latino": 1,
+            "Not Hispanic or Latino": 2,
+            "Unknown": 3,
+        }
+
+        for ethnicity in ethnicities:
+            if present_ethnicity == ethnicity:
+                interactive.button_auto_clicker(self.driver, f"//*[@id='questionnaire']/section/ol/li[2]/fieldset/div/div[{ethnicities[ethnicity]}]")
+                break
+        
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Immunization"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(8)"])
+
+    # page 14
+    def consent_sign(self: cvs_pages) -> None:
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Consent"])
+        # interactive.button_auto_clicker(self.driver, cvs_xpaths["I Consent"]) # last button, don't click yet
 
 cvs = cvs_pages(driver)
 cvs.iterate_pages()
