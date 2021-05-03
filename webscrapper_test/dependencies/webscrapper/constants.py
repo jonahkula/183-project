@@ -145,6 +145,19 @@ cvs_xpaths = {
     "I Consent":"//*[@id='content']/div[3]/button", # I believe this is the ending button, so careful not to click it yet
 }
 
+riteaid_paths = {
+    "DOB": "//*[@id='dateOfBirth']",
+    "City": "//*[@id='city']",
+    "State":"//*[@id='eligibility_state']",
+    "Zipcode": "//*[@id='zip']",
+    "Occupation": "//*[@id='Occupation']",
+    "None of the Above(1)": "//*[@id='eligibility']/div/div[2]/div/div[1]/div/div/ul/li[38]",
+    "Medical Conditions": "//*[@id='mediconditions']",
+    "None of the Above(2)":"//*[@id='eligibility']/div/div[2]/div/div[2]/div/div/div/ul/li[29]",
+    "Next":"//*[@id='continue']",
+    "Continue":"//*[@id='learnmorebttn']",
+}
+
 # //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[5]
 # //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[8]
 # //*[@id="content"]/div[2]/cvs-store-locator/div/div/div[11]

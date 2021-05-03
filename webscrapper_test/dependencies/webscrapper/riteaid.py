@@ -14,6 +14,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select
 
 PATH = r"/mnt/c/Users/Omelc/Downloads/chromedriver.exe" # change the path to where your chromedriver is currently located for now
+RITEAID_DOB = "02/11/1999"
 
 options = webdriver.ChromeOptions()
 options.add_argument('start-maximized')
@@ -33,7 +34,7 @@ stealth(driver,
 
 def presence_wait(driver: webdriver, element_type: str, locator: str) -> WebDriverWait:
     try:
-        WebDriverWait(driver, MAXWAIT).until(EC.presence_of_element_located((element_type, locator)))
+        WebDriverWait(driver, MAXWAIT).until(EC.visibility_of_element_located((element_type, locator)))
         element = WebDriverWait(driver, MAXWAIT).until(EC.presence_of_element_located((element_type, locator)))
     except TimeoutException:
         print("An error occurred waiting for the presence of an element")
@@ -51,7 +52,6 @@ class interactive():
     @staticmethod
     def button_auto_clicker(driver: webdriver, dom_value: str, return_button : bool = False, continue_on : bool = False, elem_type : str = By.XPATH) -> Union[WebDriverWait, None]:
         try:
-            # driver.implicitly_wait(IMPLICIT_WAIT)
             button = clickable_wait(driver, elem_type, dom_value)
         except(TimeoutException, NoSuchElementException):
             if not continue_on:
@@ -61,8 +61,7 @@ class interactive():
             else:
                 return
         else:    
-            # ActionChains(driver).move_to_element(button).click().perform()
-            driver.execute_script("arguments[0].click()", button)
+            ActionChains(driver).move_to_element(button).click().perform()
             return button if return_button else None
 
     @staticmethod
@@ -87,13 +86,19 @@ class interactive():
     @staticmethod
     def fill_in(driver: webdriver, dom_value: str, input_value: str, elem_type : str = By.XPATH) -> None:
         try:
+
             field = presence_wait(driver, elem_type, dom_value)
         except (TimeoutException, ElementNotInteractableException):
             print("the input field wasn't available")
             driver.quit()
             sys.exit()
         else:
-            field.send_keys(input_value)
+            try:
+                field.send_keys(input_value)
+            except ElementNotInteractableException:
+                print("Element was non-interactable")
+                driver.quit()
+                sys.exit()
 
 class riteaid():
 
@@ -104,18 +109,19 @@ class riteaid():
     
     # page 1
     def user_info(self: riteaid) -> None:
-        interactive.fill_in(self.driver, riteaid_paths["DOB"], DOB)
-        print("finished dob")
+        interactive.fill_in(self.driver, riteaid_paths["DOB"], RITEAID_DOB)
         interactive.fill_in(self.driver, riteaid_paths["City"], CITY)
-        print("finised city")
         interactive.fill_in(self.driver, riteaid_paths["State"], STATE)
         interactive.fill_in(self.driver, riteaid_paths["Zipcode"], ZIPCODE)
-        print("finished state & zipcode")
-        interactive.fill_in(self.driver, riteaid_paths["Occupation"], "None of the Above")
-        interactive.fill_in(self.driver, riteaid_paths["Medical Conditions"], "None of the Above")
+        
+        interactive.button_auto_clicker(self.driver, riteaid_paths["Occupation"])
+        interactive.button_auto_clicker(self.driver, riteaid_paths["None of the Above(1)"])
+        
+        interactive.button_auto_clicker(self.driver, riteaid_paths["Medical Conditions"])
+        interactive.button_auto_clicker(self.driver, riteaid_paths["None of the Above(2)"])
 
-        interactive.button_auto_clicker(self.driver, riteaid_paths["Next"], elem_type=By.CLASS_NAME)
-        interactive.button_auto_clicker(self.driver, riteaid_paths["Continue"], elem_type=By.ID)
+        interactive.button_auto_clicker(self.driver, riteaid_paths["Next"])
+        interactive.button_auto_clicker(self.driver, riteaid_paths["Continue"])
 
 r = riteaid(driver)
 r.user_info()
