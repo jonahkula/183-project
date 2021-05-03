@@ -54,6 +54,7 @@ def presence_wait(driver: webdriver, element_type: str, locator: str) -> WebDriv
     return element
 
 def clickable_wait(driver: webdriver, element_type: str, locator: str) -> WebDriverWait:
+    WebDriverWait(driver, MAXWAIT).until(EC.visibility_of_element_located((element_type, locator)))
     return WebDriverWait(driver, MAXWAIT).until(EC.element_to_be_clickable((element_type, locator)))
 
 class interactive():
@@ -328,11 +329,14 @@ class cvs_pages():
 
     # page 9
     def patient_information(self: cvs_pages) -> None:
+        time.sleep(2)
         interactive.fill_in(self.driver, cvs_xpaths["First Name"], FIRST_NAME)
         interactive.fill_in(self.driver, cvs_xpaths["Last Name"], LAST_NAME)
         interactive.fill_in(self.driver, cvs_xpaths["DOB"], DOB)
-
+        time.sleep(5)
+        print("about to click on male/female button")
         interactive.button_auto_clicker(self.driver, cvs_xpaths["Male"]) if gender == "Male" else interactive.button_auto_clicker(self.driver, cvs_xpaths["Female"])
+        print("Done clicking on the male/female button")
         interactive.fill_in(self.driver, cvs_xpaths["Address"], ADDRESS)
         interactive.fill_in(self.driver, cvs_xpaths["City"], CITY)
         select = interactive.drop_down(self.driver, cvs_xpaths["State (Again)"], is_state=False)
@@ -348,6 +352,7 @@ class cvs_pages():
         interactive.button_auto_clicker(self.driver, cvs_xpaths["Coverage"])
         interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(6)"])
         interactive.button_auto_clicker(self.driver, cvs_xpaths["No Insurance"])
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(7)"])
 
     # page 12
     def medicial_conditions(self: cvs_pages) -> None:
@@ -377,7 +382,7 @@ class cvs_pages():
             "Other Race": 6,
         }
 
-        for race in race.keys():
+        for race in races.keys():
             if present_race == race:
                 interactive.button_auto_clicker(self.driver, f"//*[@id='questionnaire']/section/ol/li[1]/fieldset/div/div[{races[race]}]")
                 break
@@ -388,7 +393,7 @@ class cvs_pages():
             "Unknown": 3,
         }
 
-        for ethnicity in ethnicities:
+        for ethnicity in ethnicities.keys():
             if present_ethnicity == ethnicity:
                 interactive.button_auto_clicker(self.driver, f"//*[@id='questionnaire']/section/ol/li[2]/fieldset/div/div[{ethnicities[ethnicity]}]")
                 break
@@ -396,8 +401,9 @@ class cvs_pages():
         interactive.button_auto_clicker(self.driver, cvs_xpaths["Immunization"])
         interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(8)"])
 
-    # page 14
+    # page 14 & 15
     def consent_sign(self: cvs_pages) -> None:
+        interactive.button_auto_clicker(self.driver, cvs_xpaths["Continue Scheduling(8)"])
         interactive.button_auto_clicker(self.driver, cvs_xpaths["Consent"])
         # interactive.button_auto_clicker(self.driver, cvs_xpaths["I Consent"]) # last button, don't click yet
 
