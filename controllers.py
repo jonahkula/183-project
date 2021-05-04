@@ -1,64 +1,48 @@
 """
 This file defines actions, i.e. functions the URLs are mapped into
 The @action(path) decorator exposed the function at URL:
-
     http://127.0.0.1:8000/{app_name}/{path}
-
 If app_name == '_default' then simply
-
     http://127.0.0.1:8000/{path}
-
 If path == 'index' it can be omitted:
-
     http://127.0.0.1:8000/
-
 The path follows the bottlepy syntax.
-
 @action.uses('generic.html')  indicates that the action uses the generic.html template
 @action.uses(session)         indicates that the action uses the session
 @action.uses(db)              indicates that the action uses the db
 @action.uses(T)               indicates that the action uses the i18n & pluralization
 @action.uses(auth.user)       indicates that the action requires a logged in user
 @action.uses(auth)            indicates that the action requires the auth object
-
 session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
 
 from py4web import action, request, abort, redirect, URL
-from yatl.helpers import A
+from yatl.helpers import *
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 
 url_signer = URLSigner(session)
 
+# welcome page
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
     return dict()
 
-@action('sign_up')
-@action.uses(db, auth, 'signup.html')
-def index():
-    return dict()
-
-@action('login')
-@action.uses(db, auth, 'login.html')
-def index():
-    return dict()
-
-@action('forgot_password')
-@action.uses(db, auth, 'password.html')
-def index():
-    return dict()
-
+# home page
 @action('main')
 @action.uses(db, auth, 'content.html')
-def index():
+def main():
+    if get_user_email() == None:
+        redirect(URL('index'))
     return dict()
 
+# profile page
 @action('profile')
 @action.uses(db, auth, 'profile.html')
-def index():
+def profile():
+    if get_user_email() == None:
+        redirect(URL('index'))
     return dict()

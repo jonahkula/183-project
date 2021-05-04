@@ -91,12 +91,12 @@ auth_messages['buttons']['lost-password'] = "Lost password"
 
 # And button classes.
 auth_button_classes = {
-    "lost-password": "button is-danger is-light",
-    "register": "button is-info is-light",
-    "request": "button is-primary",
-    "sign-in": "button is-primary",
-    "sign-up": "button is-success",
-    "submit": "button is-primary",
+    "lost-password": "button ml-3",
+    "register": "button ml-3",
+    "request": "button ml-3",
+    "sign-in": "button ml-3",
+    "sign-up": "button ml-3",
+    "submit": "button ml-3",
 }
 
 auth.use_username = False

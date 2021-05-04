@@ -1,59 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+[[extend './layout.html']]
 
-<head>
-  <base href="[[=URL('static')]]/">
-  <meta charset="UTF-8" />
-  <meta http-equiv="Content Type" content="text/html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="scss/profile.css" />
-  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
-  <title>Profile</title>
-</head>
+<!-- looking at layout.html this page is connected to content.css
+when it should be connected to profile.css
+still trying to figure out how to add custom header here for its style sheet -->
 
-<body>
-  <nav class="navbar">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="[[=URL('main')]]">
-        <img src="../static/assets/logo.png" />
-      </a>
-    </div>
-    <div class="navbar-menu">
-      <div class="navbar-end">
-        <a class="navbar-item has-text-white">
-          <strong>Locate Vaccine</strong>
-        </a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link has-text-white">
-            <strong>Name's Profile</strong>
-          </a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="[[=URL('profile')]]"> Profile </a>
-            <hr class="navbar-divider" />
-            <a class="navbar-item" href="[[=URL('index')]]"> Sign Out </a>
-          </div>
-        </div>
+<section class="section">
+  <div class="container">
+    <h1 class="title is-1">John Doe's Profile</h1>
+    <div class="columns">
+      <div class="column is-two-fifths">
+        <h4 class="subtitle is-4">Username: johndoe</h4>
+        <h4 class="subtitle is-4">Email: johndoe@ucsc.edu</h4>
+        <h4 class="subtitle is-4">Vaccinated: Yes</h4>
+        <h4 class="subtitle is-4">Saved Locations:</h4>
+      </div>
+      <div class="column">
+        <figure class="image">
+          <img src="../static/assets/placeholder-map.png" />
+        </figure>
       </div>
     </div>
-  </nav>
-  <section class="section">
-    <div class="container">
-      <h1 class="title is-1">John Doe's Profile</h1>
-      <div class="columns">
-        <div class="column is-two-fifths">
-          <h4 class="subtitle is-4">Username: johndoe</h4>
-          <h4 class="subtitle is-4">Email: johndoe@ucsc.edu</h4>
-          <h4 class="subtitle is-4">Vaccinated: Yes</h4>
-          <h4 class="subtitle is-4">Saved Locations:</h4>
-        </div>
-        <div class="column">
-          <figure class="image">
-            <img src="../static/assets/placeholder-map.png" />
-          </figure>
-        </div>
-      </div>
-    </div>
-  </section>
-</body>
-
-</html>
+  </div>
+</section>

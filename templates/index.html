@@ -3,12 +3,12 @@
 
 <head>
   <base href="[[=URL('static')]]/">
-  <meta charset="UTF-8" />
-  <meta http-equiv="Content Type" content="text/html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="scss/home.css" />
+  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
   <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
-  <title>Home</title>
+  <title>Suppress19</title>
 </head>
 
 <body>
@@ -19,15 +19,51 @@
         <h3 class="subtitle is-3">Find a vaccine near you</h3>
       </div>
       <div class="block">
+        [[if globals().get('user'):]]
+        <h4 class="subtitle is-4 has-text-centered">
+          Welcome, [[=globals().get('user').get('first_name')]] [[=globals().get('user').get('last_name')]]
+        </h4>
+        <p class="buttons center">
+          <a class="button" href="[[=URL('auth/logout')]]">Sign Out</a>
+          <a class="button" href="[[=URL('main')]]">Locate Vaccine</a>
+        </p>
+        [[else:]]
         <h4 class="subtitle is-4 has-text-centered">
           Sign up or log in today to find your vaccine
         </h4>
         <p class="buttons center">
-          <a class="button" href="[[=URL('sign_up')]]">Sign Up</a>
-          <a class="button" href="[[=URL('login')]]">Log In</a>
+          <a class="button" href="[[=URL('auth/register')]]">Sign Up</a>
+          <a class="button" href="[[=URL('auth/login')]]">Log In</a>
         </p>
+        [[pass]]
       </div>
     </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="columns">
+
+        <div class="column has-text-centered">
+          <h3 class="title color-example">Search</h3>
+          <p class="is-size-4">Enter in an adress to find the vaccinations clinics near you!</p>
+        </div>
+
+        <div class="column has-text-centered">
+          <h3 class="title color-example">Automate</h3>
+          <p class="is-size-4">Our website will allow you to click on any clinic and automatically book an appointment
+            if it is available</p>
+        </div>
+
+        <div class="column has-text-centered">
+          <h3 class="title color-example">Review</h3>
+          <p class="is-size-4">Go ahead and leave a review on where you went or read reviews from other users</p>
+        </div>
+
+      </div>
+    </div>
+
+
   </section>
 </body>
 
