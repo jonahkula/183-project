@@ -38,23 +38,35 @@
   <div class="form-container">
     <article class="media">
       <div class="media-content">
-        <div class="has-text-centered mb-4"><u>We found X locations to get vaccinated at.</u></div>
+        <div class="has-text-centered mb-4"><u>We found [[=len(rows)]] locations to get vaccinated at.</u></div>
+        [[for row in rows:]]
         <!-- Main container of results -->
         <div class="box result">
           <nav class="level">
             <!-- Left side -->
             <div class="level-left">
               <div class="level-item">
-                <p class="title color-example">
-                  <u>Costco</u>
-                </p>
+                <a href="">
+                  <p class="title color-example">
+                    <u>[[ =row['locationName'] ]]</u>
+                  </p>
+                </a>
               </div>
             </div>
             <!-- Right side -->
             <div class="level-right">
               <p class="level-item">
               <div>
-                <p class="color-example"><i>In Stock</i> </p>
+                <p class="color-example">
+
+                  <!-- If the location has not been saved yet -->
+                  <a class="button" href="[[ =URL('save', row['locationName'], row['locationAddress']) ]]">
+                    <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>save</span>
+                 </a>  
+
+                 <!-- Make an unsaved version button -->
+
+                </p>
                 <p class="is-pulled-right">2.31 miles</p>
               </div>
               </p>
@@ -62,10 +74,11 @@
           </nav>
           <!-- Bottom Address -->
           <div class="has-text-centered">
-            <p>220 Sylvania Ave | Santa Cruz, CA 95060</p>
+            <p>[[ =row['locationAddress'] ]]</p>
           </div>
         </div>
         <!-- End of result container -->
+        [[pass]]
       </div>
     </article>
   </div>

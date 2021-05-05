@@ -38,3 +38,9 @@ $main_display_color: hsl(204, 71%, 39%);
     background-color: hsl(205, 69%, 29%);
   }
 }
+
+p.color-example {
+  &:hover {
+    color: hsl(205, 69%, 29%);
+  }
+}

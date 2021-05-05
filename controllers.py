@@ -23,6 +23,11 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 
+from .settings import APP_FOLDER
+import os
+import json
+JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
+
 url_signer = URLSigner(session)
 
 # welcome page
@@ -37,7 +42,19 @@ def index():
 def main():
     if get_user_email() == None:
         redirect(URL('index'))
-    return dict()
+
+    # Sample data of locations
+    results = {}
+    results = json.load(open(JSON_FILE))
+
+    # Getting the id of the user
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    user_id = user['id']
+
+    # Getting a list of saved 
+    saved = db(db.saved_location.user_id == user_id).select()
+
+    return dict(rows=results)
 
 # profile page
 @action('profile')
@@ -45,4 +62,34 @@ def main():
 def profile():
     if get_user_email() == None:
         redirect(URL('index'))
+    return dict()
+
+# Save a location
+@action('save/<name>/<address>', method=["GET", "POST"])
+@action.uses(db, auth)
+def save(name=None, address=None):
+    assert name is not None
+    assert address is not None
+
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    user_id = user['id']
+
+    db.location.insert(
+        location_name = name,
+        location_address = address
+    )
+
+    location = db(db.location.location_address == address).select().first()
+
+    db.saved_location.insert(
+        user_id = user_id,
+        location_id = location['id'],
+        location_zipcode = 91111,
+        location_radius = 0
+    )
+    redirect(URL('index'))
+    
     return dict()
