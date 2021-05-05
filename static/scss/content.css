@@ -10216,6 +10216,19 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   color: white;
 }
 
+.align {
+  margin: 0 !important;
+  align-items: center !important;
+  padding: 0 !important;
+}
+
+.user-color {
+  color: white;
+}
+.user-color:hover {
+  color: black;
+}
+
 .level-item > button.button.is-medium {
   background-color: #1d72aa;
   color: white;
