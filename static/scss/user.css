@@ -289,7 +289,7 @@ th:not([align]) {
 }
 
 html {
-  background-color: white;
+  background-color: whitesmoke;
   font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -316,7 +316,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 code,
@@ -9101,7 +9101,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .is-family-primary {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+  font-family: "Roboto", sans-serif !important;
 }
 
 .is-family-secondary {
@@ -10203,4 +10203,8 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .footer {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem;
+}
+
+.line-break {
+  background-color: #525252;
 }

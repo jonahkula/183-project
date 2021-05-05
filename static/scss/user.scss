@@ -4,6 +4,9 @@
 @charset "utf-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+$body-background-color: whitesmoke;
+$family-primary: "Roboto", sans-serif;
+
 .form-container {
   @extend .container;
   max-width: 400px !important;
@@ -11,4 +14,6 @@
 
 @import "../bulma.sass";
 
-// custom css here
+.line-break {
+  background-color: rgb(82, 82, 82);
+}
