@@ -30,6 +30,19 @@ JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 
 url_signer = URLSigner(session)
 
+# Function that saves a location to a user
+def saveToUser(address, user_id):
+    # Get the id of the location we just inserted
+    location = db(db.location.location_address == address).select().first()
+
+    # Insert into users saved locations
+    db.saved_location.insert(
+        user_id = user_id,
+        location_id = location['id'],
+        location_zipcode = 91111,
+        location_radius = 0
+    )
+
 # welcome page
 @action('index')
 @action.uses(db, auth, 'index.html')
@@ -51,10 +64,19 @@ def main():
     user = db(db.auth_user.email == get_user_email()).select().first()
     user_id = user['id']
 
-    # Getting a list of saved 
-    saved = db(db.saved_location.user_id == user_id).select()
+    # Getting a list of saved locations of the user
+    saved = db(
+        db.location.id == db.saved_location.location_id,
+        db.saved_location.user_id == user_id
+    ).select()
 
-    return dict(rows=results)
+    saved_address = []
+    for save in saved:
+        saved_address.append(save.location.location_address)
+
+    print(saved_address)
+
+    return dict(rows=results, saved=saved_address)
 
 # profile page
 @action('profile')
@@ -74,22 +96,42 @@ def save(name=None, address=None):
     if get_user_email() == None:
         redirect(URL('index'))
 
+    # Get the current user id
     user = db(db.auth_user.email == get_user_email()).select().first()
     user_id = user['id']
 
-    db.location.insert(
-        location_name = name,
-        location_address = address
-    )
+    check = db(db.location.location_address == address).select().first()
 
-    location = db(db.location.location_address == address).select().first()
+    if (check is not None): 
+        saveToUser(address, user_id)
+    else:
+        # Inserting into location table
+        db.location.insert(
+            location_name = name,
+            location_address = address
+        )
 
-    db.saved_location.insert(
-        user_id = user_id,
-        location_id = location['id'],
-        location_zipcode = 91111,
-        location_radius = 0
-    )
+        saveToUser(address, user_id)
+        
+    redirect(URL('index'))
+    
+    return dict()
+
+# Unsave a location
+@action('unsave/<address>', method=["GET", "POST"])
+@action.uses(db, auth)
+def unsave(address=None):
+    assert address is not None
+
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    # Get the current user id
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    user_id = user['id']
+
+    # Deleting an saved location
+        
     redirect(URL('index'))
     
     return dict()
