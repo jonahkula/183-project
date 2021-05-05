@@ -22,7 +22,7 @@
         <img src="../static/assets/logo.png">
       </a>
       <!-- minimization bars -->
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      <a role="button" class="navbar-burger burger has-text-white" aria-label="menu" aria-expanded="false"
         data-target="the-navbar-menu"
         onclick="this.classList.toggle('is-active');document.getElementById(this.dataset.target).classList.toggle('is-active');">
         <span aria-hidden="true"></span>
@@ -38,10 +38,10 @@
       <!-- user options -->
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="buttons">
+          <div class="buttons align">
             [[if globals().get('user'):]]
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link is-primary has-text-white">
+              <a class="navbar-link is-primary user-color">
                 [[=globals().get('user').get('email')]]
               </a>
               <div class="navbar-dropdown">

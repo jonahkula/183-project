@@ -29,6 +29,19 @@ $main_display_color: hsl(204, 71%, 39%);
   color: white;
 }
 
+.align {
+  margin: 0 !important;
+  align-items: center !important;
+  padding: 0 !important;
+}
+
+.user-color {
+  color: white;
+  &:hover {
+    color: black;
+  }
+}
+
 .level-item > button.button.is-medium {
   background-color: $main_display_color;
   color: white;
