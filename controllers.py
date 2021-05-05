@@ -23,7 +23,25 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 
+from .settings import APP_FOLDER
+import os
+import json
+JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
+
 url_signer = URLSigner(session)
+
+# Function that saves a location to a user
+def saveToUser(address, user_id):
+    # Get the id of the location we just inserted
+    location = db(db.location.location_address == address).select().first()
+
+    # Insert into users saved locations
+    db.saved_location.insert(
+        user_id = user_id,
+        location_id = location['id'],
+        location_zipcode = 91111,
+        location_radius = 0
+    )
 
 # welcome page
 @action('index')
@@ -37,7 +55,28 @@ def index():
 def main():
     if get_user_email() == None:
         redirect(URL('index'))
-    return dict()
+
+    # Sample data of locations
+    results = {}
+    results = json.load(open(JSON_FILE))
+
+    # Getting the id of the user
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    user_id = user['id']
+
+    # Getting a list of saved locations of the user
+    saved = db(
+        db.location.id == db.saved_location.location_id,
+        db.saved_location.user_id == user_id
+    ).select()
+
+    saved_address = []
+    for save in saved:
+        saved_address.append(save.location.location_address)
+
+    print(saved_address)
+
+    return dict(rows=results, saved=saved_address)
 
 # profile page
 @action('profile')
@@ -45,4 +84,54 @@ def main():
 def profile():
     if get_user_email() == None:
         redirect(URL('index'))
+    return dict()
+
+# Save a location
+@action('save/<name>/<address>', method=["GET", "POST"])
+@action.uses(db, auth)
+def save(name=None, address=None):
+    assert name is not None
+    assert address is not None
+
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    # Get the current user id
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    user_id = user['id']
+
+    check = db(db.location.location_address == address).select().first()
+
+    if (check is not None): 
+        saveToUser(address, user_id)
+    else:
+        # Inserting into location table
+        db.location.insert(
+            location_name = name,
+            location_address = address
+        )
+
+        saveToUser(address, user_id)
+        
+    redirect(URL('index'))
+    
+    return dict()
+
+# Unsave a location
+@action('unsave/<address>', method=["GET", "POST"])
+@action.uses(db, auth)
+def unsave(address=None):
+    assert address is not None
+
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    # Get the current user id
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    user_id = user['id']
+
+    # Deleting an saved location
+        
+    redirect(URL('index'))
+    
     return dict()
