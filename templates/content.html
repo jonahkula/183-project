@@ -1,7 +1,13 @@
 [[extend './layout.html']]
 
-<!-- enter info -->
-<section class="section">
+<style>
+  [v-cloak] {
+    display: none;
+  }
+</style>
+
+<section class="section" id='vue-target' v-cloak>
+  <!-- input field for search -->
   <nav class="level">
     <div class="level-item">
       <div class="columns">
@@ -9,41 +15,32 @@
           <h3 class="title mb-4 color-example">Locate COVID-19 Vaccines</h3>
           <div class="columns">
             <div class="column">
-              <div class="field">
-                <label class="label">Enter Zip Code</label>
-                <div class="control">
-                  <input class="input" placeholder="Zip Code">
-                </div>
-              </div>
+              <label class="label">Enter Zip Code</label>
+              <input class="input" placeholder="Zip Code">
             </div>
             <div class="column">
-              <div class="field">
-                <label class="label">Enter Radius</label>
-                <div class="control">
-                  <input class="input" placeholder="Radius">
-                </div>
-              </div>
+              <label class="label">Enter Radius</label>
+              <input class="input" placeholder="Radius">
             </div>
           </div>
           <div class="level-item">
-            <button class="button is-medium">Locate Vaccines</button>
+            <button class="button is-medium is-rounded color-example">Locate Vaccines</button>
           </div>
         </div>
       </div>
     </div>
   </nav>
-</section>
-<!-- found locations -->
-<section class="section">
+  <!-- display of search results -->
   <div class="form-container">
     <article class="media">
       <div class="media-content">
         <div class="has-text-centered mb-4"><u>We found [[=len(rows)]] locations to get vaccinated at.</u></div>
+        <!-- CHANGE TO VUE LATER -->
+        <!-- main container of results -->
         [[for row in rows:]]
-        <!-- Main container of results -->
         <div class="box result">
           <nav class="level">
-            <!-- Left side -->
+            <!-- location name -->
             <div class="level-left">
               <div class="level-item">
                 <a href="">
@@ -53,38 +50,40 @@
                 </a>
               </div>
             </div>
-            <!-- Right side -->
-            <div class="level-right">
-              <p class="level-item">
+            <!-- save button and distance -->
+            <div class="level-right level-item">
               <div>
                 <p class="color-example">
-
+                  <!-- CHANGE TO VUE LATER -->
                   [[ if row['locationAddress'] not in saved: ]]
-                  <!-- If the location has not been saved yet -->
-                  <a class="button" href="[[ =URL('save', row['locationName'], row['locationAddress']) ]]">
+                  <a class="button is-light is-rounded"
+                    href="[[ =URL('save', row['locationName'], row['locationAddress']) ]]">
                     <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Save</span>
-                  </a>  
-                 [[ else: ]]
-                  <a class="button" href="">
+                  </a>
+                  [[ else: ]]
+                  <a class="button is-light is-rounded" href="">
                     <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Unsave</span>
-                  </a> 
-                 [[pass]]
-
+                  </a>
+                  [[pass]]
                 </p>
-                <p class="is-pulled-right">2.31 miles</p>
+                <p class="is-pulled-right mt-1">2.31 miles</p>
               </div>
-              </p>
             </div>
           </nav>
-          <!-- Bottom Address -->
+          <!-- bottom address -->
           <div class="has-text-centered">
             <p>[[ =row['locationAddress'] ]]</p>
           </div>
         </div>
-        <!-- End of result container -->
         [[pass]]
       </div>
     </article>
   </div>
 </section>
-<!-- End of All Results -->
+
+[[block page_scripts]]
+<script>
+  // load url's here
+</script>
+<script src="js/content.js"></script>
+[[end]]

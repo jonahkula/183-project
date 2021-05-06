@@ -4,13 +4,20 @@
 when it should be connected to profile.css
 still trying to figure out how to add custom header here for its style sheet -->
 
-<section class="section">
+<style>
+  [v-cloak] {
+    display: none;
+  }
+</style>
+
+<section class="section" id="vue-target" v-cloak>
   <div class="container">
     <h1 class="title is-1">[[=user_info[0] ]] [[=user_info[1] ]]'s Profile</h1>
     <div class="columns">
       <div class="column is-two-fifths">
         <h4 class="subtitle is-4">Email: [[=user_info[2] ]]</h4>
         <h4 class="subtitle is-4">Vaccinated: Yes</h4>
+        <!-- CHANGE TO VUE LATER -->
         <h4 class="subtitle is-4">Saved Locations:</h4>
         [[if len(user_info[3]) == 0:]]
         <h4 class="subtitle is-5 has-text-danger">
@@ -30,3 +37,10 @@ still trying to figure out how to add custom header here for its style sheet -->
     </div>
   </div>
 </section>
+
+[[block page_scripts]]
+<script>
+  // load url's here
+</script>
+<script src="js/profile.js"></script>
+[[end]]

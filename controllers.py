@@ -22,16 +22,15 @@ from yatl.helpers import *
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
-
 from .settings import APP_FOLDER
 import os
 import json
-JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 
+JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 url_signer = URLSigner(session)
 
 
-# Gets the users first name, last name, email, and saved locations
+# gets the users first name, last name, email, and saved locations
 def get_user_info(db):
     user_info_dict = db(db.auth_user.email ==
                         get_user_email()).select().first()
@@ -62,10 +61,8 @@ def get_user_info(db):
     user_info.append(saved_locations)
     return user_info
 
- # welcome page
 
-
-# Function that saves a location to a user
+# function that saves a location to a user
 def saveToUser(address, user_id):
     # Get the id of the location we just inserted
     location = db(db.location.location_address == address).select().first()
@@ -78,15 +75,15 @@ def saveToUser(address, user_id):
         location_radius = 0
     )
 
+
 # welcome page
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
     return dict()
 
+
 # home page
-
-
 @action('main')
 @action.uses(db, auth, 'content.html')
 def main():
@@ -115,13 +112,11 @@ def main():
 
     return dict(rows=results, saved=saved_address)
 
+
 # profile page
-
-
 @action('profile')
 @action.uses(db, auth, 'profile.html')
 def profile():
-
     # Making sure the user is logged in.
     if get_user_email() == None:
         redirect(URL('index'))
@@ -131,7 +126,8 @@ def profile():
 
     return dict(user_info=user_info)
 
-# Save a location
+
+# save a location
 @action('save/<name>/<address>', method=["GET", "POST"])
 @action.uses(db, auth)
 def save(name=None, address=None):
@@ -162,7 +158,8 @@ def save(name=None, address=None):
     
     return dict()
 
-# Unsave a location
+
+# unsave a location
 @action('unsave/<address>', method=["GET", "POST"])
 @action.uses(db, auth)
 def unsave(address=None):

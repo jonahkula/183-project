@@ -10228,17 +10228,3 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .user-color:hover {
   color: black;
 }
-
-.level-item > button.button.is-medium {
-  background-color: #1d72aa;
-  color: white;
-  border-radius: 2em;
-  width: 10rem;
-}
-.level-item > button.button.is-medium:hover {
-  background-color: #17527d;
-}
-
-p.color-example:hover {
-  color: #17527d;
-}
