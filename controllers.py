@@ -74,8 +74,6 @@ def main():
     for save in saved:
         saved_address.append(save.location.location_address)
 
-    print(saved_address)
-
     return dict(rows=results, saved=saved_address)
 
 # profile page
@@ -131,7 +129,14 @@ def unsave(address=None):
     user_id = user['id']
 
     # Deleting an saved location
-        
+    location = db(db.location.location_address == address).select().first()
+    unsave_location = db(
+        db.saved_location.location_id == location.id,
+        db.saved_location.user_id == user_id
+    ).select()
+    
+    db(db.saved_location.id == unsave_location[0]['id']).delete()
+            
     redirect(URL('index'))
     
     return dict()
