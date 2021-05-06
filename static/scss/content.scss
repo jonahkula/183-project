@@ -13,7 +13,7 @@ $main_display_color: hsl(204, 71%, 39%);
 
 .form-container {
   @extend .container;
-  max-width: 400px !important;
+  max-width: 600px !important;
 }
 
 @import "../bulma.sass";
@@ -42,18 +42,18 @@ $main_display_color: hsl(204, 71%, 39%);
   }
 }
 
-.level-item > button.button.is-medium {
-  background-color: $main_display_color;
-  color: white;
-  border-radius: 2em;
-  width: 10rem;
-  &:hover {
-    background-color: hsl(205, 69%, 29%);
-  }
-}
+// .level-item > button.button.is-medium {
+//   background-color: $main_display_color;
+//   color: white;
+//   border-radius: 2em;
+//   width: 10rem;
+//   &:hover {
+//     background-color: hsl(205, 69%, 29%);
+//   }
+// }
 
-p.color-example {
-  &:hover {
-    color: hsl(205, 69%, 29%);
-  }
-}
+// p.color-example {
+//   &:hover {
+//     color: hsl(205, 69%, 29%);
+//   }
+// }
