@@ -6,13 +6,21 @@ still trying to figure out how to add custom header here for its style sheet -->
 
 <section class="section">
   <div class="container">
-    <h1 class="title is-1">John Doe's Profile</h1>
+    <h1 class="title is-1">[[=user_info[0] ]] [[=user_info[1] ]]'s Profile</h1>
     <div class="columns">
       <div class="column is-two-fifths">
-        <h4 class="subtitle is-4">Username: johndoe</h4>
-        <h4 class="subtitle is-4">Email: johndoe@ucsc.edu</h4>
+        <h4 class="subtitle is-4">Email: [[=user_info[2] ]]</h4>
         <h4 class="subtitle is-4">Vaccinated: Yes</h4>
         <h4 class="subtitle is-4">Saved Locations:</h4>
+        [[if len(user_info[3]) == 0:]]
+        <h4 class="subtitle is-5 has-text-danger">
+          You do not have any saved locations.
+        </h4>
+        [[pass ]] [[for location in user_info[3]: ]]
+        <h4 class="subtitle is-5 has-text-success">
+          [[=location[0] ]] [[=location[1] ]]
+        </h4>
+        [[pass]]
       </div>
       <div class="column">
         <figure class="image">
