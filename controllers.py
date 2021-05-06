@@ -29,7 +29,6 @@ import json
 JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 url_signer = URLSigner(session)
 
-
 # gets the users first name, last name, email, and saved locations
 def get_user_info(db):
     user_info_dict = db(db.auth_user.email ==
@@ -108,8 +107,6 @@ def main():
     for save in saved:
         saved_address.append(save.location.location_address)
 
-    print(saved_address)
-
     return dict(rows=results, saved=saved_address)
 
 
@@ -154,7 +151,7 @@ def save(name=None, address=None):
 
         saveToUser(address, user_id)
         
-    redirect(URL('index'))
+    redirect(URL('main'))
     
     return dict()
 
@@ -173,7 +170,14 @@ def unsave(address=None):
     user_id = user['id']
 
     # Deleting an saved location
-        
-    redirect(URL('index'))
+    location = db(db.location.location_address == address).select().first()
+    unsave_location = db(
+        db.saved_location.location_id == location.id,
+        db.saved_location.user_id == user_id
+    ).select()
+    
+    db(db.saved_location.id == unsave_location[0]['id']).delete()
+            
+    redirect(URL('main'))
     
     return dict()
