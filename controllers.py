@@ -23,8 +23,8 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 from .settings import APP_FOLDER
-import os
-import json
+import os, json, pprint
+import apps.project.vaccines.locations as loc
 
 JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 url_signer = URLSigner(session)
@@ -84,12 +84,10 @@ def index():
 
 # home page
 @action('main')
-@action.uses(db, auth, 'content.html', method=["POST", "GET"])
+@action.uses(db, auth, 'content.html')
 def main():
     if get_user_email() == None:
         redirect(URL('index'))
-
-    print("received zipCode:", request.json.get('zipCode'), "received radius:", request.json.get('radius'))
 
     # Sample data of locations
     results = {}
@@ -112,10 +110,19 @@ def main():
     return dict(
         rows=results, 
         saved=saved_address,
-        add_locations_url=URL('main'),
-        load_contacts_url=URL('main'),
+        add_locations_url=URL('add_locations'),
+        load_home_url=URL('load_home'),
 )
 
+@action('load_home')
+def load_home():
+    pass
+
+@action('add_locations', method="POST")
+def add_locations():
+    # print("received zipCode:", request.json.get('zipCode'), "received radius:", request.json.get('radius'))
+    l = loc.Location(request.json.get('zipCode'), request.json.get('radius'))
+    pprint.pprint(l.get_locations())
 
 # profile page
 @action('profile')
