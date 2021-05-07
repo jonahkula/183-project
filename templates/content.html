@@ -16,15 +16,15 @@
           <div class="columns">
             <div class="column">
               <label class="label">Enter Zip Code</label>
-              <input class="input" placeholder="Zip Code">
+              <input class="input" placeholder="Zip Code" v-model="zipCode">
             </div>
             <div class="column">
               <label class="label">Enter Radius</label>
-              <input class="input" placeholder="Radius">
+              <input class="input" placeholder="Radius" v-model="radius">
             </div>
           </div>
           <div class="level-item">
-            <button class="button is-medium is-rounded color-example">Locate Vaccines</button>
+            <button class="button is-medium is-rounded color-example" @click="add_locations">Locate Vaccines</button>
           </div>
         </div>
       </div>
@@ -84,6 +84,8 @@
 [[block page_scripts]]
 <script>
   // load url's here
+  let add_locations_url = "[[=XML(add_locations_url)]]";
+  let load_contacts_url = "[[=XML(load_contacts_url)]]";
 </script>
 <script src="js/content.js"></script>
 [[end]]

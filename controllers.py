@@ -84,10 +84,12 @@ def index():
 
 # home page
 @action('main')
-@action.uses(db, auth, 'content.html')
+@action.uses(db, auth, 'content.html', method=["POST", "GET"])
 def main():
     if get_user_email() == None:
         redirect(URL('index'))
+
+    print("received zipCode:", request.json.get('zipCode'), "received radius:", request.json.get('radius'))
 
     # Sample data of locations
     results = {}
@@ -107,7 +109,12 @@ def main():
     for save in saved:
         saved_address.append(save.location.location_address)
 
-    return dict(rows=results, saved=saved_address)
+    return dict(
+        rows=results, 
+        saved=saved_address,
+        add_locations_url=URL('main'),
+        load_contacts_url=URL('main'),
+)
 
 
 # profile page
@@ -121,7 +128,9 @@ def profile():
     # Get user information
     user_info = get_user_info(db)
 
-    return dict(user_info=user_info)
+    return dict(
+        user_info=user_info,
+    )
 
 
 # save a location
