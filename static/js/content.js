@@ -8,8 +8,8 @@ let init = (app) => {
   // This is the Vue data.
   app.data = {
     // Complete as you see fit.
-    zipCode = "",
-    radius = "",
+    zipCode: "",
+    radius: "",
   };
 
   app.enumerate = (a) => {
@@ -21,13 +21,7 @@ let init = (app) => {
     return a;
   };
 
-  // This contains all the methods.
-  app.methods = {
-    // Complete as you see fit.
-    add_locations: app.add_locations,
-  };
-
-  app.add_locations = function () {
+  app.add_locations = function() {
     axios.post(add_locations_url, {
       zipCode: app.vue.zipCode,
       radius: app.vue.radius
@@ -40,6 +34,12 @@ let init = (app) => {
     })
   };
 
+  // This contains all the methods.
+  app.methods = {
+    // Complete as you see fit.
+    add_locations: app.add_locations
+  };
+
   // This creates the Vue instance.
   app.vue = new Vue({
     el: "#vue-target",
@@ -49,7 +49,7 @@ let init = (app) => {
 
   // And this initializes it.
   app.init = () => {
-    axios.get(load_contacts_url)
+    axios.get(load_home_url)
     .then(function(response) {
       console.log("response to GET request:", response);
     })
