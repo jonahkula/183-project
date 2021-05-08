@@ -55,6 +55,7 @@
             <div class="level-right level-item">
               <div>
                 <p class="color-example">
+                  <!-- the ref's might need to be moved, since they don't register anything, sorry -->
                   <a class="button is-light is-rounded" v-if="!(savedLocations.includes(l.address1))">
                     <span class="icon" ref="saved"><i class="fa fa-fw fa-pencil"></i></span> <span>Save</span>
                   </a>
@@ -81,6 +82,7 @@
   // load url's here
   let add_locations_url = "[[=XML(add_locations_url)]]";
   let load_home_url = "[[=XML(load_home_url)]]";
+  let save_url = "[[=XML(save_url)]]";
 </script>
 <script src="js/content.js"></script>
 [[end]]

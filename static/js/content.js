@@ -38,18 +38,30 @@ let init = (app) => {
     })
   };
 
-  // app.save_option = function(index) {
-  //   let current_index = this.$refs.saved[index];
-  // };
+  app.save_option = function(index) {
+    let current_index = this.$refs.saved[index];
+    console.log("check current_index:", current_index);
+    axios.post(save_url, {
+      savedLocations: current_index
+    })
+    .then(function(response) {
+      console.log("Received POST response after saving:", response);
+    })
+    .catch(function(error) {
+      console.log("There was an error sending the POST request:", error);
+    })
+  };
 
   // app.unsave_option = function(index) {
   //   let current_index = this.$refs.unsave[index];
+
   // };
 
   // This contains all the methods.
   app.methods = {
-    // Complete as you see fit.
-    add_locations: app.add_locations
+    add_locations: app.add_locations,
+    save_option: app.save_option,
+    // unsave_option: app.unsave_option
   };
 
   // This creates the Vue instance.
