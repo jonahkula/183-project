@@ -10,7 +10,8 @@ let init = (app) => {
     // Complete as you see fit.
     zipCode: "",
     radius: "",
-    locations: []
+    locations: [],
+    savedLocations: []
   };
 
   app.enumerate = (a) => {
@@ -29,12 +30,21 @@ let init = (app) => {
     })
     .then(function(response) {
       app.vue.locations = response.data.content
+      app.vue.savedLocations = response.data.saved
       console.log("Received response from POST request:", app.vue.locations)
     })
     .catch(function(error) {
       console.log("The error attempting to send a POST request:", error)
     })
   };
+
+  // app.save_option = function(index) {
+  //   let current_index = this.$refs.saved[index];
+  // };
+
+  // app.unsave_option = function(index) {
+  //   let current_index = this.$refs.unsave[index];
+  // };
 
   // This contains all the methods.
   app.methods = {

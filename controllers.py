@@ -106,12 +106,7 @@ def main():
     if get_user_email() == None:
         redirect(URL('index'))
 
-    results = {}
-    saved_address = get_saved_work()
-
     return dict(
-        rows=results, 
-        saved=saved_address,
         add_locations_url=URL('add_locations'),
         load_home_url=URL('load_home'),
     )
@@ -128,8 +123,11 @@ def add_locations():
         
     l = loc.Location(request.json.get('zipCode'), request.json.get('radius'))
     all_locations = l.get_locations()
+    saved_address = get_saved_work()
+
     return dict(
-        content=all_locations
+        content=all_locations,
+        saved=saved_address,
         )
 
 # profile page
