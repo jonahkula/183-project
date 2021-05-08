@@ -10,6 +10,7 @@ let init = (app) => {
     // Complete as you see fit.
     zipCode: "",
     radius: "",
+    locations: []
   };
 
   app.enumerate = (a) => {
@@ -27,7 +28,8 @@ let init = (app) => {
       radius: app.vue.radius
     })
     .then(function(response) {
-      console.log("response to POST request:", response)
+      app.vue.locations = response.data.content
+      console.log("Received response from POST request:", app.vue.locations)
     })
     .catch(function(error) {
       console.log("The error attempting to send a POST request:", error)

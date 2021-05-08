@@ -81,19 +81,8 @@ def saveToUser(address, user_id):
 def index():
     return dict()
 
-
-# home page
-@action('main')
-@action.uses(db, auth, 'content.html')
-def main():
-    if get_user_email() == None:
-        redirect(URL('index'))
-
-    # Sample data of locations
-    results = {}
-    results = json.load(open(JSON_FILE))
-
-    # Getting the id of the user
+def get_saved_work():
+     # Getting the id of the user
     user = db(db.auth_user.email == get_user_email()).select().first()
     user_id = user['id']
 
@@ -107,22 +96,41 @@ def main():
     for save in saved:
         saved_address.append(save.location.location_address)
 
+    return saved_address
+
+
+# home page
+@action('main')
+@action.uses(db, auth, 'content.html')
+def main():
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    results = {}
+    saved_address = get_saved_work()
+
     return dict(
         rows=results, 
         saved=saved_address,
         add_locations_url=URL('add_locations'),
         load_home_url=URL('load_home'),
-)
+    )
 
 @action('load_home')
 def load_home():
     pass
 
 @action('add_locations', method="POST")
+@action.uses(auth)
 def add_locations():
-    # print("received zipCode:", request.json.get('zipCode'), "received radius:", request.json.get('radius'))
+    if get_user_email() == None:
+        redirect(URL('index'))
+        
     l = loc.Location(request.json.get('zipCode'), request.json.get('radius'))
-    pprint.pprint(l.get_locations())
+    all_locations = l.get_locations()
+    return dict(
+        content=all_locations
+        )
 
 # profile page
 @action('profile')
