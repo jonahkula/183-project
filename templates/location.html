@@ -1,0 +1,105 @@
+[[extend './layout.html']]
+
+<!-- looking at layout.html this page is connected to content.css
+when it should be connected to profile.css
+still trying to figure out how to add custom header here for its style sheet -->
+
+<style>
+  [v-cloak] {
+    display: none;
+  }
+</style>
+
+<section class="section" id="vue-target" v-cloak>
+  <!-- <figure class="image is-3by2"> -->
+  <!-- <img
+    src="https://s.abcnews.com/images/US/costco-file-gty-ml-191113_hpMain_16x9_992.jpg?w=1600"
+    width="1660"
+    height="300"
+  /> -->
+  <!-- </figure> -->
+
+  <!-- <div class="columns">
+    <div class="columns">
+      <div class="title column has-background-black">Costco</div>
+      <div class="title column has-background-black">
+        220 Sylvania Ave, Santa Cruz, CA 95060
+      </div>
+    </div>
+    <div class="column has-background-link">asdasd</div>
+  </div> -->
+  <!-- 
+  <div class="columns">
+    <div class="column">
+      <p class="bd-notification is-info is-size-1">First column</p>
+      <div class="columns is-mobile">
+        <div class="column">
+          <p class="bd-notification is-info title">
+            220 Sylvania Ave, Santa Cruz, CA 95060
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <p class="bd-notification is-danger">Second column</p>
+      <div class="columns is-mobile">
+        <div class="column is-half">
+          <p class="bd-notification is-danger">50%</p>
+        </div>
+        <div class="column">
+          <p class="bd-notification is-danger">Auto</p>
+        </div>
+        <div class="column">
+          <p class="bd-notification is-danger">Auto</p>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div
+    class="box is-flex is-fullhd has-background-light is-justify-content-space-between is-flex-wrap-wrap"
+  >
+    <div class="flex-left">
+      <div class="location-name is-size-1">Costco</div>
+      <div class="location-name is-size-2">
+        220 Sylvania Ave, Santa Cruz, CA 95060
+      </div>
+      <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
+      <!-- Do a loop here to see the number of stars the location is given -->
+      <i
+        class="box fa fa-star is-size-1 has-background-info-dark mt-3 mr-4"
+      ></i>
+      <i
+        class="box fa fa-star is-size-1 has-background-info-dark mt-3 mr-4"
+      ></i>
+      <i
+        class="box fa fa-star is-size-1 has-background-info-dark mt-3 mr-4"
+      ></i>
+      <i
+        class="box fa fa-star is-size-1 has-background-info-dark mt-3 mr-4"
+      ></i>
+      <i class="is-size-2">14 Reviews</i>
+      <div>
+        <button class="button mr-4 has-text-weight-bold">
+          Check eligibility
+        </button>
+        <button class="button has-text-weight-bold">Write a Review</button>
+      </div>
+    </div>
+
+    <div
+      class="is-flex is-flex-direction-column is-justify-content-flex-start mr-6 mt-6"
+    >
+      <div class="location-info is-size-4">Website: https://costo.com</div>
+      <div class="location-info is-size-4">Phone: 831-123-4567</div>
+      <div class="location-info is-size-4">Vaccine in stock: Yes</div>
+    </div>
+  </div>
+</section>
+
+[[block page_scripts]]
+<script>
+  // load url's here
+</script>
+<script src="js/location.js"></script>
+[[end]]

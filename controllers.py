@@ -30,6 +30,8 @@ JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 url_signer = URLSigner(session)
 
 # gets the users first name, last name, email, and saved locations
+
+
 def get_user_info(db):
     user_info_dict = db(db.auth_user.email ==
                         get_user_email()).select().first()
@@ -68,10 +70,10 @@ def saveToUser(address, user_id):
 
     # Insert into users saved locations
     db.saved_location.insert(
-        user_id = user_id,
-        location_id = location['id'],
-        location_zipcode = 91111,
-        location_radius = 0
+        user_id=user_id,
+        location_id=location['id'],
+        location_zipcode=91111,
+        location_radius=0
     )
 
 
@@ -140,19 +142,19 @@ def save(name=None, address=None):
 
     check = db(db.location.location_address == address).select().first()
 
-    if (check is not None): 
+    if (check is not None):
         saveToUser(address, user_id)
     else:
         # Inserting into location table
         db.location.insert(
-            location_name = name,
-            location_address = address
+            location_name=name,
+            location_address=address
         )
 
         saveToUser(address, user_id)
-        
+
     redirect(URL('main'))
-    
+
     return dict()
 
 
@@ -175,9 +177,23 @@ def unsave(address=None):
         db.saved_location.location_id == location.id,
         db.saved_location.user_id == user_id
     ).select()
-    
+
     db(db.saved_location.id == unsave_location[0]['id']).delete()
-            
+
     redirect(URL('main'))
-    
+
+    return dict()
+
+
+# profile page
+@action('location')
+@action.uses(db, auth, 'location.html')
+def location():
+    # Making sure the user is logged in.
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    # Get user information
+    # user_info = get_user_info(db)
+
     return dict()
