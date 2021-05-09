@@ -17,6 +17,10 @@ session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
 
+from __future__ import annotations
+import requests, pprint
+from typing import List, Dict
+
 from py4web import action, request, abort, redirect, URL
 from yatl.helpers import *
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
@@ -24,9 +28,7 @@ from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 from .settings import APP_FOLDER
 import os, json, pprint
-import apps.project.vaccines.locations as loc # NOTE: might need to change this absolute path for the program to work
 
-JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 url_signer = URLSigner(session)
 
 # gets the users first name, last name, email, and saved locations
@@ -81,6 +83,7 @@ def saveToUser(address, user_id):
 def index():
     return dict()
 
+
 def get_saved_work():
      # Getting the id of the user
     user = db(db.auth_user.email == get_user_email()).select().first()
@@ -112,9 +115,11 @@ def main():
         save_url=URL('save'),
     )
 
+
 @action('load_home')
 def load_home():
     pass
+
 
 @action('add_locations', method="POST")
 @action.uses(auth)
@@ -122,7 +127,7 @@ def add_locations():
     if get_user_email() == None:
         redirect(URL('index'))
         
-    l = loc.Location(request.json.get('zipCode'), request.json.get('radius'))
+    l = Location(request.json.get('zipCode'), request.json.get('radius'))
     all_locations = l.get_locations()
     saved_address = get_saved_work()
 
@@ -130,6 +135,7 @@ def add_locations():
         content=all_locations,
         saved=saved_address,
         )
+
 
 # profile page
 @action('profile')
@@ -145,6 +151,7 @@ def profile():
     return dict(
         user_info=user_info,
     )
+
 
 # save a location -> currently doesn't work
 @action('save', method=['GET', 'POST'])
@@ -177,6 +184,7 @@ def save():
     redirect(URL('main'))
     
     return dict()
+
 
 # OLD SAVE in case you need it Wayland.
 
@@ -211,6 +219,7 @@ def save():
     
 #     return dict()
 
+
 # unsave a location
 @action('unsave/<address>', method=["GET", "POST"])
 @action.uses(db, auth)
@@ -236,3 +245,23 @@ def unsave(address=None):
     redirect(URL('main'))
     
     return dict()
+
+
+# for the web scraper
+class Location():
+    def __init__(self : Location, zipcode : str, radius: str) -> None:
+        self.zipcode = zipcode
+        self.radius = radius
+
+    def get_locations(self: Location) -> List[Dict[str, str]]:
+        geocode = f"https://api.mapbox.com/geocoding/v5/mapbox.places/{self.zipcode}.json?country=us&types=postcode&autocomplete=false&access_token=pk.eyJ1IjoiaGVhbHRobWFwIiwiYSI6ImNrNnYzOXA3ajAxZDkzZHBqbW1tanNuc2EifQ.HR9Av0vkGQI7FyaTtlpmdw"
+        coordinates_json = requests.get(geocode).json()
+
+        # header suggestion from: https://stackoverflow.com/questions/51154114/python-request-get-fails-to-get-an-answer-for-a-url-i-can-open-on-my-browser 
+        header = {'User-Agent':"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Mobile Safari/537.36", "Upgrade-Insecure-Requests": "1","DNT": "1","Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language": "en-US,en;q=0.5","Accept-Encoding": "gzip, deflate"}
+
+        long, lat = coordinates_json['features'][0]['geometry']['coordinates']
+        health_url = f"https://api.us.castlighthealth.com/vaccine-finder/v1/provider-locations/search?medicationGuids=779bfe52-0dd8-4023-a183-457eb100fccc,a84fb9ed-deb4-461c-b785-e17c782ef88b,784db609-dc1f-45a5-bad6-8db02e79d44f&lat={lat}&long={long}&radius={self.radius}"        
+
+        health_json = requests.get(health_url, headers=header).json()
+        return health_json['providers']
