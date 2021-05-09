@@ -23,8 +23,8 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 from .settings import APP_FOLDER
-import os
-import json
+import os, json, pprint
+import apps.project.vaccines.locations as loc # NOTE: might need to change this absolute path for the program to work
 
 JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 url_signer = URLSigner(session)
@@ -81,19 +81,8 @@ def saveToUser(address, user_id):
 def index():
     return dict()
 
-
-# home page
-@action('main')
-@action.uses(db, auth, 'content.html')
-def main():
-    if get_user_email() == None:
-        redirect(URL('index'))
-
-    # Sample data of locations
-    results = {}
-    results = json.load(open(JSON_FILE))
-
-    # Getting the id of the user
+def get_saved_work():
+     # Getting the id of the user
     user = db(db.auth_user.email == get_user_email()).select().first()
     user_id = user['id']
 
@@ -107,8 +96,40 @@ def main():
     for save in saved:
         saved_address.append(save.location.location_address)
 
-    return dict(rows=results, saved=saved_address)
+    return saved_address
 
+
+# home page
+@action('main')
+@action.uses(db, auth, 'content.html')
+def main():
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    return dict(
+        add_locations_url=URL('add_locations'),
+        load_home_url=URL('load_home'),
+        save_url=URL('save'),
+    )
+
+@action('load_home')
+def load_home():
+    pass
+
+@action('add_locations', method="POST")
+@action.uses(auth)
+def add_locations():
+    if get_user_email() == None:
+        redirect(URL('index'))
+        
+    l = loc.Location(request.json.get('zipCode'), request.json.get('radius'))
+    all_locations = l.get_locations()
+    saved_address = get_saved_work()
+
+    return dict(
+        content=all_locations,
+        saved=saved_address,
+        )
 
 # profile page
 @action('profile')
@@ -121,15 +142,17 @@ def profile():
     # Get user information
     user_info = get_user_info(db)
 
-    return dict(user_info=user_info)
+    return dict(
+        user_info=user_info,
+    )
 
-
-# save a location
-@action('save/<name>/<address>', method=["GET", "POST"])
+# save a location -> currently doesn't work
+@action('save', method=['GET', 'POST'])
 @action.uses(db, auth)
-def save(name=None, address=None):
-    assert name is not None
-    assert address is not None
+def save():
+    saved_locations = request.json.get('savedLocations')
+    address = saved_locations.address1
+    name = saved_locations.name
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -155,6 +178,38 @@ def save(name=None, address=None):
     
     return dict()
 
+# OLD SAVE in case you need it Wayland.
+
+# save a location
+# @action('save/<name>/<address>', method=["GET", "POST"])
+# @action.uses(db, auth)
+# def save(name=None, address=None):
+#     assert name is not None
+#     assert address is not None
+
+#     if get_user_email() == None:
+#         redirect(URL('index'))
+
+#     # Get the current user id
+#     user = db(db.auth_user.email == get_user_email()).select().first()
+#     user_id = user['id']
+
+#     check = db(db.location.location_address == address).select().first()
+
+#     if (check is not None): 
+#         saveToUser(address, user_id)
+#     else:
+#         # Inserting into location table
+#         db.location.insert(
+#             location_name = name,
+#             location_address = address
+#         )
+
+#         saveToUser(address, user_id)
+        
+#     redirect(URL('main'))
+    
+#     return dict()
 
 # unsave a location
 @action('unsave/<address>', method=["GET", "POST"])
