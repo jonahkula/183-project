@@ -165,9 +165,6 @@ def save():
     address = location_data['address1']
     name = location_data['name']
 
-    print("This is the location")
-    print(address)
-
     if get_user_email() == None:
         redirect(URL('index'))
 
@@ -179,19 +176,19 @@ def save():
     check = db(db.location.location_address == address).select().first()
 
     if (check is not None): 
-        saveToUser(address, user_id)
+        saveToUser(address, zipCode, radius, user_id)
     else:
         # Inserting into location table
         db.location.insert(
             location_name = name,
             location_address = address
         )
-
         saveToUser(address, zipCode, radius, user_id)
-        
+
+    saved_address = get_saved_work()
     redirect(URL('main'))
     
-    return dict()
+    return dict(saved=saved_address)
 
 # unsave a location
 @action('unsave', method=["GET", "POST"])
@@ -199,8 +196,6 @@ def save():
 def unsave():
     location_data = request.json.get('address')
     address = location_data['address1']
-
-    print("We are unsaving " + address)
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -218,9 +213,10 @@ def unsave():
     
     db(db.saved_location.id == unsave_location[0]['id']).delete()
             
+    saved_address = get_saved_work()
     redirect(URL('main'))
     
-    return dict()
+    return dict(saved=saved_address)
 
 
 # for the web scraper

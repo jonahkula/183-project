@@ -45,7 +45,8 @@ let init = (app) => {
       radius: app.vue.radius
     })
     .then(function(response) {
-      console.log("Received POST response after saving:", response);
+      app.vue.savedLocations = response.data.saved
+      console.log("Received POST response after saving:", app.vue.savedLocations);
     })
     .catch(function(error) {
       console.log("There was an error sending the POST request:", error);
@@ -57,7 +58,8 @@ let init = (app) => {
       address: app.vue.locations[index]
     })
     .then(function(response) {
-      console.log("Received POST response after saving:", response);
+      app.vue.savedLocations = response.data.saved
+      console.log("Received POST response after saving:", app.vue.savedLocations);
     })
     .catch(function(error) {
       console.log("There was an error sending the POST request:", error);
