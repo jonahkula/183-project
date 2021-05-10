@@ -39,7 +39,6 @@ let init = (app) => {
   };
 
   app.save_option = function(index) {
-
     axios.post(save_url, {
       address: app.vue.locations[index],
       zipCode: app.vue.zipCode,
@@ -54,7 +53,6 @@ let init = (app) => {
   };
 
   app.unsave_option = function(index) {
-
     axios.post(unsave_url, {
       address: app.vue.locations[index]
     })
