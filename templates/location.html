@@ -1,6 +1,5 @@
 [[extend 'layout.html']]
 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,75 +7,117 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="scss/location.css?id=1234" />
-
+    <!-- I added the ?id=1234 because the .css file was being cached-->
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
     <title>Suppress19</title>
     [[block page_head]]
-    <!-- <link rel="stylesheet" href="scss/location.css" /> -->
-
-    <!-- <link rel="stylesheet" href="scss/location.css" /> -->
-    <!-- individual pages can customize header here -->
+    <!--  -->
     [[end]]
   </head>
 
   <body>
-    <section class="section" id="vue-target" v-cloak>
-      <section class="full-width-container">
-        <div
-          class="full-width-container box is-flex is-fullhd has-background-light is-justify-content-space-between is-flex-wrap-wrap"
-        >
-          <div class="flex-left white-text">
-            <div class="location-name is-size-1">Costco</div>
-            <div class="location-name is-size-2">
-              220 Sylvania Ave, Santa Cruz, CA 95060
-            </div>
-            <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
-            <!-- Do a loop here to see the number of stars the location is given -->
-            <div class="ratings is-flex is-align-items-center">
-              <i
-                class="box fa fa-star is-size-4 has-background-info-dark mt-3 mr-4"
-              ></i>
-              <i
-                class="box fa fa-star is-size-4 has-background-info-dark mt-3 mr-4"
-              ></i>
-              <i
-                class="box fa fa-star is-size-4 has-background-info-dark mt-3 mr-4"
-              ></i>
-              <i
-                class="box fa fa-star is-size-4 has-background-info-dark mt-3 mr-4"
-              ></i>
-              <i class="is-size-2 has-text-weight-bold">14 Reviews</i>
-            </div>
+    <!-- This section contains the whole location page excluding the layout.html -->
+    <section
+      id="location-page full-width-container"
+      class="section no-margin"
+      id="vue-target"
+      v-cloak
+    >
+      <!-- This section contains the all the location information such as location name, website, etc -->
+      <div
+        class="
+          full-width-container
+          box
+          is-flex is-justify-content-space-between is-flex-wrap-wrap
+        "
+      >
+        <!-- This section contains the information on the left side of this container -->
+        <div class="flex-left white-text">
+          <div class="location-name is-size-1">Costco</div>
+          <div class="location-name is-size-2">
+            220 Sylvania Ave, Santa Cruz, CA 95060
+          </div>
+          <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
 
-            <div>
-              <button
-                class="button mr-4 has-text-white has-background-info-dark"
-              >
-                Check eligibility
-              </button>
-              <button class="button has-text-white has-background-info-dark">
-                Write a Review
-              </button>
-            </div>
+          <!-- Do a loop here to see the number of stars the location is given -->
+          <div class="ratings is-flex is-align-items-center">
+            <i
+              class="
+                box
+                fa fa-star
+                is-size-4
+                has-background-info-dark
+                mt-3
+                mr-4
+              "
+            ></i>
+            <i
+              class="
+                box
+                fa fa-star
+                is-size-4
+                has-background-info-dark
+                mt-3
+                mr-4
+              "
+            ></i>
+            <i
+              class="
+                box
+                fa fa-star
+                is-size-4
+                has-background-info-dark
+                mt-3
+                mr-4
+              "
+            ></i>
+            <i
+              class="
+                box
+                fa fa-star
+                is-size-4
+                has-background-info-dark
+                mt-3
+                mr-4
+              "
+            ></i>
+            <i class="is-size-2 has-text-weight-bold">14 Reviews</i>
           </div>
 
-          <div
-            class="is-flex is-flex-direction-column is-justify-content-flex-start mr-6 mt-6 white-text"
-          >
-            <div class="location-info is-size-4">
-              Website: https://costo.com
-            </div>
-            <div class="location-info is-size-4">Phone: 831-123-4567</div>
-            <div class="location-info is-size-4">Vaccine in stock: Yes</div>
+          <div>
+            <button class="button mr-4 has-text-white has-background-info-dark">
+              Check eligibility
+            </button>
+            <button class="button has-text-white has-background-info-dark">
+              Write a Review
+            </button>
           </div>
         </div>
-      </section>
+
+        <!-- This section contains the information on the right side of this container -->
+        <div
+          class="
+            is-flex is-flex-direction-column is-justify-content-flex-start
+            mr-6
+            mt-6
+            white-text
+          "
+        >
+          <div class="location-info is-size-4">Website: https://costo.com</div>
+          <div class="location-info is-size-4">Phone: 831-123-4567</div>
+          <div class="location-info is-size-4">Vaccine in stock: Yes</div>
+        </div>
+      </div>
 
       <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
 
       <div
-        class="ratings-section container is-flex is-justify-content-space-between is-flex-wrap-wrap"
+        class="
+          ratings-section
+          container
+          is-flex is-justify-content-space-between is-flex-wrap-wrap
+        "
       >
         <div class="store-rating is-flex is-flex-direction-column">
           <div class="sr-item is-size-3">Average Store Rating</div>
@@ -96,7 +137,11 @@
           <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
             <div class="icon-text">
               <span
-                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+                class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                "
               >
                 55
               </span>
@@ -106,7 +151,11 @@
           <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
             <div class="icon-text">
               <span
-                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+                class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                "
               >
                 55
               </span>
@@ -116,7 +165,11 @@
           <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
             <div class="icon-text">
               <span
-                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+                class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                "
               >
                 55
               </span>
@@ -134,7 +187,11 @@
           <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
             <div class="icon-text">
               <span
-                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+                class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                "
               >
                 55
               </span>
@@ -144,7 +201,11 @@
           <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
             <div class="icon-text">
               <span
-                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+                class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                "
               >
                 55
               </span>
@@ -154,7 +215,11 @@
           <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
             <div class="icon-text">
               <span
-                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+                class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                "
               >
                 55
               </span>
