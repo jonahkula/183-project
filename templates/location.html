@@ -1,105 +1,184 @@
-[[extend './layout.html']]
+[[extend 'layout.html']]
 
-<!-- looking at layout.html this page is connected to content.css
-when it should be connected to profile.css
-still trying to figure out how to add custom header here for its style sheet -->
 
-<style>
-  [v-cloak] {
-    display: none;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base href="[[=URL('static')]]/" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="scss/location.css?id=1234" />
 
-<section class="section" id="vue-target" v-cloak>
-  <!-- <figure class="image is-3by2"> -->
-  <!-- <img
-    src="https://s.abcnews.com/images/US/costco-file-gty-ml-191113_hpMain_16x9_992.jpg?w=1600"
-    width="1660"
-    height="300"
-  /> -->
-  <!-- </figure> -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
+    <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
+    <title>Suppress19</title>
+    [[block page_head]]
+    <!-- <link rel="stylesheet" href="scss/location.css" /> -->
 
-  <!-- <div class="columns">
-    <div class="columns">
-      <div class="title column has-background-black">Costco</div>
-      <div class="title column has-background-black">
-        220 Sylvania Ave, Santa Cruz, CA 95060
-      </div>
-    </div>
-    <div class="column has-background-link">asdasd</div>
-  </div> -->
-  <!-- 
-  <div class="columns">
-    <div class="column">
-      <p class="bd-notification is-info is-size-1">First column</p>
-      <div class="columns is-mobile">
-        <div class="column">
-          <p class="bd-notification is-info title">
-            220 Sylvania Ave, Santa Cruz, CA 95060
-          </p>
+    <!-- <link rel="stylesheet" href="scss/location.css" /> -->
+    <!-- individual pages can customize header here -->
+    [[end]]
+  </head>
+
+  <body>
+    <section class="section" id="vue-target" v-cloak>
+      <section class="full-width-container">
+        <div
+          class="full-width-container box is-flex is-fullhd has-background-light is-justify-content-space-between is-flex-wrap-wrap"
+        >
+          <div class="flex-left white-text">
+            <div class="location-name is-size-1">Costco</div>
+            <div class="location-name is-size-2">
+              220 Sylvania Ave, Santa Cruz, CA 95060
+            </div>
+            <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
+            <!-- Do a loop here to see the number of stars the location is given -->
+            <div class="ratings is-flex is-align-items-center">
+              <i
+                class="box fa fa-star is-size-4 has-background-info-dark mt-3 mr-4"
+              ></i>
+              <i
+                class="box fa fa-star is-size-4 has-background-info-dark mt-3 mr-4"
+              ></i>
+              <i
+                class="box fa fa-star is-size-4 has-background-info-dark mt-3 mr-4"
+              ></i>
+              <i
+                class="box fa fa-star is-size-4 has-background-info-dark mt-3 mr-4"
+              ></i>
+              <i class="is-size-2 has-text-weight-bold">14 Reviews</i>
+            </div>
+
+            <div>
+              <button
+                class="button mr-4 has-text-white has-background-info-dark"
+              >
+                Check eligibility
+              </button>
+              <button class="button has-text-white has-background-info-dark">
+                Write a Review
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="is-flex is-flex-direction-column is-justify-content-flex-start mr-6 mt-6 white-text"
+          >
+            <div class="location-info is-size-4">
+              Website: https://costo.com
+            </div>
+            <div class="location-info is-size-4">Phone: 831-123-4567</div>
+            <div class="location-info is-size-4">Vaccine in stock: Yes</div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="column">
-      <p class="bd-notification is-danger">Second column</p>
-      <div class="columns is-mobile">
-        <div class="column is-half">
-          <p class="bd-notification is-danger">50%</p>
-        </div>
-        <div class="column">
-          <p class="bd-notification is-danger">Auto</p>
-        </div>
-        <div class="column">
-          <p class="bd-notification is-danger">Auto</p>
-        </div>
-      </div>
-    </div>
-  </div> -->
+      </section>
 
-  <div
-    class="box is-flex is-fullhd has-background-light is-justify-content-space-between is-flex-wrap-wrap"
-  >
-    <div class="flex-left">
-      <div class="location-name is-size-1">Costco</div>
-      <div class="location-name is-size-2">
-        220 Sylvania Ave, Santa Cruz, CA 95060
-      </div>
-      <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
-      <!-- Do a loop here to see the number of stars the location is given -->
-      <i
-        class="box fa fa-star is-size-1 has-background-info-dark mt-3 mr-4"
-      ></i>
-      <i
-        class="box fa fa-star is-size-1 has-background-info-dark mt-3 mr-4"
-      ></i>
-      <i
-        class="box fa fa-star is-size-1 has-background-info-dark mt-3 mr-4"
-      ></i>
-      <i
-        class="box fa fa-star is-size-1 has-background-info-dark mt-3 mr-4"
-      ></i>
-      <i class="is-size-2">14 Reviews</i>
-      <div>
-        <button class="button mr-4 has-text-weight-bold">
-          Check eligibility
-        </button>
-        <button class="button has-text-weight-bold">Write a Review</button>
-      </div>
-    </div>
+      <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
 
-    <div
-      class="is-flex is-flex-direction-column is-justify-content-flex-start mr-6 mt-6"
-    >
-      <div class="location-info is-size-4">Website: https://costo.com</div>
-      <div class="location-info is-size-4">Phone: 831-123-4567</div>
-      <div class="location-info is-size-4">Vaccine in stock: Yes</div>
-    </div>
-  </div>
-</section>
+      <div
+        class="ratings-section container is-flex is-justify-content-space-between is-flex-wrap-wrap"
+      >
+        <div class="store-rating is-flex is-flex-direction-column">
+          <div class="sr-item is-size-3">Average Store Rating</div>
+          <div class="sr-item is-size-3 has-text-weight-bold mb-3">4.7</div>
+          <div class="sr-item is-size-6">Waiting Time: 10 minutes</div>
+          <div class="sr-item is-size-6">Customer Service: Good</div>
+          <div class="sr-item is-size-6">
+            Vaccine Types: Phizer, J&J, Moderna
+          </div>
+        </div>
 
-[[block page_scripts]]
-<script>
-  // load url's here
-</script>
-<script src="js/location.js"></script>
-[[end]]
+        <!-- Pro Card Section-->
+        <div class="pros box is-size-1 has-background-info-dark">
+          <div class="pro-title">Pros</div>
+
+          <!-- Loop through the best ratings -->
+          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+            <div class="icon-text">
+              <span
+                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+              >
+                55
+              </span>
+            </div>
+            <div class="rating-info ml-6 has-text-white">Waiting Time</div>
+          </div>
+          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+            <div class="icon-text">
+              <span
+                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+              >
+                55
+              </span>
+            </div>
+            <div class="rating-info ml-6 has-text-white">Variety</div>
+          </div>
+          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+            <div class="icon-text">
+              <span
+                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+              >
+                55
+              </span>
+            </div>
+            <div class="rating-info ml-6 has-text-white">Easy To Find</div>
+          </div>
+          <!-- Loop through the best ratings -->
+        </div>
+
+        <!-- Con card Section-->
+        <div class="cons box is-size-1 has-background-info-dark">
+          <div class="con-title">Cons</div>
+
+          <!-- Loop through the best ratings -->
+          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+            <div class="icon-text">
+              <span
+                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+              >
+                55
+              </span>
+            </div>
+            <div class="rating-info ml-6 has-text-white">Waiting Time</div>
+          </div>
+          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+            <div class="icon-text">
+              <span
+                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+              >
+                55
+              </span>
+            </div>
+            <div class="rating-info ml-6 has-text-white">Variety</div>
+          </div>
+          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+            <div class="icon-text">
+              <span
+                class="icon has-text-info has-background-info-dark has-text-white mr-6"
+              >
+                55
+              </span>
+            </div>
+            <div class="rating-info ml-6 has-text-white">Easy To Find</div>
+          </div>
+          <!-- Loop through the best ratings -->
+        </div>
+        <!-- Loop through the worst ratings -->
+      </div>
+
+      <!-- Reviews Section -->
+      <section class="section reviews-title title">Reviews (14)</section>
+      <section class="reviews-container">
+        <!-- Display a list of posts that a user has made -->
+      </section>
+    </section>
+    [[include]]
+  </body>
+
+  <script src="js/sugar.min.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="js/utils.js"></script>
+  [[block page_scripts]]
+  <!-- individual pages can add scripts here -->[[end]]
+</html>
