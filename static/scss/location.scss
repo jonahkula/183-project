@@ -49,11 +49,15 @@ hr {
 
 .right {
   // background-color: black;
-  width: 50%;
+  width: 50%; //Maybe remove if it messes up mobile
   height: 300px;
 }
 
 .circle {
   border-radius: 50px;
   padding: 10px;
+}
+
+.main-color {
+  color: $main_display_color;
 }

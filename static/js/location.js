@@ -1,7 +1,5 @@
 // This will be the object that will contain the Vue attributes
 // and be used to initialize it.
-console.log("hi");
-console.log("hi");
 
 let app = {};
 
@@ -51,27 +49,21 @@ let init = (app) => {
       // Destructing the object to make it look neater.
       const { location_name, location_address } = location_response.data;
 
-      // Storing the recevied information from the GET in Vue
+      // Storing the location information from the GET in Vue
       app.vue.location_name = location_name;
       app.vue.location_address = location_address;
 
-      // GET Request to get the information of the location
+      // GET Request to get the information of the location reviews
       const review_response = await axios.get(load_review_info_url);
 
       // Destructing the object to make it look neater.
       const { review_num, review_avg_num, review_message } =
         review_response.data;
 
-      // Storing the recevied information from the GET in Vue
+      // Storing the location review information from the GET in Vue
       app.vue.review_num = review_num;
       app.vue.review_message = review_message;
       app.vue.review_avg_num = review_avg_num;
-
-      console.log(app.vue.review_avg_num);
-
-      console.log("We have returned", app.vue.location_name);
-      console.log("DONE LETS GO");
-      console.log(app.vue.review_avg_num);
     } catch (error) {
       console.log(error);
     }
@@ -82,6 +74,4 @@ let init = (app) => {
 };
 
 // This takes the (empty) app object, and initializes it,
-// putting all the code i
-console.log("hi");
 init(app);
