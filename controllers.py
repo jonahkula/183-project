@@ -101,6 +101,11 @@ def get_saved_work():
 
     return saved_address
 
+@action('load_saved', method='GET')
+@action.uses(auth)
+def load_saved():
+    saved_address = get_saved_work()
+    return dict(saved = saved_address)
 
 # home page
 @action('main')
@@ -114,6 +119,7 @@ def main():
         load_home_url=URL('load_home'),
         save_url=URL('save'),
         unsave_url=URL('unsave'),
+        load_saved_url=URL('load_saved'),
     )
 
 
@@ -155,7 +161,7 @@ def profile():
 
 
 # save a location
-@action('save', method=['GET', 'POST'])
+@action('save', method=['POST'])
 @action.uses(db, auth)
 def save():
     location_data = request.json.get('address')
@@ -186,9 +192,10 @@ def save():
         saveToUser(address, zipCode, radius, user_id)
 
     saved_address = get_saved_work()
+    print(saved_address)
     redirect(URL('main'))
     
-    return dict(saved=saved_address)
+    return dict()
 
 # unsave a location
 @action('unsave', method=["GET", "POST"])
@@ -214,9 +221,10 @@ def unsave():
     db(db.saved_location.id == unsave_location[0]['id']).delete()
             
     saved_address = get_saved_work()
+    print(saved_address)
     redirect(URL('main'))
     
-    return dict(saved=saved_address)
+    return dict()
 
 
 # for the web scraper

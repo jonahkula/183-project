@@ -45,8 +45,15 @@ let init = (app) => {
       radius: app.vue.radius
     })
     .then(function(response) {
-      app.vue.savedLocations = response.data.saved
-      console.log("Received POST response after saving:", app.vue.savedLocations);
+      // app.vue.savedLocations = response.data.saved
+      console.log("Received POST response after saving:", response.data.saved);
+
+      // Doing this because the save/unsave response is not giving back saved data???
+      axios.get(load_saved_url).then(function(response) {
+        app.vue.savedLocations = response.data.saved
+        console.log("Saved stuff in here", app.vue.savedLocations)
+      })
+
     })
     .catch(function(error) {
       console.log("There was an error sending the POST request:", error);
@@ -58,8 +65,15 @@ let init = (app) => {
       address: app.vue.locations[index]
     })
     .then(function(response) {
-      app.vue.savedLocations = response.data.saved
-      console.log("Received POST response after saving:", app.vue.savedLocations);
+      // app.vue.savedLocations = response.data.saved
+      console.log("Received POST response after saving:", response.data.saved);
+
+      // Doing this because the save/unsave response is not giving back saved data???
+      axios.get(load_saved_url).then(function(response) {
+        app.vue.savedLocations = response.data.saved
+        console.log("Saved stuff in here", app.vue.savedLocations)
+      })
+
     })
     .catch(function(error) {
       console.log("There was an error sending the POST request:", error);
