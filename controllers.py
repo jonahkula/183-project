@@ -267,7 +267,7 @@ def location():
                 rating_num=rating_num,
                 reviews_len=reviews_len,
                 load_location_info_url = URL('location_info', signer=url_signer),
-    
+                load_review_info_url =  URL('review_info', signer=url_signer),
     )
 
 
@@ -281,6 +281,16 @@ def load_location_info():
                 location_address="600 Front St",
                 website="https://cvs.com",
                 phone="123-456-7890",
+            )
+
+# API for review information
+# Will be hardcoded for now
+@action('review_info')
+@action.uses(url_signer.verify(), db)
+def load_location_info():
+    return dict(review_num=54,
+                review_message="I went to cvs and it was decent.",
+                review_avg_num=5,
             )
 
 # for the web scraper

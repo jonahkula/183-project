@@ -14,6 +14,9 @@ let init = (app) => {
     rating_cards: rating_cards,
     location_name: "",
     location_address: "",
+    review_num: 0,
+    review_message: "",
+    review_avg_num: 0,
   };
 
   app.enumerate = (a) => {
@@ -38,21 +41,38 @@ let init = (app) => {
   });
 
   // And this initializes it.
-  app.init = () => {
-    console.log("We are initializing the location page");
+  app.init = async () => {
+    try {
+      console.log("We are initializing the location page");
 
-    // GET Request to get the information of the location
-    axios.get(load_location_info_url).then((response) => {
+      // GET Request to get the information of the location
+      const location_response = await axios.get(load_location_info_url);
+
       // Destructing the object to make it look neater.
-      const { location_name, location_address } = response.data;
+      const { location_name, location_address } = location_response.data;
 
       // Storing the recevied information from the GET in Vue
       app.vue.location_name = location_name;
       app.vue.location_address = location_address;
 
+      // GET Request to get the information of the location
+      const review_response = await axios.get(load_review_info_url);
+
+      // Destructing the object to make it look neater.
+      const { review_num, review_avg_num, review_message } =
+        review_response.data;
+
+      // Storing the recevied information from the GET in Vue
+      app.vue.review_num = review_num;
+      app.vue.review_message = review_message;
+      app.vue.review_avg_num = review_avg_num;
+
       console.log("We have returned", app.vue.location_name);
       console.log("DONE LETS GO");
-    });
+      console.log(app.vue.review_num);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Call to the initializer.

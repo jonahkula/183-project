@@ -35,11 +35,14 @@
 
           <!-- We will get the location address from Vue -->
           <div class="location-name is-size-2">{{location_address}}</div>
+
+          <!-- Not sure about time -->
           <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
 
-          <!-- Do a loop here to see the number of stars the location is given -->
-          <div class="ratings is-flex is-align-items-center">
-          [[for i in range(rating_num): ]]
+          
+          <div class="ratings is-flex is-align-items-center" >
+
+            <!-- Loop to check average rating for the location-->
             <i
               class="
                 box
@@ -49,18 +52,25 @@
                 mt-3
                 mr-4
               "
+              v-for="n in parseInt(review_avg_num)" :key="n"
             ></i>
-            [[pass]]
-            <i class="is-size-2 has-text-weight-bold">14 Reviews</i>
+
+            <!-- Number of reviews based on the location -->
+            <i class="is-size-2 has-text-weight-bold">{{review_num}} Reviews</i>
           </div>
 
 
             <div>
+
+              <!-- Button doesn't work. -->
               <button
                 class="button mr-4 has-text-white has-background-info-dark"
               >
                 Check eligibility
               </button>
+
+              <!-- Button doesn't work. -->
+
               <button class="button has-text-white has-background-info-dark">
                 Write a Review
               </button>
@@ -244,6 +254,9 @@
 
   <script>
     let load_location_info_url = "[[=XML(load_location_info_url) ]]";
+    let load_review_info_url = "[[=XML(load_review_info_url) ]]";
+    
+    
     let rating_cards = "[[=rating_cards1]]";
     console.log(rating_cards);
     console.log(typeof rating_cards);
