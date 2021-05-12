@@ -8,6 +8,10 @@ let init = (app) => {
   // This is the Vue data.
   app.data = {
     // Complete as you see fit.
+    zipCode: "",
+    radius: "",
+    locations: [],
+    savedLocations: []
   };
 
   app.enumerate = (a) => {
@@ -19,9 +23,45 @@ let init = (app) => {
     return a;
   };
 
+  app.add_locations = function() {
+    axios.post(add_locations_url, {
+      zipCode: app.vue.zipCode,
+      radius: app.vue.radius
+    })
+    .then(function(response) {
+      app.vue.locations = response.data.content
+      app.vue.savedLocations = response.data.saved
+      console.log("Received response from POST request:", app.vue.locations)
+    })
+    .catch(function(error) {
+      console.log("The error attempting to send a POST request:", error)
+    })
+  };
+
+  app.save_option = function(index) {
+    let current_index = this.$refs.saved[index];
+    console.log("check current_index:", current_index);
+    axios.post(save_url, {
+      savedLocations: current_index
+    })
+    .then(function(response) {
+      console.log("Received POST response after saving:", response);
+    })
+    .catch(function(error) {
+      console.log("There was an error sending the POST request:", error);
+    })
+  };
+
+  // app.unsave_option = function(index) {
+  //   let current_index = this.$refs.unsave[index];
+
+  // };
+
   // This contains all the methods.
   app.methods = {
-    // Complete as you see fit.
+    add_locations: app.add_locations,
+    save_option: app.save_option,
+    // unsave_option: app.unsave_option
   };
 
   // This creates the Vue instance.
@@ -33,8 +73,13 @@ let init = (app) => {
 
   // And this initializes it.
   app.init = () => {
-    // Put here any initialization code.
-    // Typically this is a server GET call to load the data.
+    axios.get(load_home_url)
+    .then(function(response) {
+      console.log("response to GET request:", response);
+    })
+    .catch(function(error) {
+      console.log("The error attempting to send a GET request:", error);
+    })
   };
 
   // Call to the initializer.
@@ -42,5 +87,5 @@ let init = (app) => {
 };
 
 // This takes the (empty) app object, and initializes it,
-// putting all the code i
+// putting all the code in it
 init(app);

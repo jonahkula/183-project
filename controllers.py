@@ -17,16 +17,18 @@ session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
 
+from __future__ import annotations
+import requests, pprint
+from typing import List, Dict
+
 from py4web import action, request, abort, redirect, URL
 from yatl.helpers import *
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 from .settings import APP_FOLDER
-import os
-import json
+import os, json, pprint
 
-JSON_FILE = os.path.join(APP_FOLDER, "static", "assets", "sample.json")
 url_signer = URLSigner(session)
 
 # gets the users first name, last name, email, and saved locations
@@ -84,18 +86,8 @@ def index():
     return dict()
 
 
-# home page
-@action('main')
-@action.uses(db, auth, 'content.html')
-def main():
-    if get_user_email() == None:
-        redirect(URL('index'))
-
-    # Sample data of locations
-    results = {}
-    results = json.load(open(JSON_FILE))
-
-    # Getting the id of the user
+def get_saved_work():
+     # Getting the id of the user
     user = db(db.auth_user.email == get_user_email()).select().first()
     user_id = user['id']
 
@@ -109,7 +101,42 @@ def main():
     for save in saved:
         saved_address.append(save.location.location_address)
 
-    return dict(rows=results, saved=saved_address)
+    return saved_address
+
+
+# home page
+@action('main')
+@action.uses(db, auth, 'content.html')
+def main():
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    return dict(
+        add_locations_url=URL('add_locations'),
+        load_home_url=URL('load_home'),
+        save_url=URL('save'),
+    )
+
+
+@action('load_home')
+def load_home():
+    pass
+
+
+@action('add_locations', method="POST")
+@action.uses(auth)
+def add_locations():
+    if get_user_email() == None:
+        redirect(URL('index'))
+        
+    l = Location(request.json.get('zipCode'), request.json.get('radius'))
+    all_locations = l.get_locations()
+    saved_address = get_saved_work()
+
+    return dict(
+        content=all_locations,
+        saved=saved_address,
+        )
 
 
 # profile page
@@ -123,15 +150,18 @@ def profile():
     # Get user information
     user_info = get_user_info(db)
 
-    return dict(user_info=user_info)
+    return dict(
+        user_info=user_info,
+    )
 
 
-# save a location
-@action('save/<name>/<address>', method=["GET", "POST"])
+# save a location -> currently doesn't work
+@action('save', method=['GET', 'POST'])
 @action.uses(db, auth)
-def save(name=None, address=None):
-    assert name is not None
-    assert address is not None
+def save():
+    saved_locations = request.json.get('savedLocations')
+    address = saved_locations.address1
+    name = saved_locations.name
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -156,6 +186,40 @@ def save(name=None, address=None):
     redirect(URL('main'))
 
     return dict()
+
+
+# OLD SAVE in case you need it Wayland.
+
+# save a location
+# @action('save/<name>/<address>', method=["GET", "POST"])
+# @action.uses(db, auth)
+# def save(name=None, address=None):
+#     assert name is not None
+#     assert address is not None
+
+#     if get_user_email() == None:
+#         redirect(URL('index'))
+
+#     # Get the current user id
+#     user = db(db.auth_user.email == get_user_email()).select().first()
+#     user_id = user['id']
+
+#     check = db(db.location.location_address == address).select().first()
+
+#     if (check is not None): 
+#         saveToUser(address, user_id)
+#     else:
+#         # Inserting into location table
+#         db.location.insert(
+#             location_name = name,
+#             location_address = address
+#         )
+
+#         saveToUser(address, user_id)
+        
+#     redirect(URL('main'))
+    
+#     return dict()
 
 
 # unsave a location
@@ -205,3 +269,38 @@ def location():
     
     
     )
+# for the web scraper
+class Location():
+    def __init__(self : Location, zipcode : str, radius: str) -> None:
+        self.zipcode = zipcode
+        self.radius = radius
+
+    def get_locations(self: Location) -> List[Dict[str, str]]:
+        geocode = f"https://api.mapbox.com/geocoding/v5/mapbox.places/{self.zipcode}.json?country=us&types=postcode&autocomplete=false&access_token=pk.eyJ1IjoiaGVhbHRobWFwIiwiYSI6ImNrNnYzOXA3ajAxZDkzZHBqbW1tanNuc2EifQ.HR9Av0vkGQI7FyaTtlpmdw"
+        coordinates_json = requests.get(geocode).json()
+
+        # header suggestion from: https://stackoverflow.com/questions/51154114/python-request-get-fails-to-get-an-answer-for-a-url-i-can-open-on-my-browser 
+        header = {'User-Agent':"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Mobile Safari/537.36", "Upgrade-Insecure-Requests": "1","DNT": "1","Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language": "en-US,en;q=0.5","Accept-Encoding": "gzip, deflate"}
+
+        long, lat = coordinates_json['features'][0]['geometry']['coordinates']
+        health_url = f"https://api.us.castlighthealth.com/vaccine-finder/v1/provider-locations/search?medicationGuids=779bfe52-0dd8-4023-a183-457eb100fccc,a84fb9ed-deb4-461c-b785-e17c782ef88b,784db609-dc1f-45a5-bad6-8db02e79d44f&lat={lat}&long={long}&radius={self.radius}"        
+
+        health_json = requests.get(health_url, headers=header).json()
+        return health_json['providers']
+
+# GEOCODE_URL = f"https://api.mapbox.com/geocoding/v5/mapbox.places/{zipcode}.json?country=us&types=postcode&autocomplete=false&access_token=pk.eyJ1IjoiaGVhbHRobWFwIiwiYSI6ImNrNnYzOXA3ajAxZDkzZHBqbW1tanNuc2EifQ.HR9Av0vkGQI7FyaTtlpmdw"
+# HEALTH_URL = "https://api.us.castlighthealth.com/vaccine-finder/v1/provider-locations/search?medicationGuids=779bfe52-0dd8-4023-a183-457eb100fccc,a84fb9ed-deb4-461c-b785-e17c782ef88b,784db609-dc1f-45a5-bad6-8db02e79d44f&lat=34.18&long=-118.45&radius=25"
+# # header suggestion from: https://stackoverflow.com/questions/51154114/python-request-get-fails-to-get-an-answer-for-a-url-i-can-open-on-my-browser 
+# header = {'User-Agent':"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Mobile Safari/537.36", "Upgrade-Insecure-Requests": "1","DNT": "1","Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language": "en-US,en;q=0.5","Accept-Encoding": "gzip, deflate"}
+# r = requests.get(GEOCODE_URL)
+# data = r.json()
+
+# long, lat = data['features'][0]['geometry']['coordinates']
+# health_url = f"https://api.us.castlighthealth.com/vaccine-finder/v1/provider-locations/search?medicationGuids=779bfe52-0dd8-4023-a183-457eb100fccc,a84fb9ed-deb4-461c-b785-e17c782ef88b,784db609-dc1f-45a5-bad6-8db02e79d44f&lat={lat}&long={long}&radius=50"
+
+# health_request = requests.get(health_url, headers=header)
+# new_data = health_request.json()
+# pprint.pprint(new_data) # this data contains information about vaccine locations
+
+# l = Location("91411", "25")
+# l.parse_locations()

@@ -16,15 +16,15 @@
           <div class="columns">
             <div class="column">
               <label class="label">Enter Zip Code</label>
-              <input class="input" placeholder="Zip Code">
+              <input class="input" placeholder="Zip Code" v-model="zipCode">
             </div>
             <div class="column">
               <label class="label">Enter Radius</label>
-              <input class="input" placeholder="Radius">
+              <input class="input" placeholder="Radius" v-model="radius">
             </div>
           </div>
           <div class="level-item">
-            <button class="button is-medium is-rounded color-example">Locate Vaccines</button>
+            <button class="button is-medium is-rounded color-example" @click="add_locations">Locate Vaccines</button>
           </div>
         </div>
       </div>
@@ -34,18 +34,19 @@
   <div class="form-container">
     <article class="media">
       <div class="media-content">
-        <div class="has-text-centered mb-4"><u>We found [[=len(rows)]] locations to get vaccinated at.</u></div>
-        <!-- CHANGE TO VUE LATER -->
+        <div class="has-text-centered mb-4"><u>We found {{locations.length}} locations to get vaccinated at.</u></div>
         <!-- main container of results -->
-        [[for row in rows:]]
-        <div class="box result">
+        <div class="box result" v-for="(l, index) in locations">
           <nav class="level">
             <!-- location name -->
             <div class="level-left">
               <div class="level-item">
                 <a href="">
-                  <p class="title color-example">
-                    <u>[[ =row['locationName'] ]]</u>
+                  <p class="title color-example" v-if="l.name.split(' ')[0] === 'CVS'">
+                    <u>{{l.name.split("#")[0].trim().replace(",", "")}}</u>
+                  </p>
+                  <p class="title color-example" v-else>
+                    <u>{{l.name.split("#")[0].trim().replace(",", "").toLowerCase().split(/\s+/).map(current_word => current_word[0].toUpperCase() + current_word.substring(1)).join(" ") }}</u>
                   </p>
                 </a>
               </div>
@@ -54,25 +55,20 @@
             <div class="level-right level-item">
               <div>
                 <p class="color-example">
-                  <!-- CHANGE TO VUE LATER -->
-                  [[ if row['locationAddress'] not in saved: ]]
-                  <a class="button is-light is-rounded"
-                    href="[[ =URL('save', row['locationName'], row['locationAddress']) ]]">
-                    <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Save</span>
+                  <!-- the ref's might need to be moved, since they don't register anything, sorry -->
+                  <a class="button is-light is-rounded" v-if="!(savedLocations.includes(l.address1))">
+                    <span class="icon" ref="saved"><i class="fa fa-fw fa-pencil"></i></span> <span>Save</span>
                   </a>
-                  [[ else: ]]
-                  <a class="button is-light is-rounded" href="[[ =URL('unsave', row['locationAddress']) ]]">
-                    <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Unsave</span>
+                  <a class="button is-light is-rounded" v-else>
+                    <span class="icon" ref="unsave"><i class="fa fa-fw fa-pencil"></i></span> <span>Unsave</span>
                   </a>
-                  [[pass]]
                 </p>
-                <p class="is-pulled-right mt-2 mr-2">2.31 miles</p>
+                <p class="is-pulled-right mt-2 mr-2">{{l.distance}} miles</p>
               </div>
             </div>
           </nav>
-          <!-- bottom address -->
           <div class="has-text-centered">
-            <p>[[ =row['locationAddress'] ]]</p>
+            <p>{{l.address1.split("#")[0].trim()}}</p>
           </div>
         </div>
         [[pass]]
@@ -84,6 +80,9 @@
 [[block page_scripts]]
 <script>
   // load url's here
+  let add_locations_url = "[[=XML(add_locations_url)]]";
+  let load_home_url = "[[=XML(load_home_url)]]";
+  let save_url = "[[=XML(save_url)]]";
 </script>
 <script src="js/content.js"></script>
 [[end]]
