@@ -6,7 +6,7 @@
     <base href="[[=URL('static')]]/" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="scss/location.css?id=1234" />
+    <link rel="stylesheet" href="scss/location.css?id=123" />
     <!-- I added the ?id=1234 because the .css file was being cached-->
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
@@ -29,10 +29,12 @@
       >
         <!-- This section contains the information on the left side of this container -->
         <div class="flex-left white-text">
-          <div class="location-name is-size-1">Costco</div>
-          <div class="location-name is-size-2">
-            220 Sylvania Ave, Santa Cruz, CA 95060
-          </div>
+
+          <!-- We will get the location name from Vue -->
+          <div class="location-name is-size-1">{{location_name}}</div>
+
+          <!-- We will get the location address from Vue -->
+          <div class="location-name is-size-2">{{location_address}}</div>
           <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
 
           <!-- Do a loop here to see the number of stars the location is given -->
@@ -241,6 +243,7 @@
   <script src="js/utils.js"></script>
 
   <script>
+    let load_location_info_url = "[[=XML(load_location_info_url) ]]";
     let rating_cards = "[[=rating_cards1]]";
     console.log(rating_cards);
     console.log(typeof rating_cards);

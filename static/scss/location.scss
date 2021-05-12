@@ -14,11 +14,11 @@ $main_display_color: hsl(204, 71%, 39%);
   // width: 100% !important;
   // box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.8);
   // border-radius: 12px;
+  object-fit: scale-down;
   background-image: 
       /* top, transparent red */ linear-gradient(
-        rgba(33, 61, 153, 0.5),
-        rgba(33, 61, 153, 0.5),
-
+      rgba(33, 61, 153, 0.5),
+      rgba(33, 61, 153, 0.5)
     ),
     /* your image */
       url("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/costco-wholesale-store-in-north-brunswick-township-new-news-photo-1580939030.jpg");

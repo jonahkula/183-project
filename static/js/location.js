@@ -12,6 +12,8 @@ let init = (app) => {
   app.data = {
     // Complete as you see fit.
     rating_cards: rating_cards,
+    location_name: "",
+    location_address: "",
   };
 
   app.enumerate = (a) => {
@@ -37,9 +39,20 @@ let init = (app) => {
 
   // And this initializes it.
   app.init = () => {
-    console.log("hello");
-    // Put here any initialization code.
-    // Typically this is a server GET call to load the data.
+    console.log("We are initializing the location page");
+
+    // GET Request to get the information of the location
+    axios.get(load_location_info_url).then((response) => {
+      // Destructing the object to make it look neater.
+      const { location_name, location_address } = response.data;
+
+      // Storing the recevied information from the GET in Vue
+      app.vue.location_name = location_name;
+      app.vue.location_address = location_address;
+
+      console.log("We have returned", app.vue.location_name);
+      console.log("DONE LETS GO");
+    });
   };
 
   // Call to the initializer.

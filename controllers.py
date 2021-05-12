@@ -265,10 +265,24 @@ def location():
     reviews_len = 14
     return dict(rating_cards1=["Pros", "Cons"],
                 rating_num=rating_num,
-                reviews_len=reviews_len
-    
+                reviews_len=reviews_len,
+                load_location_info_url = URL('location_info', signer=url_signer),
     
     )
+
+
+
+# API for location information
+# Will be hardcoded for now
+@action('location_info')
+@action.uses(url_signer.verify(), db)
+def load_location_info():
+    return dict(location_name="CVS",
+                location_address="600 Front St",
+                website="https://cvs.com",
+                phone="123-456-7890",
+            )
+
 # for the web scraper
 class Location():
     def __init__(self : Location, zipcode : str, radius: str) -> None:
