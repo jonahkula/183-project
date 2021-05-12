@@ -290,7 +290,7 @@ def load_location_info():
 def load_location_info():
     return dict(review_num=54,
                 review_message="I went to cvs and it was decent.",
-                review_avg_num=5,
+                review_avg_num=3.7,
             )
 
 # for the web scraper

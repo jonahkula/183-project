@@ -36,3 +36,24 @@ $main_display_color: hsl(204, 71%, 39%);
   margin: 0;
   padding: 0;
 }
+
+hr {
+  // height: 1px !important;
+  border: 2px solid gray !important;
+}
+
+.review-title {
+  background-color: $main_display_color !important;
+  padding: 12px;
+}
+
+.right {
+  // background-color: black;
+  width: 50%;
+  height: 300px;
+}
+
+.circle {
+  border-radius: 50px;
+  padding: 10px;
+}

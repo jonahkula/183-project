@@ -67,9 +67,11 @@ let init = (app) => {
       app.vue.review_message = review_message;
       app.vue.review_avg_num = review_avg_num;
 
+      console.log(app.vue.review_avg_num);
+
       console.log("We have returned", app.vue.location_name);
       console.log("DONE LETS GO");
-      console.log(app.vue.review_num);
+      console.log(app.vue.review_avg_num);
     } catch (error) {
       console.log(error);
     }
