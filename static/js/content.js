@@ -39,29 +39,53 @@ let init = (app) => {
   };
 
   app.save_option = function(index) {
-    let current_index = this.$refs.saved[index];
-    console.log("check current_index:", current_index);
     axios.post(save_url, {
-      savedLocations: current_index
+      address: app.vue.locations[index],
+      zipCode: app.vue.zipCode,
+      radius: app.vue.radius
     })
     .then(function(response) {
-      console.log("Received POST response after saving:", response);
+      // app.vue.savedLocations = response.data.saved
+      console.log("Received POST response after saving:", response.data.saved);
+
+      // Doing this because the save/unsave response is not giving back saved data???
+      axios.get(load_saved_url).then(function(response) {
+        app.vue.savedLocations = response.data.saved
+        console.log("Saved stuff in here", app.vue.savedLocations)
+      })
+
     })
     .catch(function(error) {
       console.log("There was an error sending the POST request:", error);
     })
   };
 
-  // app.unsave_option = function(index) {
-  //   let current_index = this.$refs.unsave[index];
+  app.unsave_option = function(index) {
+    axios.post(unsave_url, {
+      address: app.vue.locations[index]
+    })
+    .then(function(response) {
+      // app.vue.savedLocations = response.data.saved
+      console.log("Received POST response after saving:", response.data.saved);
 
-  // };
+      // Doing this because the save/unsave response is not giving back saved data???
+      axios.get(load_saved_url).then(function(response) {
+        app.vue.savedLocations = response.data.saved
+        console.log("Saved stuff in here", app.vue.savedLocations)
+      })
+
+    })
+    .catch(function(error) {
+      console.log("There was an error sending the POST request:", error);
+    })
+
+  };
 
   // This contains all the methods.
   app.methods = {
     add_locations: app.add_locations,
     save_option: app.save_option,
-    // unsave_option: app.unsave_option
+    unsave_option: app.unsave_option
   };
 
   // This creates the Vue instance.

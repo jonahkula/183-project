@@ -55,12 +55,11 @@
             <div class="level-right level-item">
               <div>
                 <p class="color-example">
-                  <!-- the ref's might need to be moved, since they don't register anything, sorry -->
-                  <a class="button is-light is-rounded" v-if="!(savedLocations.includes(l.address1))">
-                    <span class="icon" ref="saved"><i class="fa fa-fw fa-pencil"></i></span> <span>Save</span>
+                  <a class="button is-light is-rounded" @click="save_option(index)" v-if="!(savedLocations.includes(l.address1))">
+                    <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Save</span>
                   </a>
-                  <a class="button is-light is-rounded" v-else>
-                    <span class="icon" ref="unsave"><i class="fa fa-fw fa-pencil"></i></span> <span>Unsave</span>
+                  <a class="button is-light is-rounded" @click="unsave_option(index)" v-else>
+                    <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Unsave</span>
                   </a>
                 </p>
                 <p class="is-pulled-right mt-2 mr-2">{{l.distance}} miles</p>
@@ -83,6 +82,8 @@
   let add_locations_url = "[[=XML(add_locations_url)]]";
   let load_home_url = "[[=XML(load_home_url)]]";
   let save_url = "[[=XML(save_url)]]";
+  let unsave_url = "[[=XML(unsave_url)]]";
+  let load_saved_url = "[[=XML(load_saved_url)]]";
 </script>
 <script src="js/content.js"></script>
 [[end]]
