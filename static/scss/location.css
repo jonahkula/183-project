@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+.full-width-container {
+  background-image: linear-gradient(rgba(33, 61, 153, 0.5), rgba(33, 61, 153, 0.5)), url("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/costco-wholesale-store-in-north-brunswick-township-new-news-photo-1580939030.jpg");
+}
+
+.test-color {
+  background-color: #1d72aa;
+}
+
+.white-text {
+  color: rgba(255, 255, 255, 0.891);
+}
+
+.no-margin {
+  margin: 0;
+  padding: 0;
+}

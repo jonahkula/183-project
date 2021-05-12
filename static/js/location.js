@@ -1,5 +1,8 @@
 // This will be the object that will contain the Vue attributes
 // and be used to initialize it.
+console.log("hi");
+console.log("hi");
+
 let app = {};
 
 // Given an empty app object, initializes it filling its attributes,
@@ -8,6 +11,7 @@ let init = (app) => {
   // This is the Vue data.
   app.data = {
     // Complete as you see fit.
+    rating_cards: rating_cards,
   };
 
   app.enumerate = (a) => {
@@ -33,6 +37,7 @@ let init = (app) => {
 
   // And this initializes it.
   app.init = () => {
+    console.log("hello");
     // Put here any initialization code.
     // Typically this is a server GET call to load the data.
   };
@@ -43,4 +48,5 @@ let init = (app) => {
 
 // This takes the (empty) app object, and initializes it,
 // putting all the code i
+console.log("hi");
 init(app);

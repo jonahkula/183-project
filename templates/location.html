@@ -18,12 +18,7 @@
 
   <body>
     <!-- This section contains the whole location page excluding the layout.html -->
-    <section
-      id="location-page full-width-container"
-      class="section no-margin"
-      id="vue-target"
-      v-cloak
-    >
+    <section class="section no-margin" id="vue-target" v-cloak>
       <!-- This section contains the all the location information such as location name, website, etc -->
       <div
         class="
@@ -42,6 +37,7 @@
 
           <!-- Do a loop here to see the number of stars the location is given -->
           <div class="ratings is-flex is-align-items-center">
+          [[for i in range(rating_num): ]]
             <i
               class="
                 box
@@ -52,198 +48,204 @@
                 mr-4
               "
             ></i>
-            <i
-              class="
-                box
-                fa fa-star
-                is-size-4
-                has-background-info-dark
-                mt-3
-                mr-4
-              "
-            ></i>
-            <i
-              class="
-                box
-                fa fa-star
-                is-size-4
-                has-background-info-dark
-                mt-3
-                mr-4
-              "
-            ></i>
-            <i
-              class="
-                box
-                fa fa-star
-                is-size-4
-                has-background-info-dark
-                mt-3
-                mr-4
-              "
-            ></i>
+            [[pass]]
             <i class="is-size-2 has-text-weight-bold">14 Reviews</i>
           </div>
 
-          <div>
-            <button class="button mr-4 has-text-white has-background-info-dark">
-              Check eligibility
-            </button>
-            <button class="button has-text-white has-background-info-dark">
-              Write a Review
-            </button>
+
+            <div>
+              <button
+                class="button mr-4 has-text-white has-background-info-dark"
+              >
+                Check eligibility
+              </button>
+              <button class="button has-text-white has-background-info-dark">
+                Write a Review
+              </button>
+            </div>
+          </div>
+
+          <!-- This section contains the information on the right side of this container -->
+          <div
+            class="
+              is-flex is-flex-direction-column is-justify-content-flex-start
+              mr-6
+              mt-6
+              white-text
+            "
+          >
+            <div class="location-info is-size-4">
+              Website: https://costo.com
+            </div>
+            <div class="location-info is-size-4">Phone: 831-123-4567</div>
+            <div class="location-info is-size-4">Vaccine in stock: Yes</div>
           </div>
         </div>
 
-        <!-- This section contains the information on the right side of this container -->
+        <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
+
+        <!-- This sections contains the ratings of the location -->
         <div
           class="
-            is-flex is-flex-direction-column is-justify-content-flex-start
-            mr-6
-            mt-6
-            white-text
+            ratings-section
+            container
+            is-flex is-justify-content-space-between is-flex-wrap-wrap
           "
         >
-          <div class="location-info is-size-4">Website: https://costo.com</div>
-          <div class="location-info is-size-4">Phone: 831-123-4567</div>
-          <div class="location-info is-size-4">Vaccine in stock: Yes</div>
+          <div class="store-rating is-flex is-flex-direction-column">
+            <div class="sr-item is-size-3 has-text-weight-bold">
+              Average Store Rating
+            </div>
+            <div class="sr-item is-size-3 has-text-weight-bold mb-3">4.7</div>
+            <div class="sr-item is-size-6">Waiting Time: 10 minutes</div>
+            <div class="sr-item is-size-6">Customer Service: Good</div>
+            <div class="sr-item is-size-6">
+              Vaccine Types: Phizer, J&J, Moderna
+            </div>
+          </div>
+
+          <!-- Pro Card Section-->
+          <div class="pros box is-size-1 has-background-info-dark">
+            <div class="pro-title">Pros</div>
+
+            <!-- Loop through the best ratings -->
+            <div
+              class="best-rating is-flex is-size-5 is-align-items-center mb-6"
+            >
+              <div class="icon-text">
+                <span
+                  class="
+                    icon
+                    has-text-info has-background-info-dark has-text-white
+                    mr-6
+                  "
+                >
+                  55
+                </span>
+              </div>
+              <div class="rating-info ml-6 has-text-white">Waiting Time</div>
+            </div>
+            <div
+              class="best-rating is-flex is-size-5 is-align-items-center mb-6"
+            >
+              <div class="icon-text">
+                <span
+                  class="
+                    icon
+                    has-text-info has-background-info-dark has-text-white
+                    mr-6
+                  "
+                >
+                  55
+                </span>
+              </div>
+              <div class="rating-info ml-6 has-text-white">Variety</div>
+            </div>
+            <div
+              class="best-rating is-flex is-size-5 is-align-items-center mb-6"
+            >
+              <div class="icon-text">
+                <span
+                  class="
+                    icon
+                    has-text-info has-background-info-dark has-text-white
+                    mr-6
+                  "
+                >
+                  55
+                </span>
+              </div>
+              <div class="rating-info ml-6 has-text-white">Easy To Find</div>
+            </div>
+            <!-- Loop through the best ratings -->
+          </div>
+
+          <!-- Con card Section-->
+          <div class="cons box is-size-1 has-background-info-dark">
+            <div class="con-title">Cons</div>
+
+            <!-- Loop through the best ratings -->
+            <div
+              class="best-rating is-flex is-size-5 is-align-items-center mb-6"
+            >
+              <div class="icon-text">
+                <span
+                  class="
+                    icon
+                    has-text-info has-background-info-dark has-text-white
+                    mr-6
+                  "
+                >
+                  55
+                </span>
+              </div>
+              <div class="rating-info ml-6 has-text-white">Waiting Time</div>
+            </div>
+            <div
+              class="best-rating is-flex is-size-5 is-align-items-center mb-6"
+            >
+              <div class="icon-text">
+                <span
+                  class="
+                    icon
+                    has-text-info has-background-info-dark has-text-white
+                    mr-6
+                  "
+                >
+                  55
+                </span>
+              </div>
+              <div class="rating-info ml-6 has-text-white">Variety</div>
+            </div>
+            <div
+              class="best-rating is-flex is-size-5 is-align-items-center mb-6"
+            >
+              <div class="icon-text">
+                <span
+                  class="
+                    icon
+                    has-text-info has-background-info-dark has-text-white
+                    mr-6
+                  "
+                >
+                  55
+                </span>
+              </div>
+              <div class="rating-info ml-6 has-text-white">Easy To Find</div>
+            </div>
+            <!-- Loop through the best ratings -->
+          </div>
+          <!-- Loop through the worst ratings -->
         </div>
+
+        <!-- Reviews Section -->
+        <section class="section reviews-title title">Reviews (14)</section>
+        <section class="reviews-container">
+          <!-- Display a list of posts that a user has made -->
+        </section>
+        <div class="test">
+          [[for i in rating_cards1:]]
+          <div class="hi">[[=i]]</div>
+          [[pass]]
+        </div>
+        <!-- <div class="hi">{{r}}</div> -->
+        <!-- <div class="hey">{{rating_cards_better}}</div> -->
       </div>
-
-      <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
-
-      <div
-        class="
-          ratings-section
-          container
-          is-flex is-justify-content-space-between is-flex-wrap-wrap
-        "
-      >
-        <div class="store-rating is-flex is-flex-direction-column">
-          <div class="sr-item is-size-3">Average Store Rating</div>
-          <div class="sr-item is-size-3 has-text-weight-bold mb-3">4.7</div>
-          <div class="sr-item is-size-6">Waiting Time: 10 minutes</div>
-          <div class="sr-item is-size-6">Customer Service: Good</div>
-          <div class="sr-item is-size-6">
-            Vaccine Types: Phizer, J&J, Moderna
-          </div>
-        </div>
-
-        <!-- Pro Card Section-->
-        <div class="pros box is-size-1 has-background-info-dark">
-          <div class="pro-title">Pros</div>
-
-          <!-- Loop through the best ratings -->
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Waiting Time</div>
-          </div>
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Variety</div>
-          </div>
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Easy To Find</div>
-          </div>
-          <!-- Loop through the best ratings -->
-        </div>
-
-        <!-- Con card Section-->
-        <div class="cons box is-size-1 has-background-info-dark">
-          <div class="con-title">Cons</div>
-
-          <!-- Loop through the best ratings -->
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Waiting Time</div>
-          </div>
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Variety</div>
-          </div>
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Easy To Find</div>
-          </div>
-          <!-- Loop through the best ratings -->
-        </div>
-        <!-- Loop through the worst ratings -->
-      </div>
-
-      <!-- Reviews Section -->
-      <section class="section reviews-title title">Reviews (14)</section>
-      <section class="reviews-container">
-        <!-- Display a list of posts that a user has made -->
-      </section>
     </section>
-    [[include]]
+    <!-- [[include]] -->
   </body>
 
   <script src="js/sugar.min.js"></script>
   <script src="js/axios.min.js"></script>
   <script src="js/vue.js"></script>
   <script src="js/utils.js"></script>
-  [[block page_scripts]]
-  <!-- individual pages can add scripts here -->[[end]]
+
+  <script>
+    let rating_cards = "[[=rating_cards1]]";
+    console.log(rating_cards);
+    console.log(typeof rating_cards);
+  </script>
+  <script src="js/location.js"></script>
+
+  <!-- individual pages can add scripts here -->
 </html>

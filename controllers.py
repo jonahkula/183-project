@@ -196,4 +196,12 @@ def location():
     # Get user information
     # user_info = get_user_info(db)
 
-    return dict()
+    rating_information = []
+    rating_num = 4
+    reviews_len = 14
+    return dict(rating_cards1=["Pros", "Cons"],
+                rating_num=rating_num,
+                reviews_len=reviews_len
+    
+    
+    )
