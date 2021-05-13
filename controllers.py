@@ -32,6 +32,8 @@ import os, json, pprint
 url_signer = URLSigner(session)
 
 # gets the users first name, last name, email, and saved locations
+
+
 def get_user_info(db):
     user_info_dict = db(db.auth_user.email ==
                         get_user_email()).select().first()
@@ -186,15 +188,15 @@ def save():
     else:
         # Inserting into location table
         db.location.insert(
-            location_name = name,
-            location_address = address
+            location_name=name,
+            location_address=address
         )
         saveToUser(address, zipCode, radius, user_id)
 
     saved_address = get_saved_work()
     print(saved_address)
     redirect(URL('main'))
-    
+
     return dict()
 
 # unsave a location
@@ -217,15 +219,59 @@ def unsave():
         db.saved_location.location_id == location.id,
         db.saved_location.user_id == user_id
     ).select()
-    
+
     db(db.saved_location.id == unsave_location[0]['id']).delete()
             
     saved_address = get_saved_work()
     print(saved_address)
     redirect(URL('main'))
-    
+
     return dict()
 
+
+# profile page
+@action('location')
+@action.uses(db, auth, 'location.html')
+def location():
+    # Making sure the user is logged in.
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    # Get user information
+    # user_info = get_user_info(db)
+
+    rating_information = []
+    rating_num = 4
+    reviews_len = 14
+    return dict(rating_cards1=["Pros", "Cons"],
+                rating_num=rating_num,
+                reviews_len=reviews_len,
+                load_location_info_url = URL('location_info', signer=url_signer),
+                load_review_info_url =  URL('review_info', signer=url_signer),
+    )
+
+
+
+# API for location information
+# Will be hardcoded for now
+@action('location_info')
+@action.uses(url_signer.verify(), db)
+def load_location_info():
+    return dict(location_name="CVS",
+                location_address="600 Front St",
+                website="https://cvs.com",
+                phone="123-456-7890",
+            )
+
+# API for review information
+# Will be hardcoded for now
+@action('review_info')
+@action.uses(url_signer.verify(), db)
+def load_location_info():
+    return dict(review_num=54,
+                review_message="I went to cvs and it was decent.",
+                review_avg_num=3.7,
+            )
 
 # for the web scraper
 class Location():
