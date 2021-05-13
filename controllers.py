@@ -66,16 +66,16 @@ def get_user_info(db):
 
 
 # function that saves a location to a user
-def saveToUser(address, user_id):
+def saveToUser(address, zipCode, radius, user_id):
     # Get the id of the location we just inserted
     location = db(db.location.location_address == address).select().first()
 
     # Insert into users saved locations
     db.saved_location.insert(
-        user_id=user_id,
-        location_id=location['id'],
-        location_zipcode=91111,
-        location_radius=0
+        user_id = user_id,
+        location_id = location['id'],
+        location_zipcode = zipCode,
+        location_radius = radius
     )
 
 
@@ -103,6 +103,11 @@ def get_saved_work():
 
     return saved_address
 
+@action('load_saved', method='GET')
+@action.uses(auth)
+def load_saved():
+    saved_address = get_saved_work()
+    return dict(saved = saved_address)
 
 # home page
 @action('main')
@@ -115,6 +120,8 @@ def main():
         add_locations_url=URL('add_locations'),
         load_home_url=URL('load_home'),
         save_url=URL('save'),
+        unsave_url=URL('unsave'),
+        load_saved_url=URL('load_saved'),
     )
 
 
@@ -155,13 +162,16 @@ def profile():
     )
 
 
-# save a location -> currently doesn't work
-@action('save', method=['GET', 'POST'])
+# save a location
+@action('save', method=['POST'])
 @action.uses(db, auth)
 def save():
-    saved_locations = request.json.get('savedLocations')
-    address = saved_locations.address1
-    name = saved_locations.name
+    location_data = request.json.get('address')
+    zipCode = request.json.get('zipCode')
+    radius = request.json.get('radius')
+
+    address = location_data['address1']
+    name = location_data['name']
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -170,63 +180,31 @@ def save():
     user = db(db.auth_user.email == get_user_email()).select().first()
     user_id = user['id']
 
+    # check is used to determine if the location is already added into the locations db
     check = db(db.location.location_address == address).select().first()
 
-    if (check is not None):
-        saveToUser(address, user_id)
+    if (check is not None): 
+        saveToUser(address, zipCode, radius, user_id)
     else:
         # Inserting into location table
         db.location.insert(
             location_name=name,
             location_address=address
         )
+        saveToUser(address, zipCode, radius, user_id)
 
-        saveToUser(address, user_id)
-
+    saved_address = get_saved_work()
+    print(saved_address)
     redirect(URL('main'))
 
     return dict()
 
-
-# OLD SAVE in case you need it Wayland.
-
-# save a location
-# @action('save/<name>/<address>', method=["GET", "POST"])
-# @action.uses(db, auth)
-# def save(name=None, address=None):
-#     assert name is not None
-#     assert address is not None
-
-#     if get_user_email() == None:
-#         redirect(URL('index'))
-
-#     # Get the current user id
-#     user = db(db.auth_user.email == get_user_email()).select().first()
-#     user_id = user['id']
-
-#     check = db(db.location.location_address == address).select().first()
-
-#     if (check is not None): 
-#         saveToUser(address, user_id)
-#     else:
-#         # Inserting into location table
-#         db.location.insert(
-#             location_name = name,
-#             location_address = address
-#         )
-
-#         saveToUser(address, user_id)
-        
-#     redirect(URL('main'))
-    
-#     return dict()
-
-
 # unsave a location
-@action('unsave/<address>', method=["GET", "POST"])
+@action('unsave', method=["GET", "POST"])
 @action.uses(db, auth)
-def unsave(address=None):
-    assert address is not None
+def unsave():
+    location_data = request.json.get('address')
+    address = location_data['address1']
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -243,7 +221,9 @@ def unsave(address=None):
     ).select()
 
     db(db.saved_location.id == unsave_location[0]['id']).delete()
-
+            
+    saved_address = get_saved_work()
+    print(saved_address)
     redirect(URL('main'))
 
     return dict()
