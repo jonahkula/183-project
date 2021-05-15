@@ -8,6 +8,10 @@ let init = (app) => {
   // This is the Vue data.
   app.data = {
     // Complete as you see fit.
+    first_name: "",
+    last_name: "",
+    email: "",
+    saved_locations: [],
   };
 
   app.enumerate = (a) => {
@@ -37,6 +41,13 @@ let init = (app) => {
     // Typically this is a server GET call to load the data.
     const response = await axios.get(load_user_info_url);
     console.log("Successfully got response:", response);
+    console.log(response.data["user_info"]);
+    user_info = response.data["user_info"];
+    app.vue.first_name = user_info[0];
+    app.vue.last_name = user_info[1];
+    app.vue.email = user_info[2];
+    if (user_info[3].length != 0) app.vue.saved_locations = user_info[3];
+    console.log(user_info[3]);
   };
 
   // Call to the initializer.
