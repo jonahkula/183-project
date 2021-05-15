@@ -32,9 +32,11 @@ let init = (app) => {
   });
 
   // And this initializes it.
-  app.init = () => {
+  app.init = async () => {
     // Put here any initialization code.
     // Typically this is a server GET call to load the data.
+    const response = await axios.get(load_user_info_url);
+    console.log("Successfully got response:", response);
   };
 
   // Call to the initializer.
