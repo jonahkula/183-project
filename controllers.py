@@ -166,6 +166,7 @@ def profile():
     return dict(
         user_info=user_info,
         load_user_info_url=URL('load_user_info', signer=url_signer),
+        redirect_url=URL('redirect_url', signer=url_signer),
     )
 
 
@@ -174,6 +175,15 @@ def profile():
 def load_user_info():
     user_info = get_user_info(db)
     return dict(user_info=user_info)
+# save a location
+
+
+@action('redirect_url', method=['GET'])
+@action.uses(db, auth)
+def redirect_url():
+    redirect(URL('location'))
+    # user_info = get_user_info(db)
+    # return dict(user_info=user_info)
 # save a location
 
 
@@ -253,9 +263,27 @@ def location():
     if get_user_email() == None:
         redirect(URL('index'))
 
+    # Using the information of the user to find the information of the location
+    zipcode = request.params.get('zip')
+    radius = request.params.get('rad')
+    saved_location = request.params.get('loc')
+    saved_address = request.params.get('addr')
+    print(zipcode, radius, saved_location, saved_address)
+
+    # We use the zipcode and radius to find the information on a single saved_location
+    l = Location(zipcode, radius)
+    all_locations = l.get_locations()
+    phone = None
+    for location in all_locations:
+        if location['name'] == saved_location:
+            print('we found it')
+            print(location)
+            phone = location['phone']
+        else:
+            print(location['name'])
     # Get user information
     # user_info = get_user_info(db)
-
+    print()
     rating_information = []
     rating_num = 4
     reviews_len = 14
@@ -264,6 +292,7 @@ def location():
                 reviews_len=reviews_len,
                 load_location_info_url=URL('location_info', signer=url_signer),
                 load_review_info_url=URL('review_info', signer=url_signer),
+                phone=phone
                 )
 
 
@@ -285,6 +314,7 @@ def load_location_info():
 @action('review_info')
 @action.uses(url_signer.verify(), db)
 def load_location_info():
+
     return dict(review_num=54,
                 review_message="I went to cvs and it was decent.",
                 review_avg_num=3.7,

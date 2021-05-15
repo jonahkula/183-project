@@ -22,9 +22,15 @@ still trying to figure out how to add custom header here for its style sheet -->
         <h4 class="subtitle is-5 has-text-danger" v-if="saved_locations.length === 0">
           You do not have any saved locations.
         </h4>
-        <button class=" subtitle is-5 has-text-success" v-for="sl in saved_locations">
-          {{sl[0]}} {{sl[1]}}
-        </button>
+        <div class="sl-container mb-3" v-for="sl in saved_locations">
+          <!-- <a class=" subtitle is-5 has-text-success" href="[[=URL('location', vars=dict(zip=23, rad='dog'))]]"> -->
+          <a class=" subtitle is-5 has-text-success"
+            @click="redirect_saved_location('[[=URL('location', vars=dict(zip=95064, rad=10, loc='Costco Wholesale Corporation #149', addr='220 Sylvania Ave'),scheme=True) ]]')">
+            {{sl[0]}} {{sl[1]}}
+          </a>
+        </div>
+
+
       </div>
       <div class="column">
         <figure class="image">
@@ -36,9 +42,13 @@ still trying to figure out how to add custom header here for its style sheet -->
 </section>
 
 [[block page_scripts]]
+<!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
+
 <script>
   // load url's here
   let load_user_info_url = "[[=XML(load_user_info_url)]]";
+  let redirect_url = "[[=XML(redirect_url)]]";
+  // let URL_P4W = "[[=XML(URL)]]";
 </script>
 <script src="js/profile.js"></script>
 [[end]]

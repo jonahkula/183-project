@@ -2,332 +2,301 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <base href="[[=URL('static')]]/" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="scss/location.css?id=13" />
-    <!-- I added the ?id=1234 because the .css file was being cached-->
-    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
-    <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
-    <title>Suppress19</title>
-    [[block page_head]]
-    <!--  -->
-    [[end]]
-  </head>
 
-  <body>
-    <!-- This section contains the whole location page excluding the layout.html -->
-    <section class="section no-margin" id="vue-target" v-cloak>
-      <!-- This section contains the all the location information such as location name, website, etc -->
-      <div
-        class="
+<head>
+  <base href="[[=URL('static')]]/" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="scss/location.css?id=13" />
+  <!-- I added the ?id=1234 because the .css file was being cached-->
+  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
+  <title>Suppress19</title>
+  [[block page_head]]
+  <!--  -->
+  [[end]]
+</head>
+
+<body>
+  <!-- This section contains the whole location page excluding the layout.html -->
+  <section class="section no-margin" id="vue-target" v-cloak>
+    <!-- This section contains the all the location information such as location name, website, etc -->
+    <div class="
           full-width-container
           box
           is-flex is-justify-content-space-between is-flex-wrap-wrap
-        "
-      >
-        <!-- This section contains the information on the left side of this container -->
-        <div class="flex-left white-text">
-          <!-- We will get the location name from Vue -->
-          <div class="location-name is-size-1">{{location_name}}</div>
+        ">
+      <!-- This section contains the information on the left side of this container -->
+      <div class="flex-left white-text">
+        <!-- We will get the location name from Vue -->
+        <div class="location-name is-size-1">{{location_name}}</div>
 
-          <!-- We will get the location address from Vue -->
-          <div class="location-name is-size-2">{{location_address}}</div>
+        <!-- We will get the location address from Vue -->
+        <div class="location-name is-size-2">{{location_address}}</div>
 
-          <!-- Not sure about time -->
-          <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
+        <!-- Not sure about time -->
+        <div class="location-name is-size-6">Open 7:00am - 9:00am</div>
 
-          <div class="ratings is-flex is-align-items-center">
-            <!-- Loop to check average rating for the location-->
-            <i
-              class="
+        <div class="ratings is-flex is-align-items-center">
+          <!-- Loop to check average rating for the location-->
+          <i class="
                 box
                 fa fa-star
                 is-size-2
                 has-background-info-dark
                 mt-3
                 mr-4
-              "
-              v-for="n in parseInt(Math.floor(review_avg_num))"
-              :key="n"
-            ></i>
+              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
 
-            <!-- Number of reviews based on the location -->
-            <i class="is-size-2 has-text-weight-bold">{{review_num}} Reviews</i>
-          </div>
-
-          <div>
-            <!-- Button doesn't work. -->
-            <button class="button mr-4 has-text-white has-background-info-dark">
-              Check eligibility
-            </button>
-
-            <!-- Button doesn't work. Used to write a review -->
-            <button class="button has-text-white has-background-info-dark">
-              Write a Review
-            </button>
-          </div>
+          <!-- Number of reviews based on the location -->
+          <i class="is-size-2 has-text-weight-bold">{{review_num}} Reviews</i>
         </div>
 
-        <!-- This section contains the information on the right side of this container -->
-        <div
-          class="
+        <div>
+          <!-- Button doesn't work. -->
+          <button class="button mr-4 has-text-white has-background-info-dark">
+            Check eligibility
+          </button>
+
+          <!-- Button doesn't work. Used to write a review -->
+          <button class="button has-text-white has-background-info-dark">
+            Write a Review
+          </button>
+        </div>
+      </div>
+
+      <!-- This section contains the information on the right side of this container -->
+      <div class="
             is-flex is-flex-direction-column is-justify-content-flex-start
             mr-6
             mt-6
             white-text
-          "
-        >
-          <div class="location-info is-size-4">Website: https://costo.com</div>
-          <div class="location-info is-size-4">Phone: 831-123-4567</div>
-          <div class="location-info is-size-4">Vaccine in stock: Yes</div>
-        </div>
+          ">
+        <div class="location-info is-size-4">Website: https://costo.com</div>
+        <div class="location-info is-size-4">Phone: 831-123-4567</div>
+        <div class="location-info is-size-4">Vaccine in stock: Yes</div>
       </div>
+    </div>
 
-      <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
+    <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
 
-      <!--                                                    -->
-      <!-- This sections contains the ratings of the location -->
-      <div
-        class="
+    <!--                                                    -->
+    <!-- This sections contains the ratings of the location -->
+    <div class="
           ratings-section
           container
           is-flex is-justify-content-space-around is-flex-wrap-wrap
-        "
-      >
-        <!-- The location information such as time, customer service, and vaccine type -->
-        <div class="store-rating is-flex is-flex-direction-column">
-          <div class="sr-item is-size-3 has-text-weight-bold">
-            Average Store Rating
-          </div>
-          <div class="sr-item is-size-3 has-text-weight-bold mb-3">4.7</div>
-          <div class="sr-item is-size-6 mb-1">Waiting Time: 10 minutes</div>
-          <div class="sr-item is-size-6 mb-1">Customer Service: Good</div>
-          <div class="sr-item is-size-6 mb-1">
-            Vaccine Types: Phizer, J&J, Moderna
-          </div>
+        ">
+      <!-- The location information such as time, customer service, and vaccine type -->
+      <div class="store-rating is-flex is-flex-direction-column">
+        <div class="sr-item is-size-3 has-text-weight-bold">
+          Average Store Rating
         </div>
-
-        <!-- Pro Card Section-->
-        <div class="pros box is-size-1 has-background-info-dark">
-          <div class="pro-title">Pros</div>
-
-          <!-- Loop through the best ratings -->
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Waiting Time</div>
-          </div>
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Variety</div>
-          </div>
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Easy To Find</div>
-          </div>
-          <!-- Loop through the best ratings -->
+        <div class="sr-item is-size-3 has-text-weight-bold mb-3">4.7</div>
+        <div class="sr-item is-size-6 mb-1">Waiting Time: 10 minutes</div>
+        <div class="sr-item is-size-6 mb-1">Customer Service: Good</div>
+        <div class="sr-item is-size-6 mb-1">
+          Vaccine Types: Phizer, J&J, Moderna
         </div>
-
-        <!-- Con card Section-->
-        <div class="cons box is-size-1 has-background-info-dark">
-          <div class="con-title">Cons</div>
-
-          <!-- Loop through the best ratings -->
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Waiting Time</div>
-          </div>
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Variety</div>
-          </div>
-          <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-            <div class="icon-text">
-              <span
-                class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                "
-              >
-                55
-              </span>
-            </div>
-            <div class="rating-info ml-6 has-text-white">Easy To Find</div>
-          </div>
-          <!-- Loop through the best ratings -->
-        </div>
-        <!-- Loop through the worst ratings -->
       </div>
 
-      <!--                  -->
-      <!-- Reviews Section -->
-      <section class="section reviews-title title">
-        Reviews ({{review_num}})
-      </section>
+      <!-- Pro Card Section-->
+      <div class="pros box is-size-1 has-background-info-dark">
+        <div class="pro-title">Pros</div>
 
-      <!-- Display a list of posts that a user has made -->
-      <section class="reviews-container"></section>
-      <div class="review-box">
-        <hr class="line" />
+        <!-- Loop through the best ratings -->
+        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+          <div class="icon-text">
+            <span class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                ">
+              55
+            </span>
+          </div>
+          <div class="rating-info ml-6 has-text-white">Waiting Time</div>
+        </div>
+        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+          <div class="icon-text">
+            <span class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                ">
+              55
+            </span>
+          </div>
+          <div class="rating-info ml-6 has-text-white">Variety</div>
+        </div>
+        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+          <div class="icon-text">
+            <span class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                ">
+              55
+            </span>
+          </div>
+          <div class="rating-info ml-6 has-text-white">Easy To Find</div>
+        </div>
+        <!-- Loop through the best ratings -->
+      </div>
 
-        <!-- Contains the left side and right side of review content -->
-        <div
-          class="
+      <!-- Con card Section-->
+      <div class="cons box is-size-1 has-background-info-dark">
+        <div class="con-title">Cons</div>
+
+        <!-- Loop through the best ratings -->
+        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+          <div class="icon-text">
+            <span class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                ">
+              55
+            </span>
+          </div>
+          <div class="rating-info ml-6 has-text-white">Waiting Time</div>
+        </div>
+        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+          <div class="icon-text">
+            <span class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                ">
+              55
+            </span>
+          </div>
+          <div class="rating-info ml-6 has-text-white">Variety</div>
+        </div>
+        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
+          <div class="icon-text">
+            <span class="
+                  icon
+                  has-text-info has-background-info-dark has-text-white
+                  mr-6
+                ">
+              55
+            </span>
+          </div>
+          <div class="rating-info ml-6 has-text-white">Easy To Find</div>
+        </div>
+        <!-- Loop through the best ratings -->
+      </div>
+      <!-- Loop through the worst ratings -->
+    </div>
+
+    <!--                  -->
+    <!-- Reviews Section -->
+    <section class="section reviews-title title">
+      Reviews ({{review_num}})
+    </section>
+
+    <!-- Display a list of posts that a user has made -->
+    <section class="reviews-container"></section>
+    <div class="review-box">
+      <hr class="line" />
+
+      <!-- Contains the left side and right side of review content -->
+      <div class="
             review-content
             is-flex is-justify-content-space-between is-flex-wrap-wrap
-          "
-        >
-          <!-- Left side of review content -->
-          <div class="left ml-6">
-            <div class="review-item title main-color">Luca de Alfaro</div>
-            <div class="review-item">Waiting Time: 10 minutes</div>
-            <div class="review-item">Customer Service: Good</div>
-            <div class="review-item">Vaccine: Moderna</div>
-          </div>
+          ">
+        <!-- Left side of review content -->
+        <div class="left ml-6">
+          <div class="review-item title main-color">Luca de Alfaro</div>
+          <div class="review-item">Waiting Time: 10 minutes</div>
+          <div class="review-item">Customer Service: Good</div>
+          <div class="review-item">Vaccine: Moderna</div>
+        </div>
 
-          <!-- Right side of review content -->
-          <div class="right">
-            <div class="container title review-title has-text-white">
-              Moderna hits different
-            </div>
-            <!-- Need to change this to be with respect to the user's rating -->
-            <i
-              class="
+        <!-- Right side of review content -->
+        <div class="right">
+          <div class="container title review-title has-text-white">
+            Moderna hits different
+          </div>
+          <!-- Need to change this to be with respect to the user's rating -->
+          <i class="
                 fa fa-star
                 is-size-4
                 has-background-info-dark
                 mr-4
                 mb-3
                 circle
-              "
-              v-for="n in parseInt(Math.floor(review_avg_num))"
-              :key="n"
-            ></i>
-            <div class="review-message subtitle">
-              I went to cvs and it was a good experience. The line was short,
-              the vaccine didn't hurt and all is good.
-            </div>
+              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
+          <div class="review-message subtitle">
+            I went to cvs and it was a good experience. The line was short,
+            the vaccine didn't hurt and all is good.
           </div>
         </div>
+      </div>
 
-        <hr class="line" />
+      <hr class="line" />
 
-        <!-- Contains the left side and right side of review content -->
-        <div
-          class="
+      <!-- Contains the left side and right side of review content -->
+      <div class="
             review-content
             is-flex is-justify-content-space-between is-flex-wrap-wrap
-          "
-        >
-          <!-- Left side of review content -->
-          <div class="left ml-6">
-            <div class="review-item title main-color">Luca de Alfaro</div>
-            <div class="review-item">Waiting Time: 10 minutes</div>
-            <div class="review-item">Customer Service: Good</div>
-            <div class="review-item">Vaccine: Moderna</div>
-          </div>
+          ">
+        <!-- Left side of review content -->
+        <div class="left ml-6">
+          <div class="review-item title main-color">Luca de Alfaro</div>
+          <div class="review-item">Waiting Time: 10 minutes</div>
+          <div class="review-item">Customer Service: Good</div>
+          <div class="review-item">Vaccine: Moderna</div>
+        </div>
 
-          <!-- Right side of review content -->
-          <div class="right">
-            <div class="container title review-title has-text-white">
-              Moderna hits different
-            </div>
-            <!-- Need to change this to be with respect to the user's rating -->
-            <i
-              class="
+        <!-- Right side of review content -->
+        <div class="right">
+          <div class="container title review-title has-text-white">
+            Moderna hits different
+          </div>
+          <!-- Need to change this to be with respect to the user's rating -->
+          <i class="
                 fa fa-star
                 is-size-4
                 has-background-info-dark
                 mr-4
                 mb-3
                 circle
-              "
-              v-for="n in parseInt(Math.floor(review_avg_num))"
-              :key="n"
-            ></i>
-            <div class="review-message subtitle">
-              I went to cvs and it was a good experience. The line was short,
-              the vaccine didn't hurt and all is good.
-            </div>
+              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
+          <div class="review-message subtitle">
+            I went to cvs and it was a good experience. The line was short,
+            the vaccine didn't hurt and all is good.
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- <div class="test">
+    <!-- <div class="test">
         [[for i in rating_cards1:]]
         <div class="hi">[[=i]]</div>
         [[pass]]
       </div> -->
-    </section>
-    <!-- [[include]] -->
-  </body>
+  </section>
+  <!-- [[include]] -->
+</body>
 
-  <script src="js/sugar.min.js"></script>
-  <script src="js/axios.min.js"></script>
-  <script src="js/vue.js"></script>
-  <script src="js/utils.js"></script>
+<script src="js/sugar.min.js"></script>
+<script src="js/axios.min.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/utils.js"></script>
 
-  <script>
-    let load_location_info_url = "[[=XML(load_location_info_url) ]]";
-    let load_review_info_url = "[[=XML(load_review_info_url) ]]";
+<script>
+  let load_location_info_url = "[[=XML(load_location_info_url) ]]";
+  let load_review_info_url = "[[=XML(load_review_info_url) ]]";
 
-    let rating_cards = "[[=rating_cards1]]";
-    console.log(rating_cards);
-    console.log(typeof rating_cards);
-  </script>
-  <script src="js/location.js"></script>
+  let rating_cards = "[[=rating_cards1]]";
+  let phone = "[[=phone]]";
+  console.log(rating_cards);
+  console.log(typeof rating_cards);
+</script>
+<script src="js/location.js"></script>
 
-  <!-- individual pages can add scripts here -->
+<!-- individual pages can add scripts here -->
+
 </html>

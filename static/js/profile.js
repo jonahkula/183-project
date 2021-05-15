@@ -23,9 +23,20 @@ let init = (app) => {
     return a;
   };
 
+  app.redirect_saved_location = (str1) => {
+    console.log("We are redirecting to the selected location page.");
+    // const response = axios.get(redirect_url);
+    console.log(str1);
+    window.location.replace(str1);
+
+    // console.log(response);
+    console.log("done");
+  };
+
   // This contains all the methods.
   app.methods = {
     // Complete as you see fit.
+    redirect_saved_location: app.redirect_saved_location,
   };
 
   // This creates the Vue instance.
