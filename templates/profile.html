@@ -17,13 +17,11 @@ still trying to figure out how to add custom header here for its style sheet -->
       <div class="column is-two-fifths">
         <h4 class="subtitle is-4">Email: {{email}}</h4>
         <h4 class="subtitle is-4">Vaccinated: Yes</h4>
-        <!-- CHANGE TO VUE LATER -->
         <h4 class="subtitle is-4">Saved Locations:</h4>
         <h4 class="subtitle is-5 has-text-danger" v-if="saved_locations.length === 0">
           You do not have any saved locations.
         </h4>
         <div class="sl-container mb-3" v-for="sl in saved_locations">
-          <!-- <a class=" subtitle is-5 has-text-success" href="[[=URL('location', vars=dict(zip=23, rad='dog'))]]"> -->
           <a class=" subtitle is-5 has-text-success"
             @click="redirect_saved_location('[[=URL('location', vars=dict(zip=95064, rad=10, loc='Costco Wholesale Corporation #149', addr='220 Sylvania Ave'),scheme=True) ]]')">
             {{sl[0]}} {{sl[1]}}
@@ -42,12 +40,10 @@ still trying to figure out how to add custom header here for its style sheet -->
 </section>
 
 [[block page_scripts]]
-<!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
 
 <script>
   // load url's here
   let load_user_info_url = "[[=XML(load_user_info_url)]]";
-  // let URL_P4W = "[[=XML(URL)]]";
 </script>
 <script src="js/profile.js"></script>
 [[end]]
