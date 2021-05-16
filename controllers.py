@@ -166,7 +166,6 @@ def profile():
     return dict(
         user_info=user_info,
         load_user_info_url=URL('load_user_info', signer=url_signer),
-        redirect_url=URL('redirect_url', signer=url_signer),
     )
 
 
@@ -175,15 +174,6 @@ def profile():
 def load_user_info():
     user_info = get_user_info(db)
     return dict(user_info=user_info)
-# save a location
-
-
-@action('redirect_url', method=['GET'])
-@action.uses(db, auth)
-def redirect_url():
-    redirect(URL('location'))
-    # user_info = get_user_info(db)
-    # return dict(user_info=user_info)
 # save a location
 
 
@@ -273,12 +263,13 @@ def location():
     # We use the zipcode and radius to find the information on a single saved_location
     l = Location(zipcode, radius)
     all_locations = l.get_locations()
-    phone = None
+    location_info = {}
     for location in all_locations:
         if location['name'] == saved_location:
             print('we found it')
             print(location)
-            phone = location['phone']
+            # phone = location['phone']
+            location_info = location
         else:
             print(location['name'])
     # Get user information
@@ -287,24 +278,10 @@ def location():
     rating_information = []
     rating_num = 4
     reviews_len = 14
-    return dict(rating_cards1=["Pros", "Cons"],
-                rating_num=rating_num,
+    return dict(rating_num=rating_num,
                 reviews_len=reviews_len,
-                load_location_info_url=URL('location_info', signer=url_signer),
                 load_review_info_url=URL('review_info', signer=url_signer),
-                phone=phone
-                )
-
-
-# API for location information
-# Will be hardcoded for now
-@action('location_info')
-@action.uses(url_signer.verify(), db)
-def load_location_info():
-    return dict(location_name="CVS",
-                location_address="600 Front St",
-                website="https://cvs.com",
-                phone="123-456-7890",
+                location_info=location_info
                 )
 
 # API for review information

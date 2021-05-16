@@ -73,8 +73,8 @@
             white-text
           ">
         <div class="location-info is-size-4">Website: https://costo.com</div>
-        <div class="location-info is-size-4">Phone: 831-123-4567</div>
-        <div class="location-info is-size-4">Vaccine in stock: Yes</div>
+        <div class="location-info is-size-4">Phone: {{location_phone}}</div>
+        <div class="location-info is-size-4">Vaccine in stock: {{location_stock ? "Yes" : "No"}}</div>
       </div>
     </div>
 
@@ -271,14 +271,7 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="test">
-        [[for i in rating_cards1:]]
-        <div class="hi">[[=i]]</div>
-        [[pass]]
-      </div> -->
   </section>
-  <!-- [[include]] -->
 </body>
 
 <script src="js/sugar.min.js"></script>
@@ -287,13 +280,8 @@
 <script src="js/utils.js"></script>
 
 <script>
-  let load_location_info_url = "[[=XML(load_location_info_url) ]]";
   let load_review_info_url = "[[=XML(load_review_info_url) ]]";
-
-  let rating_cards = "[[=rating_cards1]]";
-  let phone = "[[=phone]]";
-  console.log(rating_cards);
-  console.log(typeof rating_cards);
+  let location_info = "[[=XML(location_info)]]";
 </script>
 <script src="js/location.js"></script>
 

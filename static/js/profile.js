@@ -25,9 +25,8 @@ let init = (app) => {
 
   app.redirect_saved_location = (str1) => {
     console.log("We are redirecting to the selected location page.");
-    // const response = axios.get(redirect_url);
     console.log(str1);
-    window.location.replace(str1);
+    // window.location.replace(str1);
 
     // console.log(response);
     console.log("done");
@@ -48,17 +47,17 @@ let init = (app) => {
 
   // And this initializes it.
   app.init = async () => {
-    // Put here any initialization code.
-    // Typically this is a server GET call to load the data.
+    // Loading user info such as name, email, and saved locations
     const response = await axios.get(load_user_info_url);
     console.log("Successfully got response:", response);
     console.log(response.data["user_info"]);
+
+    // Putting loaded user info into Vue
     user_info = response.data["user_info"];
     app.vue.first_name = user_info[0];
     app.vue.last_name = user_info[1];
     app.vue.email = user_info[2];
     if (user_info[3].length != 0) app.vue.saved_locations = user_info[3];
-    console.log(user_info[3]);
   };
 
   // Call to the initializer.
