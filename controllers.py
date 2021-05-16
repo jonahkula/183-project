@@ -261,20 +261,13 @@ def location():
     print(zipcode, radius, saved_location, saved_address)
 
     # We use the zipcode and radius to find the information on a single saved_location
-    l = Location(zipcode, radius)
-    all_locations = l.get_locations()
-    location_info = {}
-    for location in all_locations:
-        if location['name'] == saved_location:
-            print('we found it')
-            print(location)
-            # phone = location['phone']
-            location_info = location
-        else:
-            print(location['name'])
-    # Get user information
-    # user_info = get_user_info(db)
-    print()
+    location_info = extract_location_info(zipcode, radius, saved_location)
+
+    # This occurs if a bug happens.
+    # This code should never be exectued
+    if location_info == None:
+        redirect(URL('index'))
+
     rating_information = []
     rating_num = 4
     reviews_len = 14
@@ -284,8 +277,16 @@ def location():
                 location_info=location_info
                 )
 
-# API for review information
-# Will be hardcoded for now
+# Finds the info of a location given the zipcode, radius, and target
+
+
+def extract_location_info(zipcode, radius, location_target):
+    l = Location(zipcode, radius)
+    all_locations = l.get_locations()
+    for location in all_locations:
+        if location['name'] == location_target:
+            return location
+    return None
 
 
 @action('review_info')
