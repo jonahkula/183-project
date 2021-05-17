@@ -6,10 +6,10 @@
 
 $family-primary: "Roboto", sans-serif;
 $input-placeholder-color: bulmaRgba(hsl(0, 0%, 21%), 0.3);
-$link: #cc0000;
-$error_color: #cc00000a;
+// $error_color: #cc00000a;
 $hover_border: #0e1f21;
 $main_display_color: hsl(204, 71%, 39%);
+$input-focus-box-shadow-color: none;
 
 .form-container {
   @extend .container;

@@ -185,41 +185,6 @@ def save():
     
     return dict()
 
-
-# OLD SAVE in case you need it Wayland.
-
-# save a location
-# @action('save/<name>/<address>', method=["GET", "POST"])
-# @action.uses(db, auth)
-# def save(name=None, address=None):
-#     assert name is not None
-#     assert address is not None
-
-#     if get_user_email() == None:
-#         redirect(URL('index'))
-
-#     # Get the current user id
-#     user = db(db.auth_user.email == get_user_email()).select().first()
-#     user_id = user['id']
-
-#     check = db(db.location.location_address == address).select().first()
-
-#     if (check is not None): 
-#         saveToUser(address, user_id)
-#     else:
-#         # Inserting into location table
-#         db.location.insert(
-#             location_name = name,
-#             location_address = address
-#         )
-
-#         saveToUser(address, user_id)
-        
-#     redirect(URL('main'))
-    
-#     return dict()
-
-
 # unsave a location
 @action('unsave/<address>', method=["GET", "POST"])
 @action.uses(db, auth)

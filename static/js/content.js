@@ -8,6 +8,7 @@ let init = (app) => {
   // This is the Vue data.
   app.data = {
     // Complete as you see fit.
+    windowWidth: window.screen.width,
     zipCode: "",
     radius: "",
     locations: [],
@@ -22,7 +23,7 @@ let init = (app) => {
       {
         distance: "50 miles"
       }
-    ]
+    ],
   };
 
   app.enumerate = (a) => {
@@ -81,7 +82,7 @@ let init = (app) => {
   app.methods = {
     add_locations: app.add_locations,
     save_option: app.save_option,
-    get_radius: app.get_radius
+    get_radius: app.get_radius,
     // unsave_option: app.unsave_option
   };
 
@@ -113,6 +114,5 @@ init(app);
 
 let dropdown = document.getElementsByClassName("dropdown");
 dropdown[0].addEventListener('click', function() {
-  // event.stopPropagation();
   dropdown[0].classList.toggle('is-active');
 });
