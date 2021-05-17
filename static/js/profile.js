@@ -23,13 +23,28 @@ let init = (app) => {
     return a;
   };
 
-  app.redirect_saved_location = (str1) => {
-    console.log("We are redirecting to the selected location page.");
-    console.log(str1);
-    // window.location.replace(str1);
+  // Redirects the user to the location page using the
+  // zipcode, radius, location name, and address
+  app.redirect_saved_location = (location_page, zip, rad, loc, addr) => {
+    console.log(location_page);
+    let queries = {
+      ZIP_REMOVE: zip,
+      RAD_REMOVE: rad,
+      LOC_REMOVE: loc,
+      ADDR_REMOVE: addr,
+    };
 
-    // console.log(response);
-    console.log("done");
+    // Formatting url to make the link url compatible
+    for (const [k, v] of Object.entries(queries)) {
+      console.log(k, v);
+      location_page = location_page.replace(k, v);
+      location_page = location_page.replace(/ /g, "%20");
+      location_page = location_page.replace("#", "%23");
+    }
+    console.log(location_page);
+
+    // Redirects user to the location page
+    window.location.replace(location_page);
   };
 
   // This contains all the methods.

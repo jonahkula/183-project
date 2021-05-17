@@ -74,7 +74,8 @@
           ">
         <div class="location-info is-size-4">Website: https://costo.com</div>
         <div class="location-info is-size-4">Phone: {{location_phone}}</div>
-        <div class="location-info is-size-4 has-text-weight-bold" :class="{'has-text-primary': location_stock}">Vaccine
+        <div class="location-info is-size-4 has-text-weight-bold"
+          :class="{'has-text-primary': location_stock, 'has-text-danger': !location_stock}">Vaccine
           in stock:
           {{location_stock ? "Yes" : "No"}}</div>
       </div>

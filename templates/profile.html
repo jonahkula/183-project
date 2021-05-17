@@ -22,8 +22,8 @@ still trying to figure out how to add custom header here for its style sheet -->
           You do not have any saved locations.
         </h4>
         <div class="sl-container mb-3" v-for="sl in saved_locations">
-          <a class=" subtitle is-5 has-text-success"
-            @click="redirect_saved_location('[[=URL('location', vars=dict(zip=95064, rad=10, loc='Costco Wholesale Corporation #149', addr='220 Sylvania Ave'),scheme=True) ]]')">
+          <a class=" subtitle is-5 has-text-success" @click=" redirect_saved_location('[[=URL('location', vars=dict(zip='ZIP_REMOVE' , rad='RAD_REMOVE' ,
+            loc='LOC_REMOVE' , addr='ADDR_REMOVE' ),scheme=True) ]]', sl[2], sl[3], sl[0], sl[1])">
             {{sl[0]}} {{sl[1]}}
           </a>
         </div>
