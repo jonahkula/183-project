@@ -18,10 +18,10 @@ let init = (app) => {
     review_avg_num: 0,
     locations: {
       "Costco": "assets/Costco.jpg",
-      "Ralphs": "",
+      "Ralphs": "assets/Ralphs.jpg",
       "CVS": "assets/CVS.jpg",
-      "Riteaid": "assets/Riteaid.jpg",
-      "Safeway": "assets/Safeway",
+      "Rite": "assets/Riteaid.jpg",
+      "SAFEWAY": "assets/Safeway.jpg",
       "Walgreens": "assets/Walgreens.jpg",
       "Walmart": "assets/Walmart.jpg"
     }
