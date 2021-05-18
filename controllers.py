@@ -232,8 +232,9 @@ def unsave():
 @action('add_review', method=["POST"])
 @action.uses(db, auth)
 def add_review():
-    review = request.json.get('text')
-    return dict()
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    name = user.first_name + " " + user.last_name
+    return dict(name=name)
 
 
 # profile page

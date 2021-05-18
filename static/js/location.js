@@ -16,6 +16,10 @@ let init = (app) => {
     review_message: "",
     review_avg_num: 0,
     add_review_text: "",
+    add_review_wait: "",
+    add_review_service: "",
+    add_review_vaccine: "",
+    add_review_title: "",
     review_list: [],
   };
 
@@ -29,26 +33,37 @@ let init = (app) => {
   };
 
   // Adds a review to the review db and push to current review_list
+  // Saving to db not implemented yet
+  // Working on pushing to review_list
   app.add_review = function() {
+
     axios.post(add_review_url, {
       text: app.vue.add_review_text,
     })
     .then(function(response) {
       app.vue.review_list.push({
-        text:app.vue.add_review_text,
-      })
-      app.vue.add_review_text = ""
+      text:app.vue.add_review_text,
+      wait:app.vue.add_review_wait,
+      service:app.vue.add_review_service,
+      vaccine:app.vue.add_review_vaccine,
+      title:app.vue.add_review_title,
+      name:response.data.name,
+    })
+    app.vue.add_review_text = ""
+    app.vue.add_review_wait = ""
+    app.vue.add_review_title = ""
       console.log("Received response from POST request:", response.data)
     })
     .catch(function(error) {
       console.log("The error attempting to send a POST request:", error)
     })
+
   }
 
   // This contains all the methods.
   app.methods = {
     // Complete as you see fit.
-    add_review = app.add_review,
+    add_review: app.add_review,
   };
 
   // This creates the Vue instance.
