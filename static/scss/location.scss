@@ -11,17 +11,7 @@ $main_display_color: hsl(204, 71%, 39%);
 // @import "../bulma.sass";
 
 .full-width-container {
-  // width: 100% !important;
-  // box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.8);
-  // border-radius: 12px;
   object-fit: contain;
-  background-image: 
-      /* top, transparent red */ linear-gradient(
-      rgba(33, 61, 153, 0.5),
-      rgba(33, 61, 153, 0.5)
-    ),
-    /* your image */
-      url("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/costco-wholesale-store-in-north-brunswick-township-new-news-photo-1580939030.jpg");
 }
 
 .test-color {
@@ -29,7 +19,11 @@ $main_display_color: hsl(204, 71%, 39%);
 }
 
 .white-text {
-  color: rgba(255, 255, 255, 0.891);
+  // applying a gradient to the text //
+  color: white;
+  border-color: black;
+  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-width: 1px;
 }
 
 .no-margin {
@@ -60,4 +54,31 @@ hr {
 
 .main-color {
   color: $main_display_color;
+}
+
+
+#check, #write {
+  -webkit-text-stroke-width: 0;
+}
+
+#phone {
+  // color: white;
+  // -webkit-text-stroke-width: 0.9px;
+  background: linear-gradient(135deg, rgba(255,214,94,1) 0%,rgba(254,191,4,1) 100%);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-stroke-width: 0.4px;
+}
+
+#review{
+  -webkit-text-stroke-width: 0.01px;
+}
+
+#stock {
+  -webkit-text-stroke-width: 0.001px;
+}
+
+#stars {
+  opacity: 0.8;
 }

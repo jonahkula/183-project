@@ -16,7 +16,18 @@ let init = (app) => {
     review_num: 0,
     review_message: "",
     review_avg_num: 0,
+    locations: {
+      "Costco": "assets/Costco.jpg",
+      "Ralphs": "",
+      "CVS": "assets/CVS.jpg",
+      "Riteaid": "assets/Riteaid.jpg",
+      "Safeway": "assets/Safeway",
+      "Walgreens": "assets/Walgreens.jpg",
+      "Walmart": "assets/Walmart.jpg"
+    }
   };
+
+  // console.log("Check location_name:", app.vue.location_name);
 
   app.enumerate = (a) => {
     // This adds an _idx field to each element of the array.
@@ -68,6 +79,8 @@ let init = (app) => {
       app.vue.location_address = address1;
       app.vue.location_phone = phone;
       app.vue.location_stock = in_stock;
+
+      console.log("Check location_name:", app.vue.location_name);
 
       // GET Request to get the information of the location
       // const location_response = await axios.get(load_location_info_url);
