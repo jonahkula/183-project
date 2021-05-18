@@ -33,7 +33,6 @@ let init = (app) => {
     return a;
   };
 
-<<<<<<< HEAD
   // Adds a review to the review db and push to current review_list
   // Saving to db not implemented yet
   // Working on pushing to review_list
@@ -54,24 +53,13 @@ let init = (app) => {
     app.vue.add_review_text = ""
     app.vue.add_review_wait = ""
     app.vue.add_review_title = ""
-      console.log("Received response from POST request:", response.data)
+    console.log("Received response from POST request:", response.data)
     })
     .catch(function(error) {
       console.log("The error attempting to send a POST request:", error)
     })
 
   }
-=======
-  // https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript
-  // app.formatPhoneNumber = function formatPhoneNumber(phoneNumberString) {
-  //   var cleaned = ("" + phoneNumberString).replace(/\D/g, "");
-  //   var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-  //   if (match) {
-  //     return "(" + match[1] + ") " + match[2] + "-" + match[3];
-  //   }
-  //   return null;
-  // }
->>>>>>> origin
 
   // This contains all the methods.
   app.methods = {

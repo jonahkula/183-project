@@ -195,7 +195,6 @@
       Reviews ({{review_num}})
     </section>
 
-<<<<<<< HEAD
       <div class="section">
         <div class="form">
 
@@ -249,62 +248,20 @@
             <div class="control">
               <button class="button is-success" @click="add_review">Submit</button>
             </div>
-=======
-    <!-- Display a list of posts that a user has made -->
-    <section class="reviews-container"></section>
-    <div class="review-box">
-      <hr class="line" />
-
-      <!-- Contains the left side and right side of review content -->
-      <div class="
-            review-content
-            is-flex is-justify-content-space-between is-flex-wrap-wrap
-          ">
-        <!-- Left side of review content -->
-        <div class="left ml-6">
-          <div class="review-item title main-color">Luca de Alfaro</div>
-          <div class="review-item">Waiting Time: 10 minutes</div>
-          <div class="review-item">Customer Service: Good</div>
-          <div class="review-item">Vaccine: Moderna</div>
-        </div>
-
-        <!-- Right side of review content -->
-        <div class="right">
-          <div class="container title review-title has-text-white">
-            Moderna hits different
-          </div>
-          <!-- Need to change this to be with respect to the user's rating -->
-          <i class="
-                fa fa-star
-                is-size-4
-                has-background-info-dark
-                mr-4
-                mb-3
-                circle
-              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
-          <div class="review-message subtitle">
-            I went to cvs and it was a good experience. The line was short,
-            the vaccine didn't hurt and all is good.
->>>>>>> origin
           </div>
           
         </div>
       </div>
 
-<<<<<<< HEAD
       <!-- Display a list of posts that a user has made -->
       <section class="reviews-container"></section>
       <div class="review-box">
         <hr class="line" />
-=======
-      <hr class="line" />
->>>>>>> origin
 
       <!-- Contains the left side and right side of review content -->
       <div class="
             review-content
             is-flex is-justify-content-space-between is-flex-wrap-wrap
-<<<<<<< HEAD
           " v-for="review in review_list">
           
           <!-- Left side of review content -->
@@ -312,7 +269,7 @@
             <div class="review-item title main-color">{{review.name}}</div>
             <div class="review-item">Waiting Time: {{review.wait}}</div>
             <div class="review-item">Customer Service: {{review.service}}</div>
-            <div class="review-item">Vaccine: {{review.wait}}</div>
+            <div class="review-item">Vaccine: {{review.vaccine}}</div>
           </div>
 
           <!-- Right side of review content -->
@@ -323,31 +280,12 @@
             <!-- Need to change this to be with respect to the user's rating -->
             <i
               class="
-=======
-          ">
-        <!-- Left side of review content -->
-        <div class="left ml-6">
-          <div class="review-item title main-color">Luca de Alfaro</div>
-          <div class="review-item">Waiting Time: 10 minutes</div>
-          <div class="review-item">Customer Service: Good</div>
-          <div class="review-item">Vaccine: Moderna</div>
-        </div>
-
-        <!-- Right side of review content -->
-        <div class="right">
-          <div class="container title review-title has-text-white">
-            Moderna hits different
-          </div>
-          <!-- Need to change this to be with respect to the user's rating -->
-          <i class="
->>>>>>> origin
                 fa fa-star
                 is-size-4
                 has-background-info-dark
                 mr-4
                 mb-3
                 circle
-<<<<<<< HEAD
               "
               v-for="n in parseInt(Math.floor(review_avg_num))"
               :key="n"
@@ -355,19 +293,9 @@
             <div class="review-message subtitle">
               {{ review.text }}
             </div>
-=======
-              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
-          <div class="review-message subtitle">
-            I went to cvs and it was a good experience. The line was short,
-            the vaccine didn't hurt and all is good.
->>>>>>> origin
           </div>
           <hr class="line" />
         </div>
-
-        
-
-        
         </div>
       </div>
     </div>
@@ -379,18 +307,13 @@
 <script src="js/vue.js"></script>
 <script src="js/utils.js"></script>
 
-<<<<<<< HEAD
-  <script>
-    let load_location_info_url = "[[=XML(load_location_info_url) ]]";
-    let load_review_info_url = "[[=XML(load_review_info_url) ]]";
-    let add_review_url = "[[=XML(add_review_url) ]]";
-=======
 <script>
+  let load_location_info_url = "[[=XML(load_location_info_url) ]]";
   let load_review_info_url = "[[=XML(load_review_info_url) ]]";
   let location_info = "[[=XML(location_info)]]";
+  let add_review_url = "[[=XML(add_review_url) ]]";
 </script>
 <script src="js/location.js"></script>
->>>>>>> origin
 
 <!-- individual pages can add scripts here -->
 

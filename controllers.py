@@ -252,7 +252,6 @@ def add_review():
     name = user.first_name + " " + user.last_name
     return dict(name=name)
 
-
 # profile page
 @action('location')
 @action.uses(db, auth, 'location.html')
@@ -270,7 +269,6 @@ def location():
 
     # We use the zipcode and radius to find the information on a single saved_location
     location_info = extract_location_info(zipcode, radius, saved_location)
-
     # This occurs if a bug happens.
     # This code should never be exectued
     if location_info == None:
@@ -281,16 +279,11 @@ def location():
     reviews_len = 14
     return dict(rating_num=rating_num,
                 reviews_len=reviews_len,
-<<<<<<< HEAD
                 load_location_info_url = URL('location_info', signer=url_signer),
                 load_review_info_url =  URL('review_info', signer=url_signer),
-                add_review_url=URL('add_review'),
-    )
-=======
-                load_review_info_url=URL('review_info', signer=url_signer),
-                location_info=location_info
+                add_review_url = URL('add_review'),
+                location_info = location_info
                 )
->>>>>>> origin
 
 # Finds the info of a location given the zipcode, radius, and target
 
