@@ -217,6 +217,56 @@
         Reviews ({{review_num}})
       </section>
 
+      <div class="section">
+        <div class="form">
+          <div class="field">
+            <label class="label">Review</label>
+            <textarea class="textarea" placeholder="Enter Review" v-model="add_review_text"></textarea>
+          </div>
+
+          <div class="field">
+            <label class="label">Wait Time</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Wait Time">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Customer Service</label>
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option>Good</option>
+                  <option>Average</option>
+                  <option>Mediocre</option>
+                  <option>Bad</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Vaccine Type</label>
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option>Pfizer</option>
+                  <option>Moderna</option>
+                  <option>J&J</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-success">Submit</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
       <!-- Display a list of posts that a user has made -->
       <section class="reviews-container"></section>
       <div class="review-box">
@@ -322,6 +372,7 @@
   <script>
     let load_location_info_url = "[[=XML(load_location_info_url) ]]";
     let load_review_info_url = "[[=XML(load_review_info_url) ]]";
+    let add_review_url = "[[=XML(add_review_url) ]]";
 
     let rating_cards = "[[=rating_cards1]]";
     console.log(rating_cards);

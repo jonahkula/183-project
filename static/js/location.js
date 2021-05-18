@@ -15,6 +15,8 @@ let init = (app) => {
     review_num: 0,
     review_message: "",
     review_avg_num: 0,
+    add_review_text: "",
+    review_list: [],
   };
 
   app.enumerate = (a) => {
@@ -26,9 +28,27 @@ let init = (app) => {
     return a;
   };
 
+  // Adds a review to the review db and push to current review_list
+  app.add_review = function() {
+    axios.post(add_review_url, {
+      text: app.vue.add_review_text,
+    })
+    .then(function(response) {
+      app.vue.review_list.push({
+        text:app.vue.add_review_text,
+      })
+      app.vue.add_review_text = ""
+      console.log("Received response from POST request:", response.data)
+    })
+    .catch(function(error) {
+      console.log("The error attempting to send a POST request:", error)
+    })
+  }
+
   // This contains all the methods.
   app.methods = {
     // Complete as you see fit.
+    add_review = app.add_review,
   };
 
   // This creates the Vue instance.

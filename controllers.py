@@ -228,6 +228,13 @@ def unsave():
 
     return dict()
 
+# Add a review to a location - IN PROGRESS
+@action('add_review', method=["POST"])
+@action.uses(db, auth)
+def add_review():
+    review = request.json.get('text')
+    return dict()
+
 
 # profile page
 @action('location')
@@ -248,6 +255,7 @@ def location():
                 reviews_len=reviews_len,
                 load_location_info_url = URL('location_info', signer=url_signer),
                 load_review_info_url =  URL('review_info', signer=url_signer),
+                add_review_url=URL('add_review'),
     )
 
 
