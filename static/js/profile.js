@@ -8,6 +8,10 @@ let init = (app) => {
   // This is the Vue data.
   app.data = {
     // Complete as you see fit.
+    first_name: "",
+    last_name: "",
+    email: "",
+    saved_locations: [],
   };
 
   app.enumerate = (a) => {
@@ -19,9 +23,34 @@ let init = (app) => {
     return a;
   };
 
+  // Redirects the user to the location page using the
+  // zipcode, radius, location name, and address
+  app.redirect_saved_location = (location_page, zip, rad, loc, addr) => {
+    console.log(location_page);
+    let queries = {
+      ZIP_REMOVE: zip,
+      RAD_REMOVE: rad,
+      LOC_REMOVE: loc,
+      ADDR_REMOVE: addr,
+    };
+
+    // Formatting url to make the link url compatible
+    for (const [k, v] of Object.entries(queries)) {
+      console.log(k, v);
+      location_page = location_page.replace(k, v);
+      location_page = location_page.replace(/ /g, "%20");
+      location_page = location_page.replace("#", "%23");
+    }
+    console.log(location_page);
+
+    // Redirects user to the location page
+    window.location.replace(location_page);
+  };
+
   // This contains all the methods.
   app.methods = {
     // Complete as you see fit.
+    redirect_saved_location: app.redirect_saved_location,
   };
 
   // This creates the Vue instance.
@@ -32,9 +61,18 @@ let init = (app) => {
   });
 
   // And this initializes it.
-  app.init = () => {
-    // Put here any initialization code.
-    // Typically this is a server GET call to load the data.
+  app.init = async () => {
+    // Loading user info such as name, email, and saved locations
+    const response = await axios.get(load_user_info_url);
+    console.log("Successfully got response:", response);
+    console.log(response.data["user_info"]);
+
+    // Putting loaded user info into Vue
+    user_info = response.data["user_info"];
+    app.vue.first_name = user_info[0];
+    app.vue.last_name = user_info[1];
+    app.vue.email = user_info[2];
+    if (user_info[3].length != 0) app.vue.saved_locations = user_info[3];
   };
 
   // Call to the initializer.

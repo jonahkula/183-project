@@ -12,22 +12,23 @@ still trying to figure out how to add custom header here for its style sheet -->
 
 <section class="section" id="vue-target" v-cloak>
   <div class="container">
-    <h1 class="title is-1">[[=user_info[0] ]] [[=user_info[1] ]]'s Profile</h1>
+    <h1 class="title is-1">{{first_name}} {{last_name}}'s Profile</h1>
     <div class="columns">
       <div class="column is-two-fifths">
-        <h4 class="subtitle is-4">Email: [[=user_info[2] ]]</h4>
+        <h4 class="subtitle is-4">Email: {{email}}</h4>
         <h4 class="subtitle is-4">Vaccinated: Yes</h4>
-        <!-- CHANGE TO VUE LATER -->
         <h4 class="subtitle is-4">Saved Locations:</h4>
-        [[if len(user_info[3]) == 0:]]
-        <h4 class="subtitle is-5 has-text-danger">
+        <h4 class="subtitle is-5 has-text-danger" v-if="saved_locations.length === 0">
           You do not have any saved locations.
         </h4>
-        [[pass ]] [[for location in user_info[3]: ]]
-        <h4 class="subtitle is-5 has-text-success">
-          [[=location[0] ]] [[=location[1] ]]
-        </h4>
-        [[pass]]
+        <div class="sl-container mb-3" v-for="sl in saved_locations">
+          <a class=" subtitle is-5 has-text-success" @click=" redirect_saved_location('[[=URL('location', vars=dict(zip='ZIP_REMOVE' , rad='RAD_REMOVE' ,
+            loc='LOC_REMOVE' , addr='ADDR_REMOVE' ),scheme=True) ]]', sl[2], sl[3], sl[0], sl[1])">
+            {{sl[0]}} {{sl[1]}}
+          </a>
+        </div>
+
+
       </div>
       <div class="column">
         <figure class="image">
@@ -39,8 +40,10 @@ still trying to figure out how to add custom header here for its style sheet -->
 </section>
 
 [[block page_scripts]]
+
 <script>
   // load url's here
+  let load_user_info_url = "[[=XML(load_user_info_url)]]";
 </script>
 <script src="js/profile.js"></script>
 [[end]]
