@@ -267,7 +267,7 @@
           <!-- Left side of review content -->
           <div class="left ml-6">
             <div class="review-item title main-color">{{review.name}}</div>
-            <div class="review-item">Waiting Time: {{review.wait}}</div>
+            <div class="review-item">Waiting Time: {{review.wait_time}}</div>
             <div class="review-item">Customer Service: {{review.service}}</div>
             <div class="review-item">Vaccine: {{review.vaccine}}</div>
           </div>
@@ -291,7 +291,7 @@
               :key="n"
             ></i>
             <div class="review-message subtitle">
-              {{ review.text }}
+              {{ review.review_message }}
             </div>
           </div>
           <hr class="line" />
@@ -312,6 +312,7 @@
   let load_review_info_url = "[[=XML(load_review_info_url) ]]";
   let location_info = "[[=XML(location_info)]]";
   let add_review_url = "[[=XML(add_review_url) ]]";
+  let load_review_url = "[[=XML(load_review_url) ]]";
 </script>
 <script src="js/location.js"></script>
 

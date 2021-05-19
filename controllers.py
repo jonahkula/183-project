@@ -244,13 +244,54 @@ def unsave():
 
     return dict()
 
-# Add a review to a location - IN PROGRESS
+# Add a review to a location
 @action('add_review', method=["POST"])
 @action.uses(db, auth)
 def add_review():
+
+    text = request.json.get('text')
+    wait = request.json.get('wait')
+    service = request.json.get('service')
+    vaccine = request.json.get('vaccine')
+    title = request.json.get('title')
+    address = request.json.get('address')
+    location_name = request.json.get('location_name')
+
     user = db(db.auth_user.email == get_user_email()).select().first()
     name = user.first_name + " " + user.last_name
+
+    # Getting the location of the post that we want to add a review to
+    location = db(db.location.location_address == address).select().first()
+
+    # Check if there exists a location field
+    if (location is None):
+        location = db.location.insert(
+            location_address = address,
+            location_name = location_name,
+        )
+
+    db.review.insert(
+        location_id = location['id'],
+        user_id = user['id'],
+        review_message = text,
+        wait_time = wait,
+        service = service,
+        title = title,
+        vaccine = vaccine,
+        review_user_rating = 4,
+        review_message_rating = 5,
+    )
+
     return dict(name=name)
+
+# Load Reviews
+@action('load_review', method=["GET"])
+@action.uses(db, auth)
+def load_review():
+    address = request.params.get('address')
+    location = db(db.location.location_address == address).select().first()
+    reviews = db(db.review.location_id == location['id']).select().as_list()
+    return dict(reviews = reviews)
 
 # profile page
 @action('location')
@@ -282,6 +323,7 @@ def location():
                 load_location_info_url = URL('location_info', signer=url_signer),
                 load_review_info_url =  URL('review_info', signer=url_signer),
                 add_review_url = URL('add_review'),
+                load_review_url = URL('load_review'),
                 location_info = location_info
                 )
 

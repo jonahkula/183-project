@@ -28,6 +28,10 @@ db.define_table(
     Field('location_id', 'reference location', requires=IS_NOT_EMPTY()),
     Field('user_id', 'reference auth_user', requires=IS_NOT_EMPTY()),
     Field('review_message', requires=IS_NOT_EMPTY()),
+    Field('wait_time', requires=IS_NOT_EMPTY()),
+    Field('service', requires=IS_NOT_EMPTY()),
+    Field('title', requires=IS_NOT_EMPTY()),
+    Field('vaccine', requires=IS_NOT_EMPTY()),
     Field('review_user_rating', 'integer', requires=IS_NOT_EMPTY()),
     Field('review_message_rating', 'integer', requires=IS_NOT_EMPTY()),
 )

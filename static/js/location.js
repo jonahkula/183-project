@@ -40,11 +40,17 @@ let init = (app) => {
 
     axios.post(add_review_url, {
       text: app.vue.add_review_text,
+      wait:app.vue.add_review_wait,
+      service:app.vue.add_review_service,
+      vaccine:app.vue.add_review_vaccine,
+      title:app.vue.add_review_title,
+      address: app.vue.location_address,
+      location_name: app.vue.location_name,
     })
     .then(function(response) {
       app.vue.review_list.push({
-      text:app.vue.add_review_text,
-      wait:app.vue.add_review_wait,
+      review_message:app.vue.add_review_text,
+      wait_time:app.vue.add_review_wait,
       service:app.vue.add_review_service,
       vaccine:app.vue.add_review_vaccine,
       title:app.vue.add_review_title,
@@ -61,10 +67,24 @@ let init = (app) => {
 
   }
 
+  app.load = function () {
+    axios.get(load_review_url, {params: {
+      address: app.vue.location_address
+    }})
+    .then(function(response) {
+      app.vue.review_list = response.data.reviews
+      console.log("Loading reviews: ", response.data.reviews)
+    })
+    .catch(function(error) {
+      console.log("Error loading reviews")
+    })
+  }
+
   // This contains all the methods.
   app.methods = {
     // Complete as you see fit.
     add_review: app.add_review,
+    load: app.load,
   };
 
   // This creates the Vue instance.
