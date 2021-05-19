@@ -4,18 +4,17 @@
 <html lang="en">
 
 <head>
-  <base href="[[=URL('static')]]/" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="scss/location.css?id=13" />
   <!-- I added the ?id=1234 because the .css file was being cached-->
-  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
-  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
-  <title>Suppress19</title>
+  <link rel="stylesheet" href="scss/location.css?id=13" />
 </head>
 
 <body>
-  <!-- This section contains the whole location page excluding the layout.html -->
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+
   <section class="section no-margin" id="vue-target" v-cloak>
     <!-- This section contains the all the location information such as location name, website, etc -->
     <div class="
@@ -76,7 +75,6 @@
 
     <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
 
-    <!--                                                    -->
     <!-- This sections contains the ratings of the location -->
     <div class="
           ratings-section
@@ -186,7 +184,6 @@
       <!-- Loop through the worst ratings -->
     </div>
 
-    <!--                  -->
     <!-- Reviews Section -->
     <section class="section reviews-title title">
       Reviews ({{review_num}})
@@ -259,7 +256,7 @@
       <div class="
             review-content
             is-flex is-justify-content-space-between is-flex-wrap-wrap
-          " v-for="review in review_list">
+          " v-for="review in review_list.slice().reverse()">
 
         <!-- Left side of review content -->
         <div class="left ml-6">

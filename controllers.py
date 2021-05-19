@@ -32,6 +32,15 @@ import pprint
 
 url_signer = URLSigner(session)
 
+# clean reset of review data
+@action('reset-reviews')
+@action.uses(db)
+def setup():
+    db(db.review).delete()
+    db(db.thread).delete()
+    return "reviews reset, head back to home"
+
+
 # gets the users first name, last name, email, and saved locations
 def get_user_info(db):
     user_info_dict = db(db.auth_user.email ==
