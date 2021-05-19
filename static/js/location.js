@@ -33,6 +33,13 @@ let init = (app) => {
     return a;
   };
 
+  app.complete = (review) => {
+    // Initializes useful fields of images.
+    review.map((r) => {
+        r.name = "";
+    })
+};
+
   // Adds a review to the review db and push to current review_list
   // Saving to db not implemented yet
   // Working on pushing to review_list
@@ -72,8 +79,17 @@ let init = (app) => {
       address: app.vue.location_address
     }})
     .then(function(response) {
+      app.complete(response.data.reviews)
       app.vue.review_list = response.data.reviews
       console.log("Loading reviews: ", response.data.reviews)
+    })
+    .then(() => {
+      for (let review of app.vue.review_list) {
+        axios.get(get_name_url, { params: {id: review.id}})
+          .then((result) => {
+              review.name = result.data.name;
+        });
+      }
     })
     .catch(function(error) {
       console.log("Error loading reviews")
@@ -135,6 +151,7 @@ let init = (app) => {
       app.vue.review_num = review_num;
       app.vue.review_message = review_message;
       app.vue.review_avg_num = review_avg_num;
+      app.load()
     } catch (error) {
       console.log(error);
     }

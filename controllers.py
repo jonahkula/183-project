@@ -293,6 +293,16 @@ def load_review():
     reviews = db(db.review.location_id == location['id']).select().as_list()
     return dict(reviews = reviews)
 
+# Used to get name of user
+@action('get_name', method=["GET"])
+@action.uses(db, auth)
+def get_name():
+    review_id = request.params.get('id')
+    review = db(db.review.id == review_id).select().first()
+    user = db(db.auth_user.id == review['user_id']).select().first()
+    name = user['first_name'] + " " + user['last_name']
+    return dict(name=name)
+
 # profile page
 @action('location')
 @action.uses(db, auth, 'location.html')
@@ -324,6 +334,7 @@ def location():
                 load_review_info_url =  URL('review_info', signer=url_signer),
                 add_review_url = URL('add_review'),
                 load_review_url = URL('load_review'),
+                get_name_url = URL('get_name'),
                 location_info = location_info
                 )
 
