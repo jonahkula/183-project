@@ -6,7 +6,7 @@
 
 // @import "../bulma.sass";
 
-$main_display_color: hsl(204, 71%, 39%);
+$main_display_color: linear-gradient(135deg, rgba(73,192,240,1) 0%,rgba(44,175,227,1) 100%);
 
 // @import "../bulma.sass";
 
@@ -15,7 +15,7 @@ $main_display_color: hsl(204, 71%, 39%);
 }
 
 .test-color {
-  background-color: $main_display_color;
+  background: $main_display_color;
 }
 
 .white-text {

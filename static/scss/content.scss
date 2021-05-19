@@ -7,7 +7,6 @@
 $family-primary: "Roboto", sans-serif;
 $input-placeholder-color: bulmaRgba(hsl(0, 0%, 21%), 0.3);
 $hover_border: #0e1f21;
-// $error_color: #cc00000a;
 $main_display_color: hsl(204, 71%, 39%);
 $input-focus-box-shadow-color: none;
 
@@ -22,8 +21,17 @@ $input-focus-box-shadow-color: none;
   color: $main_display_color;
 }
 
+#locate {
+  :hover, :active {
+    color: white;
+    background: linear-gradient(135deg, rgba(179,220,237,1) 0%,rgba(41,184,229,1) 50%,rgba(188,224,238,1) 100%);
+    // background: linear-gradient(135deg, rgba(135,224,253,1) 0%,rgba(83,203,241,1) 40%,rgba(5,171,224,1) 100%);
+  }
+}
+
 .navbar {
-  background-color: $main_display_color;
+  background: linear-gradient(135deg, rgba(73,192,240,1) 0%,rgba(44,175,227,1) 100%);
+  // background-color: $main_display_color;
   padding-top: 0;
   padding-bottom: 0;
   color: white;

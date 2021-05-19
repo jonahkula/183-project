@@ -21,11 +21,12 @@
   <!-- This section contains the whole location page excluding the layout.html -->
   <section class="section no-margin" id="vue-target" v-cloak>
     <!-- This section contains the all the location information such as location name, website, etc -->
-    <div class="
+    <div 
+          class="
           full-width-container
           box
           is-flex is-justify-content-space-between is-flex-wrap-wrap
-        " :style="{'background-image': 'url(' + locations[location_name.split(' ')[0]] + ')'}">
+        " :style="{'background-image': 'url(' + image + ')'}">
       <!-- This section contains the information on the left side of this container -->
       <div class="flex-left white-text">
         <!-- We will get the location name from Vue -->

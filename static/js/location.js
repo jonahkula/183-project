@@ -23,7 +23,18 @@ let init = (app) => {
       "Rite": "assets/Riteaid.jpg",
       "SAFEWAY": "assets/Safeway.jpg",
       "Walgreens": "assets/Walgreens.jpg",
-      "Walmart": "assets/Walmart.jpg"
+      "Walmart": "assets/Walmart.jpg",
+      "Other": "assets/vaccine.jpg"
+    },
+    image: ""
+  };
+
+  app.display_image = () => {
+    let image = app.vue.locations[app.vue.location_name.split(' ')[0]];
+    if (image === undefined) {
+      app.vue.image = app.vue.locations["Other"];
+    } else {
+      app.vue.image = image;
     }
   };
 
@@ -50,7 +61,7 @@ let init = (app) => {
 
   // This contains all the methods.
   app.methods = {
-    // Complete as you see fit.
+    display_image: app.display_image
   };
 
   // This creates the Vue instance.
@@ -81,6 +92,7 @@ let init = (app) => {
       app.vue.location_stock = in_stock;
 
       console.log("Check location_name:", app.vue.location_name);
+      app.display_image();
 
       // GET Request to get the information of the location
       // const location_response = await axios.get(load_location_info_url);

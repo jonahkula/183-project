@@ -8,12 +8,12 @@ $family-primary: "Roboto", sans-serif;
 $input-placeholder-color: bulmaRgba(hsl(0, 0%, 21%), 0.3);
 $error_color: #cc00000a;
 $hover_border: #0e1f21;
-$main_display_color: hsl(204, 71%, 39%);
+$main_display_color: linear-gradient(135deg, rgba(73,192,240,1) 0%,rgba(44,175,227,1) 100%);
 
 @import "../bulma.sass";
 
 .navbar {
-  background-color: $main_display_color;
+  background: $main_display_color;
   padding-top: 0;
   padding-bottom: 0;
   color: white;
