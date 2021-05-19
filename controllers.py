@@ -19,9 +19,7 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 
 from __future__ import annotations
 import requests
-import pprint
 from typing import List, Dict
-
 from py4web import action, request, abort, redirect, URL
 from yatl.helpers import *
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
@@ -35,8 +33,6 @@ import pprint
 url_signer = URLSigner(session)
 
 # gets the users first name, last name, email, and saved locations
-
-
 def get_user_info(db):
     user_info_dict = db(db.auth_user.email ==
                         get_user_email()).select().first()
@@ -68,7 +64,7 @@ def get_user_info(db):
     return user_info
 
 
-# function that saves a location to a user
+# saves a location to a user
 def saveToUser(address, zipCode, radius, user_id):
     # Get the id of the location we just inserted
     location = db(db.location.location_address == address).select().first()
@@ -89,6 +85,7 @@ def index():
     return dict()
 
 
+# get saved locations of a user
 def get_saved_work():
     # Getting the id of the user
     user = db(db.auth_user.email == get_user_email()).select().first()
@@ -107,15 +104,15 @@ def get_saved_work():
     return saved_address
 
 
+# load saved locations of a user
 @action('load_saved', method='GET')
 @action.uses(auth)
 def load_saved():
     saved_address = get_saved_work()
     return dict(saved=saved_address)
 
+
 # home page
-
-
 @action('main')
 @action.uses(db, auth, 'content.html')
 def main():
@@ -131,11 +128,13 @@ def main():
     )
 
 
+# load home
 @action('load_home')
 def load_home():
     pass
 
 
+# ?
 @action('add_locations', method="POST")
 @action.uses(auth)
 def add_locations():
@@ -169,14 +168,15 @@ def profile():
     )
 
 
+# ?
 @action('load_user_info', method=['GET'])
 @action.uses(db, auth)
 def load_user_info():
     user_info = get_user_info(db)
     return dict(user_info=user_info)
+
+
 # save a location
-
-
 @action('save', method=['POST'])
 @action.uses(db, auth)
 def save():
@@ -210,12 +210,10 @@ def save():
     saved_address = get_saved_work()
     print(saved_address)
     redirect(URL('main'))
-
     return dict()
 
+
 # unsave a location
-
-
 @action('unsave', method=["GET", "POST"])
 @action.uses(db, auth)
 def unsave():
@@ -241,14 +239,13 @@ def unsave():
     saved_address = get_saved_work()
     print(saved_address)
     redirect(URL('main'))
-
     return dict()
 
-# Add a review to a location
+
+# add a review to a location
 @action('add_review', method=["POST"])
 @action.uses(db, auth)
 def add_review():
-
     text = request.json.get('text')
     wait = request.json.get('wait')
     service = request.json.get('service')
@@ -284,7 +281,8 @@ def add_review():
 
     return dict(name=name)
 
-# Load Reviews
+
+# load reviews
 @action('load_review', method=["GET"])
 @action.uses(db, auth)
 def load_review():
@@ -293,7 +291,8 @@ def load_review():
     reviews = db(db.review.location_id == location['id']).select().as_list()
     return dict(reviews = reviews)
 
-# Used to get name of user
+
+# used to get name of user
 @action('get_name', method=["GET"])
 @action.uses(db, auth)
 def get_name():
@@ -302,6 +301,7 @@ def get_name():
     user = db(db.auth_user.id == review['user_id']).select().first()
     name = user['first_name'] + " " + user['last_name']
     return dict(name=name)
+
 
 # profile page
 @action('location')
@@ -338,9 +338,8 @@ def location():
                 location_info = location_info
                 )
 
-# Finds the info of a location given the zipcode, radius, and target
 
-
+# finds the info of a location given the zipcode, radius, and target
 def extract_location_info(zipcode, radius, location_target):
     l = Location(zipcode, radius)
     all_locations = l.get_locations()
@@ -350,6 +349,7 @@ def extract_location_info(zipcode, radius, location_target):
     return None
 
 
+# ?
 @action('review_info')
 @action.uses(url_signer.verify(), db)
 def load_location_info():
@@ -359,9 +359,8 @@ def load_location_info():
                 review_avg_num=3.7,
                 )
 
+
 # for the web scraper
-
-
 class Location():
     def __init__(self: Location, zipcode: str, radius: str) -> None:
         self.zipcode = zipcode

@@ -12,9 +12,6 @@
   <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
   <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
   <title>Suppress19</title>
-  [[block page_head]]
-  <!--  -->
-  [[end]]
 </head>
 
 <body>
@@ -195,109 +192,105 @@
       Reviews ({{review_num}})
     </section>
 
-      <div class="section">
-        <div class="form">
+    <div class="section">
+      <div class="form">
 
-          <div class="field">
-            <label class="label">Title</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Title" v-model="add_review_title"></input>
-            </div>
+        <div class="field">
+          <label class="label">Title</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Title" v-model="add_review_title"></input>
           </div>
-
-          <div class="field">
-            <label class="label">Review</label>
-            <textarea class="textarea" placeholder="Enter Review" v-model="add_review_text"></textarea>
-          </div>
-
-          <div class="field">
-            <label class="label">Wait Time</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Wait Time" v-model="add_review_wait"></input>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">Customer Service</label>
-            <div class="control">
-              <div class="select">
-                <select v-model="add_review_service">
-                  <option>Good</option>
-                  <option>Average</option>
-                  <option>Mediocre</option>
-                  <option>Bad</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">Vaccine Type</label>
-            <div class="control">
-              <div class="select">
-                <select v-model="add_review_vaccine">
-                  <option>Pfizer</option>
-                  <option>Moderna</option>
-                  <option>J&J</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          
-          <div class="field is-grouped">
-            <div class="control">
-              <button class="button is-success" @click="add_review">Submit</button>
-            </div>
-          </div>
-          
         </div>
-      </div>
 
-      <!-- Display a list of posts that a user has made -->
-      <section class="reviews-container"></section>
-      <div class="review-box">
-        <hr class="line" />
+        <div class="field">
+          <label class="label">Review</label>
+          <textarea class="textarea" placeholder="Enter Review" v-model="add_review_text"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="label">Wait Time</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Wait Time" v-model="add_review_wait"></input>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Customer Service</label>
+          <div class="control">
+            <div class="select">
+              <select v-model="add_review_service">
+                <option>Good</option>
+                <option>Average</option>
+                <option>Mediocre</option>
+                <option>Bad</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Vaccine Type</label>
+          <div class="control">
+            <div class="select">
+              <select v-model="add_review_vaccine">
+                <option>Pfizer</option>
+                <option>Moderna</option>
+                <option>J&J</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-success" @click="add_review">Submit</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Display a list of posts that a user has made -->
+    <section class="reviews-container"></section>
+    <div class="review-box">
+      <hr class="line" />
 
       <!-- Contains the left side and right side of review content -->
       <div class="
             review-content
             is-flex is-justify-content-space-between is-flex-wrap-wrap
           " v-for="review in review_list">
-          
-          <!-- Left side of review content -->
-          <div class="left ml-6">
-            <div class="review-item title main-color">{{review.name}}</div>
-            <div class="review-item">Waiting Time: {{review.wait_time}}</div>
-            <div class="review-item">Customer Service: {{review.service}}</div>
-            <div class="review-item">Vaccine: {{review.vaccine}}</div>
-          </div>
 
-          <!-- Right side of review content -->
-          <div class="right">
-            <div class="container title review-title has-text-white">
-              {{review.title}}
-            </div>
-            <!-- Need to change this to be with respect to the user's rating -->
-            <i
-              class="
+        <!-- Left side of review content -->
+        <div class="left ml-6">
+          <div class="review-item title main-color">{{review.name}}</div>
+          <div class="review-item">Waiting Time: {{review.wait_time}}</div>
+          <div class="review-item">Customer Service: {{review.service}}</div>
+          <div class="review-item">Vaccine: {{review.vaccine}}</div>
+        </div>
+
+        <!-- Right side of review content -->
+        <div class="right">
+          <div class="container title review-title has-text-white">
+            {{review.title}}
+          </div>
+          <!-- Need to change this to be with respect to the user's rating -->
+          <i class="
                 fa fa-star
                 is-size-4
                 has-background-info-dark
                 mr-4
                 mb-3
                 circle
-              "
-              v-for="n in parseInt(Math.floor(review_avg_num))"
-              :key="n"
-            ></i>
-            <div class="review-message subtitle">
-              {{ review.review_message }}
-            </div>
+              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
+          <div class="review-message subtitle">
+            {{ review.review_message }}
           </div>
-          <hr class="line" />
         </div>
-        </div>
+        <hr class="line" />
       </div>
+    </div>
+    </div>
     </div>
   </section>
 </body>
@@ -315,8 +308,7 @@
   let load_review_url = "[[=XML(load_review_url) ]]";
   let get_name_url = "[[=XML(get_name_url) ]]";
 </script>
-<script src="js/location.js"></script>
 
-<!-- individual pages can add scripts here -->
+<script src="js/location.js"></script>
 
 </html>
