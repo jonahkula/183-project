@@ -4,21 +4,17 @@
 <html lang="en">
 
 <head>
-  <base href="[[=URL('static')]]/" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="scss/location.css?id=13" />
   <!-- I added the ?id=1234 because the .css file was being cached-->
-  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
-  <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
-  <title>Suppress19</title>
-  [[block page_head]]
-  <!--  -->
-  [[end]]
+  <link rel="stylesheet" href="scss/location.css?id=13" />
 </head>
 
 <body>
-  <!-- This section contains the whole location page excluding the layout.html -->
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+
   <section class="section no-margin" id="vue-target" v-cloak>
     <!-- This section contains the all the location information such as location name, website, etc -->
     <div class="
@@ -79,7 +75,6 @@
 
     <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
 
-    <!--                                                    -->
     <!-- This sections contains the ratings of the location -->
     <div class="
           ratings-section
@@ -189,11 +184,68 @@
       <!-- Loop through the worst ratings -->
     </div>
 
-    <!--                  -->
     <!-- Reviews Section -->
     <section class="section reviews-title title">
       Reviews ({{review_num}})
     </section>
+
+    <div class="section">
+      <div class="form">
+
+        <div class="field">
+          <label class="label">Title</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Title" v-model="add_review_title"></input>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Review</label>
+          <textarea class="textarea" placeholder="Enter Review" v-model="add_review_text"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="label">Wait Time</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Wait Time" v-model="add_review_wait"></input>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Customer Service</label>
+          <div class="control">
+            <div class="select">
+              <select v-model="add_review_service">
+                <option>Good</option>
+                <option>Average</option>
+                <option>Mediocre</option>
+                <option>Bad</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Vaccine Type</label>
+          <div class="control">
+            <div class="select">
+              <select v-model="add_review_vaccine">
+                <option>Pfizer</option>
+                <option>Moderna</option>
+                <option>J&J</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-success" @click="add_review">Submit</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <!-- Display a list of posts that a user has made -->
     <section class="reviews-container"></section>
@@ -204,19 +256,20 @@
       <div class="
             review-content
             is-flex is-justify-content-space-between is-flex-wrap-wrap
-          ">
+          " v-for="review in review_list.slice().reverse()">
+
         <!-- Left side of review content -->
         <div class="left ml-6">
-          <div class="review-item title main-color">Luca de Alfaro</div>
-          <div class="review-item">Waiting Time: 10 minutes</div>
-          <div class="review-item">Customer Service: Good</div>
-          <div class="review-item">Vaccine: Moderna</div>
+          <div class="review-item title main-color">{{review.name}}</div>
+          <div class="review-item">Waiting Time: {{review.wait_time}}</div>
+          <div class="review-item">Customer Service: {{review.service}}</div>
+          <div class="review-item">Vaccine: {{review.vaccine}}</div>
         </div>
 
         <!-- Right side of review content -->
         <div class="right">
           <div class="container title review-title has-text-white">
-            Moderna hits different
+            {{review.title}}
           </div>
           <!-- Need to change this to be with respect to the user's rating -->
           <i class="
@@ -228,47 +281,13 @@
                 circle
               " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
           <div class="review-message subtitle">
-            I went to cvs and it was a good experience. The line was short,
-            the vaccine didn't hurt and all is good.
+            {{ review.review_message }}
           </div>
         </div>
+        <hr class="line" />
       </div>
-
-      <hr class="line" />
-
-      <!-- Contains the left side and right side of review content -->
-      <div class="
-            review-content
-            is-flex is-justify-content-space-between is-flex-wrap-wrap
-          ">
-        <!-- Left side of review content -->
-        <div class="left ml-6">
-          <div class="review-item title main-color">Luca de Alfaro</div>
-          <div class="review-item">Waiting Time: 10 minutes</div>
-          <div class="review-item">Customer Service: Good</div>
-          <div class="review-item">Vaccine: Moderna</div>
-        </div>
-
-        <!-- Right side of review content -->
-        <div class="right">
-          <div class="container title review-title has-text-white">
-            Moderna hits different
-          </div>
-          <!-- Need to change this to be with respect to the user's rating -->
-          <i class="
-                fa fa-star
-                is-size-4
-                has-background-info-dark
-                mr-4
-                mb-3
-                circle
-              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
-          <div class="review-message subtitle">
-            I went to cvs and it was a good experience. The line was short,
-            the vaccine didn't hurt and all is good.
-          </div>
-        </div>
-      </div>
+    </div>
+    </div>
     </div>
   </section>
 </body>
@@ -279,11 +298,14 @@
 <script src="js/utils.js"></script>
 
 <script>
+  let load_location_info_url = "[[=XML(load_location_info_url) ]]";
   let load_review_info_url = "[[=XML(load_review_info_url) ]]";
   let location_info = "[[=XML(location_info)]]";
+  let add_review_url = "[[=XML(add_review_url) ]]";
+  let load_review_url = "[[=XML(load_review_url) ]]";
+  let get_name_url = "[[=XML(get_name_url) ]]";
 </script>
-<script src="js/location.js"></script>
 
-<!-- individual pages can add scripts here -->
+<script src="js/location.js"></script>
 
 </html>

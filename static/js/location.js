@@ -16,6 +16,12 @@ let init = (app) => {
     review_num: 0,
     review_message: "",
     review_avg_num: 0,
+    add_review_text: "",
+    add_review_wait: "",
+    add_review_service: "",
+    add_review_vaccine: "",
+    add_review_title: "",
+    review_list: [],
   };
 
   app.enumerate = (a) => {
@@ -27,19 +33,74 @@ let init = (app) => {
     return a;
   };
 
-  // https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript
-  // app.formatPhoneNumber = function formatPhoneNumber(phoneNumberString) {
-  //   var cleaned = ("" + phoneNumberString).replace(/\D/g, "");
-  //   var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-  //   if (match) {
-  //     return "(" + match[1] + ") " + match[2] + "-" + match[3];
-  //   }
-  //   return null;
-  // }
+  app.complete = (review) => {
+    // Initializes useful fields of images.
+    review.map((r) => {
+        r.name = "";
+    })
+};
+
+  // Adds a review to the review db and push to current review_list
+  // Saving to db not implemented yet
+  // Working on pushing to review_list
+  app.add_review = function() {
+
+    axios.post(add_review_url, {
+      text: app.vue.add_review_text,
+      wait:app.vue.add_review_wait,
+      service:app.vue.add_review_service,
+      vaccine:app.vue.add_review_vaccine,
+      title:app.vue.add_review_title,
+      address: app.vue.location_address,
+      location_name: app.vue.location_name,
+    })
+    .then(function(response) {
+      app.vue.review_list.push({
+      review_message:app.vue.add_review_text,
+      wait_time:app.vue.add_review_wait,
+      service:app.vue.add_review_service,
+      vaccine:app.vue.add_review_vaccine,
+      title:app.vue.add_review_title,
+      name:response.data.name,
+    })
+    app.vue.add_review_text = ""
+    app.vue.add_review_wait = ""
+    app.vue.add_review_title = ""
+    console.log("Received response from POST request:", response.data)
+    })
+    .catch(function(error) {
+      console.log("The error attempting to send a POST request:", error)
+    })
+
+  }
+
+  app.load = function () {
+    axios.get(load_review_url, {params: {
+      address: app.vue.location_address
+    }})
+    .then(function(response) {
+      app.complete(response.data.reviews)
+      app.vue.review_list = response.data.reviews
+      console.log("Loading reviews: ", response.data.reviews)
+    })
+    .then(() => {
+      for (let review of app.vue.review_list) {
+        axios.get(get_name_url, { params: {id: review.id}})
+          .then((result) => {
+              review.name = result.data.name;
+        });
+      }
+    })
+    .catch(function(error) {
+      console.log("Error loading reviews")
+    })
+  }
 
   // This contains all the methods.
   app.methods = {
     // Complete as you see fit.
+    add_review: app.add_review,
+    load: app.load,
   };
 
   // This creates the Vue instance.
@@ -90,6 +151,7 @@ let init = (app) => {
       app.vue.review_num = review_num;
       app.vue.review_message = review_message;
       app.vue.review_avg_num = review_avg_num;
+      app.load()
     } catch (error) {
       console.log(error);
     }
