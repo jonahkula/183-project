@@ -141,7 +141,7 @@ def load_home():
     pass
 
 
-# ?
+# locations for content page
 @action('add_locations', method="POST")
 @action.uses(auth)
 def add_locations():
@@ -175,7 +175,7 @@ def profile():
     )
 
 
-# ?
+# return user info
 @action('load_user_info', method=['GET'])
 @action.uses(db, auth)
 def load_user_info():
@@ -274,7 +274,7 @@ def add_review():
             location_name = location_name,
         )
 
-    db.review.insert(
+    id = db.review.insert(
         location_id = location['id'],
         user_id = user['id'],
         review_message = text,
@@ -286,7 +286,7 @@ def add_review():
         review_message_rating = 5,
     )
 
-    return dict(name=name)
+    return dict(name=name, id=id)
 
 
 # load reviews
@@ -329,10 +329,10 @@ def set_review_rating():
     rating = request.json.get('rating')
     assert review_id is not None and rating is not None
     db.review_rating.update_or_insert(
-        ((db.review_rating.post == review_id) & (db.review_rating.rater == get_user())),
+        ((db.review_rating.review == review_id) & (db.review_rating.rater == get_user())),
         review=review_id,
         rater=get_user(),
-        rating=rating
+        rating=rating,
     )
     return "review rating set"
 
@@ -343,8 +343,9 @@ def set_review_rating():
 def get_review_raters():
     review_id = request.params.get('review_id')
     row = db((db.review_raters.review == review_id)).select().first()
-    amount = row.amount if row is not None else []
-    return dict(amount=amount)
+    likers = row.likers if row is not None else 0
+    dislikers = row.dislikers if row is not None else 0
+    return dict(likers=likers, dislikers=dislikers)
 
 
 # set raters of review
@@ -352,14 +353,12 @@ def get_review_raters():
 @action.uses(url_signer.verify(), db, auth.user)
 def set_review_raters():
     review_id = request.json.get('review_id')
-    amount = request.json.get('amount')
     likers = request.json.get('likers')
     dislikers = request.json.get('dislikers')
-    assert review_id is not None and amount is not None and likers is not None and dislikers is not None
+    assert review_id is not None and likers is not None and dislikers is not None
     db.review_raters.update_or_insert(
         ((db.review_raters.review == review_id)),
         review=review_id,
-        amount=amount,
         likers=likers,
         dislikers=dislikers,
     )
@@ -394,7 +393,6 @@ def location():
     return dict(rating_num=rating_num,
                 reviews_len=reviews_len,
                 load_location_info_url = URL('location_info', signer=url_signer),
-                load_review_info_url =  URL('review_info', signer=url_signer),
                 add_review_url = URL('add_review'),
                 load_review_url = URL('load_review'),
                 get_name_url = URL('get_name'),
@@ -414,16 +412,6 @@ def extract_location_info(zipcode, radius, location_target):
         if location['name'] == location_target:
             return location
     return None
-
-
-# ?
-@action('review_info')
-@action.uses(url_signer.verify(), db)
-def load_location_info():
-    return dict(review_num=54,
-                review_message="I went to cvs and it was decent.",
-                review_avg_num=3.7,
-                )
 
 
 # for the web scraper

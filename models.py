@@ -61,7 +61,6 @@ db.define_table(
 db.define_table(
     'review_raters',
     Field('review', 'reference review'),
-    Field('amount', 'integer', default=0),
     Field('likers', 'integer', default=0),
     Field('dislikers', 'integer', default=0),
 )

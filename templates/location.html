@@ -32,17 +32,14 @@
 
         <div class="ratings is-flex is-align-items-center">
           <!-- Loop to check average rating for the location-->
-          <i class="
+          <!-- <i class="
                 box
                 fa fa-star
                 is-size-2
                 has-background-info-dark
                 mt-3
                 mr-4
-              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
-
-          <!-- Number of reviews based on the location -->
-          <i class="is-size-2 has-text-weight-bold">{{review_num}} Reviews</i>
+              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i> -->
         </div>
 
         <div>
@@ -73,144 +70,33 @@
       </div>
     </div>
 
-    <div class="sr-item section is-size-3 mb-3 title">Ratings (14)</div>
-
-    <!-- This sections contains the ratings of the location -->
-    <div class="
-          ratings-section
-          container
-          is-flex is-justify-content-space-around is-flex-wrap-wrap
-        ">
-      <!-- The location information such as time, customer service, and vaccine type -->
-      <div class="store-rating is-flex is-flex-direction-column">
-        <div class="sr-item is-size-3 has-text-weight-bold">
-          Average Store Rating
-        </div>
-        <div class="sr-item is-size-3 has-text-weight-bold mb-3">4.7</div>
-        <div class="sr-item is-size-6 mb-1">Waiting Time: 10 minutes</div>
-        <div class="sr-item is-size-6 mb-1">Customer Service: Good</div>
-        <div class="sr-item is-size-6 mb-1">
-          Vaccine Types: Phizer, J&J, Moderna
-        </div>
-      </div>
-
-      <!-- Pro Card Section-->
-      <div class="pros box is-size-1 has-background-info-dark">
-        <div class="pro-title">Pros</div>
-
-        <!-- Loop through the best ratings -->
-        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-          <div class="icon-text">
-            <span class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                ">
-              55
-            </span>
-          </div>
-          <div class="rating-info ml-6 has-text-white">Waiting Time</div>
-        </div>
-        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-          <div class="icon-text">
-            <span class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                ">
-              55
-            </span>
-          </div>
-          <div class="rating-info ml-6 has-text-white">Variety</div>
-        </div>
-        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-          <div class="icon-text">
-            <span class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                ">
-              55
-            </span>
-          </div>
-          <div class="rating-info ml-6 has-text-white">Easy To Find</div>
-        </div>
-        <!-- Loop through the best ratings -->
-      </div>
-
-      <!-- Con card Section-->
-      <div class="cons box is-size-1 has-background-info-dark">
-        <div class="con-title">Cons</div>
-
-        <!-- Loop through the best ratings -->
-        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-          <div class="icon-text">
-            <span class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                ">
-              55
-            </span>
-          </div>
-          <div class="rating-info ml-6 has-text-white">Waiting Time</div>
-        </div>
-        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-          <div class="icon-text">
-            <span class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                ">
-              55
-            </span>
-          </div>
-          <div class="rating-info ml-6 has-text-white">Variety</div>
-        </div>
-        <div class="best-rating is-flex is-size-5 is-align-items-center mb-6">
-          <div class="icon-text">
-            <span class="
-                  icon
-                  has-text-info has-background-info-dark has-text-white
-                  mr-6
-                ">
-              55
-            </span>
-          </div>
-          <div class="rating-info ml-6 has-text-white">Easy To Find</div>
-        </div>
-        <!-- Loop through the best ratings -->
-      </div>
-      <!-- Loop through the worst ratings -->
-    </div>
-
     <!-- Reviews Section -->
     <section class="section reviews-title title">
-      Reviews ({{review_num}})
+      Reviews
     </section>
 
     <div class="section">
       <div class="form">
-
+        <!-- review title -->
         <div class="field">
           <label class="label">Title</label>
           <div class="control">
             <input class="input" type="text" placeholder="Title" v-model="add_review_title"></input>
           </div>
         </div>
-
+        <!-- review message -->
         <div class="field">
           <label class="label">Review</label>
           <textarea class="textarea" placeholder="Enter Review" v-model="add_review_text"></textarea>
         </div>
-
+        <!-- wait time -->
         <div class="field">
           <label class="label">Wait Time</label>
           <div class="control">
             <input class="input" type="text" placeholder="Wait Time" v-model="add_review_wait"></input>
           </div>
         </div>
-
+        <!-- customer service -->
         <div class="field">
           <label class="label">Customer Service</label>
           <div class="control">
@@ -224,7 +110,7 @@
             </div>
           </div>
         </div>
-
+        <!-- vaccine type -->
         <div class="field">
           <label class="label">Vaccine Type</label>
           <div class="control">
@@ -237,21 +123,19 @@
             </div>
           </div>
         </div>
-
+        <!-- submit button -->
         <div class="field is-grouped">
           <div class="control">
             <button class="button is-success" @click="add_review">Submit</button>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- Display a list of posts that a user has made -->
+    <!-- display reviews -->
     <section class="reviews-container"></section>
     <div class="review-box">
       <hr class="line" />
-
       <!-- Contains the left side and right side of review content -->
       <div class="
             review-content
@@ -264,6 +148,25 @@
           <div class="review-item">Waiting Time: {{review.wait_time}}</div>
           <div class="review-item">Customer Service: {{review.service}}</div>
           <div class="review-item">Vaccine: {{review.vaccine}}</div>
+          <div>
+            <span @mouseout="review_ratings_out(review._idx)">
+              <span @mouseover="review_ratings_over(review._idx, thumb_idx)"
+                @click="set_review_rating(review._idx, thumb_idx)" v-for="thumb_idx in [1, 2]">
+                <span v-if="thumb_idx == 1" class="mr-2">
+                  <i v-if="thumb_idx == review.num_thumbs_display" class="fa fa-thumbs-up fa-lg has-text-info"></i>
+                  <i v-if="thumb_idx !== review.num_thumbs_display" class="fa fa-thumbs-o-up fa-lg has-text-info"></i>
+                </span>
+                <span v-if="thumb_idx == 2">
+                  <i v-if="thumb_idx == review.num_thumbs_display" class="fa fa-thumbs-down fa-lg has-text-danger"></i>
+                  <i v-if="thumb_idx !== review.num_thumbs_display"
+                    class="fa fa-thumbs-o-down fa-lg has-text-danger"></i>
+                </span>
+              </span>
+            </span>
+          </div>
+          <p v-if="review.show_review_likers">
+            Likes: {{review.likers}} Dislikes: {{review.dislikers}}
+          </p>
         </div>
 
         <!-- Right side of review content -->
@@ -271,15 +174,6 @@
           <div class="container title review-title has-text-white">
             {{review.title}}
           </div>
-          <!-- Need to change this to be with respect to the user's rating -->
-          <i class="
-                fa fa-star
-                is-size-4
-                has-background-info-dark
-                mr-4
-                mb-3
-                circle
-              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i>
           <div class="review-message subtitle">
             {{ review.review_message }}
           </div>
@@ -299,7 +193,6 @@
 
 <script>
   let load_location_info_url = "[[=XML(load_location_info_url) ]]";
-  let load_review_info_url = "[[=XML(load_review_info_url) ]]";
   let location_info = "[[=XML(location_info)]]";
   let add_review_url = "[[=XML(add_review_url) ]]";
   let load_review_url = "[[=XML(load_review_url) ]]";
