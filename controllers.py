@@ -100,8 +100,8 @@ def get_saved_work():
 
     # Getting a list of saved locations of the user
     saved = db(
-        db.location.id == db.saved_location.location_id,
-        db.saved_location.user_id == user_id
+        (db.location.id == db.saved_location.location_id) &
+        (db.saved_location.user_id == user_id)
     ).select()
 
     saved_address = []

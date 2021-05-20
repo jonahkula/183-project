@@ -121,10 +121,11 @@
             </div>
           </div>
         </div>
+        <p class="has-text-danger" v-if="bad_input">All fields must be filled out before submitting</p>
         <!-- submit button -->
         <div class="field is-grouped">
           <div class="control">
-            <a class="button is-success block" @click="add_review">
+            <a class="button is-success block mt-3" @click="add_review">
               <span class="icon"><i class="fa fa-plus"></i></span>
               <span>Submit</span>
             </a>
@@ -136,7 +137,7 @@
     <!-- display reviews -->
     <section class="reviews-container"></section>
     <div class="review-box">
-      <hr class="line" />
+      <hr class="line" v-if="review_list.length > 0" />
 
       <!-- vue loop going through reviews -->
       <div class="
@@ -175,7 +176,7 @@
         </div>
 
         <!-- contains review itself -->
-        <div class="right">
+        <div class="right mr-6">
           <!-- review title -->
           <div class="container title review-title has-text-white">
             {{review.title}}
@@ -185,7 +186,6 @@
             {{ review.review_message }}
           </div>
         </div>
-        <hr class="line" />
       </div>
     </div>
     </div>

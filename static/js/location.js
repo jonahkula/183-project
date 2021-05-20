@@ -13,6 +13,7 @@ let init = (app) => {
     add_review_vaccine: "",
     add_review_title: "",
     review_list: [],
+    bad_input: false,
   };
 
   // relabel current rows
@@ -114,6 +115,19 @@ let init = (app) => {
 
   // adds review to db
   app.add_review = function () {
+    // if any value is not filled out, return
+    if (
+      app.vue.add_review_service === "" ||
+      app.vue.add_review_text === "" ||
+      app.vue.add_review_title === "" ||
+      app.vue.add_review_vaccine === "" ||
+      app.vue.add_review_wait === ""
+    ) {
+      app.vue.bad_input = true;
+      return;
+    }
+
+    // update server with new review
     axios
       .post(add_review_url, {
         text: app.vue.add_review_text,
@@ -140,13 +154,21 @@ let init = (app) => {
           show_review_likers: false,
         });
         app.enumerate(app.vue.review_list);
-        app.vue.add_review_text = "";
-        app.vue.add_review_wait = "";
-        app.vue.add_review_title = "";
+        app.review_input_clear();
+        app.vue.bad_input = false;
       })
       .catch(function (error) {
         console.log("The error attempting to send a POST request:", error);
       });
+  };
+
+  // clear review input field
+  app.review_input_clear = () => {
+    app.vue.add_review_text = "";
+    app.vue.add_review_wait = "";
+    app.vue.add_review_title = "";
+    app.vue.add_review_service = "";
+    app.vue.add_review_vaccine = "";
   };
 
   // load reviews on location
@@ -214,6 +236,8 @@ let init = (app) => {
       app.vue.location_address = address1;
       app.vue.location_phone = phone;
       app.vue.location_stock = in_stock;
+
+      // load reviews
       app.load();
     } catch (error) {
       console.log(error);
