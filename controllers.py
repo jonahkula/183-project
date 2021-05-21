@@ -322,7 +322,11 @@ def add_review():
 def load_review():
     address = request.params.get('address')
     location = db(db.location.location_address == address).select().first()
-    reviews = db(db.review.location_id == location['id']).select().as_list()
+    if location is None:
+        reviews = []
+    else :
+        reviews = db(db.review.location_id == location['id']).select().as_list()
+
     return dict(reviews = reviews)
 
 
