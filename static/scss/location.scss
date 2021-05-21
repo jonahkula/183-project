@@ -1,5 +1,5 @@
 // run command below in root py4web directory
-// sass --no-source-map apps/183-project/static/scss/content.scss apps/183-project/static/scss/content.css
+// sass --no-source-map apps/183-project/static/scss/location.scss apps/183-project/static/scss/location.css
 
 @charset "utf-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
@@ -7,6 +7,7 @@
 // @import "../bulma.sass";
 
 $main_display_color: linear-gradient(135deg, rgba(73,192,240,1) 0%,rgba(44,175,227,1) 100%);
+$body-background-color: whitesmoke;
 
 // @import "../bulma.sass";
 

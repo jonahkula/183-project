@@ -74,6 +74,7 @@
             <!-- location name -->
             <div class="level-left">
               <div class="level-item">
+                <!-- href= the site url, use :href tag -->
                 <a @click="redirect_location('[[=URL('location', vars=dict(zip='ZIP_REMOVE' , rad='RAD_REMOVE' ,
             loc='LOC_REMOVE' , addr='ADDR_REMOVE' ),scheme=True) ]]', l)">
                   <p class="title color-example" v-if="l.name.split(' ')[0] === 'CVS'">

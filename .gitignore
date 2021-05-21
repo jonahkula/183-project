@@ -4,3 +4,5 @@ databases/*
 !databases/README.md
 .DS_Store
 templates/.DS_Store
+static/.sass-cache
+*ignore

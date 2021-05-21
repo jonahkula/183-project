@@ -21,14 +21,27 @@ still trying to figure out how to add custom header here for its style sheet -->
         <h4 class="subtitle is-5 has-text-danger" v-if="saved_locations.length === 0">
           You do not have any saved locations.
         </h4>
-        <div class="sl-container mb-3" v-for="sl in saved_locations">
-          <a class=" subtitle is-5 has-text-success" @click=" redirect_saved_location('[[=URL('location', vars=dict(zip='ZIP_REMOVE' , rad='RAD_REMOVE' ,
-            loc='LOC_REMOVE' , addr='ADDR_REMOVE' ),scheme=True) ]]', sl[2], sl[3], sl[0], sl[1])">
-            {{sl[0]}} {{sl[1]}}
-          </a>
+
+        <div class="sl-container mb-3" v-for="(sl, index) in saved_locations">
+          <nav class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <a class=" subtitle is-5 has-text-success" @click=" redirect_saved_location('[[=URL('location', vars=dict(zip='ZIP_REMOVE' , rad='RAD_REMOVE' ,
+                  loc='LOC_REMOVE' , addr='ADDR_REMOVE' ),scheme=True) ]]', sl[2], sl[3], sl[0], sl[1])">
+                  {{sl[0]}} {{sl[1]}}
+                </a>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <a class="button" @click="unsave_profile(index)">
+                  <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
+                </a>
+              </div>
+            </div>
+          </nav>
         </div>
-
-
+        
       </div>
       <div class="column">
         <figure class="image">
@@ -44,6 +57,7 @@ still trying to figure out how to add custom header here for its style sheet -->
 <script>
   // load url's here
   let load_user_info_url = "[[=XML(load_user_info_url)]]";
+  let unsave_profile_url = "[[=XML(unsave_profile_url)]]";
 </script>
 <script src="js/profile.js"></script>
 [[end]]
