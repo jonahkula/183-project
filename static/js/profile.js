@@ -47,10 +47,22 @@ let init = (app) => {
     window.location.replace(location_page);
   };
 
+  app.unsave_profile = function(index) {
+    axios.post(unsave_profile_url, {
+      address:app.vue.saved_locations[index][1]
+    })
+    .then(function() {
+      app.vue.saved_locations.splice(index, 1);
+      app.enumerate(app.vue.saved_locations);
+      console.log("Success in Deleting Saved Location")
+    })
+  }
+
   // This contains all the methods.
   app.methods = {
     // Complete as you see fit.
     redirect_saved_location: app.redirect_saved_location,
+    unsave_profile: app.unsave_profile,
   };
 
   // This creates the Vue instance.
@@ -72,7 +84,10 @@ let init = (app) => {
     app.vue.first_name = user_info[0];
     app.vue.last_name = user_info[1];
     app.vue.email = user_info[2];
-    if (user_info[3].length != 0) app.vue.saved_locations = user_info[3];
+    if (user_info[3].length != 0) {
+      app.vue.saved_locations = user_info[3];
+      app.enumerate(app.vue.saved_locations)
+    }
   };
 
   // Call to the initializer.

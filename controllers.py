@@ -172,6 +172,7 @@ def profile():
     return dict(
         user_info=user_info,
         load_user_info_url=URL('load_user_info', signer=url_signer),
+        unsave_profile_url=URL('unsave_profile'),
     )
 
 
@@ -183,7 +184,7 @@ def load_user_info():
     return dict(user_info=user_info)
 
 
-# save a location
+# save a location from the save page
 @action('save', method=['POST'])
 @action.uses(db, auth)
 def save():
@@ -220,7 +221,7 @@ def save():
     return dict()
 
 
-# unsave a location
+# unsave a location from the content page
 @action('unsave', method=["GET", "POST"])
 @action.uses(db, auth)
 def unsave():
@@ -248,6 +249,32 @@ def unsave():
     redirect(URL('main'))
     return dict()
 
+# Unsave a location from the profile page
+# Difference betwen this and other unsave is
+# that it takes in an address instead of list of data
+@action('unsave_profile', method=["POST"])
+@action.uses(db, auth)
+def unsave():
+    address = request.json.get('address')
+
+    if get_user_email() == None:
+        redirect(URL('index'))
+
+    # Get the current user id
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    user_id = user['id']
+
+    # Deleting an saved location
+    location = db(db.location.location_address == address).select().first()
+    unsave_location = db(
+        db.saved_location.location_id == location.id,
+        db.saved_location.user_id == user_id
+    ).select()
+
+    db(db.saved_location.id == unsave_location[0]['id']).delete()
+
+    redirect(URL('main'))
+    return dict()
 
 # add a review to a location
 @action('add_review', method=["POST"])
