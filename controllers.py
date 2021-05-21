@@ -249,6 +249,7 @@ def unsave():
     redirect(URL('main'))
     return dict()
 
+
 # Unsave a location from the profile page
 # Difference betwen this and other unsave is
 # that it takes in an address instead of list of data
@@ -275,6 +276,7 @@ def unsave():
 
     redirect(URL('main'))
     return dict()
+
 
 # add a review to a location
 @action('add_review', method=["POST"])
