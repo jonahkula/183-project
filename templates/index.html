@@ -25,17 +25,17 @@
         <h4 class="subtitle is-4 has-text-centered">
           Welcome, [[=globals().get('user').get('first_name')]] [[=globals().get('user').get('last_name')]]
         </h4>
-        <p class="buttons center">
-          <a class="button is-rounded mr-2 is-info" href="[[=URL('auth/logout')]]">Sign Out</a>
-          <a class="button is-rounded ml-2 is-info" href="[[=URL('main')]]">Locate Vaccine</a>
+        <p class="buttons center" id="button">
+          <a class="button is-rounded mr-2" href="[[=URL('auth/logout')]]">Sign Out</a>
+          <a class="button is-rounded ml-2" href="[[=URL('main')]]">Locate Vaccine</a>
         </p>
         [[else:]]
         <h4 class="subtitle is-4 has-text-centered">
           Sign up or log in today to find your vaccine
         </h4>
         <p class="buttons center">
-          <a class="button is-rounded mr-2 is-info" href="[[=URL('auth/register')]]">Sign Up</a>
-          <a class="button is-rounded ml-2 is-info" href="[[=URL('auth/login')]]">Log In</a>
+          <a class="button is-rounded mr-2" href="[[=URL('auth/register')]]">Sign Up</a>
+          <a class="button is-rounded ml-2" href="[[=URL('auth/login')]]">Log In</a>
         </p>
         [[pass]]
       </div>
@@ -43,7 +43,7 @@
       <div class="columns block pt-3">
         <div class="column has-text-centered">
           <h3 class="title color-example">Search</h3>
-          <p class="is-size-4">Enter in an adress to find vaccinations clinics near you!</p>
+          <p class="is-size-4">Enter in an address to find vaccination clinics near you!</p>
           <span class="icon is-large"><i class="fa fa-search"></i></span>
         </div>
         <div class="column has-text-centered">

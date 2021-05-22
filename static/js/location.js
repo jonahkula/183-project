@@ -7,6 +7,17 @@ let init = (app) => {
     location_address: "",
     location_phone: "",
     location_stock: false,
+    locations: {
+      "Costco": "assets/Costco.jpg",
+      "Ralphs": "assets/Ralphs.jpg",
+      "CVS": "assets/CVS.jpg",
+      "Rite": "assets/Riteaid.jpg",
+      "SAFEWAY": "assets/Safeway.jpg",
+      "Walgreens": "assets/Walgreens.jpg",
+      "Walmart": "assets/Walmart.jpg",
+      "Other": "assets/vaccine.jpg"
+    },
+    image: "",
     add_review_text: "",
     add_review_wait: "",
     add_review_service: "",
@@ -15,6 +26,17 @@ let init = (app) => {
     review_list: [],
     bad_input: false,
   };
+
+  app.display_image = () => {
+    let image = app.vue.locations[app.vue.location_name.split(' ')[0]];
+    if (image === undefined) {
+      app.vue.image = app.vue.locations["Other"];
+    } else {
+      app.vue.image = image;
+    }
+  };
+
+  // console.log("Check location_name:", app.vue.location_name);
 
   // relabel current rows
   app.enumerate = (a) => {
@@ -207,6 +229,7 @@ let init = (app) => {
 
   // contains all the methods.
   app.methods = {
+    display_image: app.display_image,
     add_review: app.add_review,
     load: app.load,
     set_review_rating: app.set_review_rating,
@@ -237,6 +260,8 @@ let init = (app) => {
       app.vue.location_phone = phone;
       app.vue.location_stock = in_stock;
 
+      console.log("Check location_name:", app.vue.location_name);
+      app.display_image();
       // load reviews
       app.load();
     } catch (error) {

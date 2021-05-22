@@ -8,10 +8,22 @@ let init = (app) => {
   // This is the Vue data.
   app.data = {
     // Complete as you see fit.
+    windowWidth: window.screen.width,
     zipCode: "",
     radius: "",
     locations: [],
     savedLocations: [],
+    radii: [
+      {
+        distance: "10 miles"
+      },
+      {
+        distance: "25 miles"
+      },
+      {
+        distance: "50 miles"
+      }
+    ],
   };
 
   app.enumerate = (a) => {
@@ -23,20 +35,28 @@ let init = (app) => {
     return a;
   };
 
-  app.add_locations = function () {
-    axios
-      .post(add_locations_url, {
-        zipCode: app.vue.zipCode,
-        radius: app.vue.radius,
-      })
-      .then(function (response) {
-        app.vue.locations = response.data.content;
-        app.vue.savedLocations = response.data.saved;
-        console.log("Received response from POST request:", app.vue.locations);
-      })
-      .catch(function (error) {
-        console.log("The error attempting to send a POST request:", error);
-      });
+  app.get_radius = function(radius, event) {
+    console.log("Check get_radius event.target.value, radius.distance:", event.target.value, radius.distance);
+    console.log(typeof (radius.distance))
+    if(radius.distance !== undefined) {
+      app.vue.radius = radius.distance.split(/\s+/)[0];
+    };
+  }
+
+  app.add_locations = function() {
+    console.log("Check radius before sending POST:", app.vue.radius);
+    axios.post(add_locations_url, {
+      zipCode: app.vue.zipCode,
+      radius: app.vue.radius
+    })
+    .then(function(response) {
+      app.vue.locations = response.data.content;
+      app.vue.savedLocations = response.data.saved;
+      console.log("Received response from POST request:", app.vue.locations)
+    })
+    .catch(function(error) {
+      console.log("The error attempting to send a POST request:", error)
+    })
   };
 
   app.save_option = function (index) {
@@ -118,6 +138,8 @@ let init = (app) => {
   app.methods = {
     add_locations: app.add_locations,
     save_option: app.save_option,
+    get_radius: app.get_radius,
+    // unsave_option: app.unsave_option
     unsave_option: app.unsave_option,
     redirect_location: app.redirect_location,
   };
@@ -148,3 +170,8 @@ let init = (app) => {
 // This takes the (empty) app object, and initializes it,
 // putting all the code in it
 init(app);
+
+let dropdown = document.getElementsByClassName("dropdown");
+dropdown[0].addEventListener('click', function() {
+  dropdown[0].classList.toggle('is-active');
+});
