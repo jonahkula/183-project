@@ -32,6 +32,8 @@ let init = (app) => {
       .then(function (response) {
         app.vue.locations = response.data.content;
         app.vue.savedLocations = response.data.saved;
+        sessionStorage.setItem("zipCode", app.vue.zipCode);
+        sessionStorage.setItem("radius", app.vue.radius);
         console.log("Received response from POST request:", app.vue.locations);
       })
       .catch(function (error) {
@@ -87,39 +89,11 @@ let init = (app) => {
       });
   };
 
-  app.redirect_location = (location_page, location_info) => {
-    console.log(location_page);
-    const zip = location_info["zip"];
-    const rad = 25; // This can be configured to be faster, but for safety it is 25 for now.
-    const loc = location_info["name"];
-    const addr = location_info["address1"];
-    console.log("ZIP IS:", zip);
-    let queries = {
-      ZIP_REMOVE: zip,
-      RAD_REMOVE: rad,
-      LOC_REMOVE: loc,
-      ADDR_REMOVE: addr,
-    };
-
-    // Formatting url to make the link url compatible
-    for (const [k, v] of Object.entries(queries)) {
-      console.log(k, v);
-      location_page = location_page.replace(k, v);
-      location_page = location_page.replace(/ /g, "%20");
-      location_page = location_page.replace("#", "%23");
-    }
-    console.log(location_page);
-
-    // Redirects user to the location page
-    window.location.replace(location_page);
-  };
-
   // This contains all the methods.
   app.methods = {
     add_locations: app.add_locations,
     save_option: app.save_option,
     unsave_option: app.unsave_option,
-    redirect_location: app.redirect_location,
   };
 
   // This creates the Vue instance.
@@ -139,6 +113,17 @@ let init = (app) => {
       .catch(function (error) {
         console.log("The error attempting to send a GET request:", error);
       });
+
+    // If there is storage of the zipcode and radius, run it to show previous session when
+    // clicking the back button.
+    if (
+      sessionStorage.getItem("zipCode") !== null &&
+      sessionStorage.getItem("radius")
+    ) {
+      app.vue.zipCode = sessionStorage.getItem("zipCode");
+      app.vue.radius = sessionStorage.getItem("radius");
+      app.add_locations();
+    }
   };
 
   // Call to the initializer.
