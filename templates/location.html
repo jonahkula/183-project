@@ -4,8 +4,9 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" href="scss/location.css" />
   <!-- I added the ?id=1234 because the .css file was being cached-->
-  <link rel="stylesheet" href="scss/location.css?id=13" />
+  <!-- <link rel="stylesheet" href="scss/location.css?id=13" /> -->
 </head>
 
 <body>
@@ -17,18 +18,21 @@
 
   <section class="section no-margin" id="vue-target" v-cloak>
     <!-- This section contains the all the location information such as location name, website, etc -->
-    <div class="
+    <div 
+          class="
           full-width-container
           box
           is-flex is-justify-content-space-between is-flex-wrap-wrap
-        ">
+        " :style="{'background-image': 'url(' + image + ')'}">
       <!-- This section contains the information on the left side of this container -->
       <div class="flex-left white-text">
         <!-- We will get the location name from Vue -->
-        <div class="location-name is-size-1">{{location_name}}</div>
+        <!-- <div class="location-name is-size-1">{{location_name}}</div> -->
+        <div class="location-name is-size-1">{{location_name.substring(0, location_name.lastIndexOf(" "))}}</div>
 
         <!-- We will get the location address from Vue -->
-        <div class="location-name is-size-2">{{location_address}}</div>
+        <!-- <div class="location-name is-size-2">{{location_address}}</div> -->
+        <div class="location-name is-size-2">{{location_address.split("#")[0].trim()}}</div>
 
         <div class="ratings is-flex is-align-items-center">
           <!-- Loop to check average rating for the location-->
@@ -37,19 +41,20 @@
                 fa fa-star
                 is-size-2
                 has-background-info-dark
+                has-text-warning
                 mt-3
                 mr-4
-              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n"></i> -->
+              " v-for="n in parseInt(Math.floor(review_avg_num))" :key="n" id="stars"></i> -->
         </div>
 
         <div>
           <!-- Button doesn't work. -->
-          <button class="button mr-4 has-text-white has-background-info-dark">
+          <button class="button mr-4 has-text-white has-background-info-dark" id="check">
             Check eligibility
           </button>
 
           <!-- Button doesn't work. Used to write a review -->
-          <button class="button has-text-white has-background-info-dark">
+          <button class="button has-text-white has-background-info-dark" id="write">
             Write a Review
           </button>
         </div>
@@ -62,8 +67,8 @@
             mt-6
             white-text
           ">
-        <div class="location-info is-size-4">Phone: {{location_phone}}</div>
-        <div class="location-info is-size-4 has-text-weight-bold"
+        <div class="location-info is-size-4" id="phone">Phone: {{location_phone}}</div>
+        <div class="location-info is-size-4 has-text-weight-bold" id="stock"
           :class="{'has-text-primary': location_stock, 'has-text-danger': !location_stock}">Vaccine
           in stock:
           {{location_stock ? "Yes" : "No"}}</div>

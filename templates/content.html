@@ -15,15 +15,47 @@
           <h3 class="title mb-4 color-example">Locate COVID-19 Vaccines</h3>
           <div class="columns">
             <div class="column">
-              <label class="label">Enter Zip Code</label>
-              <input class="input" placeholder="Zip Code" v-model="zipCode">
+              <div class="level-left">
+                <p class="level-item">
+                  <label class="label">Enter Zip Code</label>
+                </p>
+              </div>
+              <div class="level-left">
+                <p class="level-item">
+                  <input class="input" placeholder="Zip Code" v-model="zipCode">
+                </p>
+              </div>
             </div>
             <div class="column">
-              <label class="label">Enter Radius</label>
-              <input class="input" placeholder="Radius" v-model="radius">
+              <div class="level-right">
+                <p class="level-item" style="justify-content: flex-start;">
+                  <label class="label">Select A Radius</label>
+                </p>
+              </div>
+              <div class="level-right">
+                <p class="level-item">
+                <div class="dropdown">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span>Radius</span>
+                      <span class="icon is-small">
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a class="dropdown-item" v-for="radius in radii" @click="get_radius(radius, $event)">
+                        {{radius.distance}}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                </p>
+              </div>
             </div>
           </div>
-          <div class="level-item">
+          <div class="level-item" id="locate">
             <button class="button is-medium is-rounded color-example" @click="add_locations">Locate Vaccines</button>
           </div>
         </div>
