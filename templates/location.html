@@ -4,12 +4,9 @@
 <html lang="en">
 
 <head>
-  <base href="[[=URL('static')]]/" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="scss/location.css" />
   <!-- I added the ?id=1234 because the .css file was being cached-->
-  <link rel="stylesheet" href="scss/location.css?id=13" />
+  <!-- <link rel="stylesheet" href="scss/location.css?id=13" /> -->
 </head>
 
 <body>
@@ -30,9 +27,11 @@
       <!-- This section contains the information on the left side of this container -->
       <div class="flex-left white-text">
         <!-- We will get the location name from Vue -->
+        <!-- <div class="location-name is-size-1">{{location_name}}</div> -->
         <div class="location-name is-size-1">{{location_name.substring(0, location_name.lastIndexOf(" "))}}</div>
 
         <!-- We will get the location address from Vue -->
+        <!-- <div class="location-name is-size-2">{{location_address}}</div> -->
         <div class="location-name is-size-2">{{location_address.split("#")[0].trim()}}</div>
 
         <div class="ratings is-flex is-align-items-center">

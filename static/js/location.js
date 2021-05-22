@@ -7,9 +7,6 @@ let init = (app) => {
     location_address: "",
     location_phone: "",
     location_stock: false,
-    review_num: 0,
-    review_message: "",
-    review_avg_num: 0,
     locations: {
       "Costco": "assets/Costco.jpg",
       "Ralphs": "assets/Ralphs.jpg",
@@ -265,28 +262,6 @@ let init = (app) => {
 
       console.log("Check location_name:", app.vue.location_name);
       app.display_image();
-
-      // GET Request to get the information of the location
-      // const location_response = await axios.get(load_location_info_url);
-      // // app.vue.location_name = location_name;
-      // // // Destructing the object to make it look neater.
-      // // const { location_name, location_address } = location_response.data;
-
-      // // // Storing the location information from the GET in Vue
-      // // app.vue.location_name = location_name;
-      // // app.vue.location_address = location_address;
-
-      // GET Request to get the information of the location reviews
-      const review_response = await axios.get(load_review_info_url);
-
-      // Destructing the object to make it look neater.
-      const { review_num, review_avg_num, review_message } =
-        review_response.data;
-
-      // Storing the location review information from the GET in Vue
-      app.vue.review_num = review_num;
-      app.vue.review_message = review_message;
-      app.vue.review_avg_num = review_avg_num;
       // load reviews
       app.load();
     } catch (error) {
