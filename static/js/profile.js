@@ -23,45 +23,20 @@ let init = (app) => {
     return a;
   };
 
-  // Redirects the user to the location page using the
-  // zipcode, radius, location name, and address
-  app.redirect_saved_location = (location_page, zip, rad, loc, addr) => {
-    console.log(location_page);
-    let queries = {
-      ZIP_REMOVE: zip,
-      RAD_REMOVE: rad,
-      LOC_REMOVE: loc,
-      ADDR_REMOVE: addr,
-    };
-
-    // Formatting url to make the link url compatible
-    for (const [k, v] of Object.entries(queries)) {
-      console.log(k, v);
-      location_page = location_page.replace(k, v);
-      location_page = location_page.replace(/ /g, "%20");
-      location_page = location_page.replace("#", "%23");
-    }
-    console.log(location_page);
-
-    // Redirects user to the location page
-    window.location.replace(location_page);
+  app.unsave_profile = function (index) {
+    axios
+      .post(unsave_profile_url, {
+        address: app.vue.saved_locations[index][1],
+      })
+      .then(function () {
+        app.vue.saved_locations.splice(index, 1);
+        app.enumerate(app.vue.saved_locations);
+        console.log("Success in Deleting Saved Location");
+      });
   };
-
-  app.unsave_profile = function(index) {
-    axios.post(unsave_profile_url, {
-      address:app.vue.saved_locations[index][1]
-    })
-    .then(function() {
-      app.vue.saved_locations.splice(index, 1);
-      app.enumerate(app.vue.saved_locations);
-      console.log("Success in Deleting Saved Location")
-    })
-  }
 
   // This contains all the methods.
   app.methods = {
-    // Complete as you see fit.
-    redirect_saved_location: app.redirect_saved_location,
     unsave_profile: app.unsave_profile,
   };
 
@@ -86,7 +61,7 @@ let init = (app) => {
     app.vue.email = user_info[2];
     if (user_info[3].length != 0) {
       app.vue.saved_locations = user_info[3];
-      app.enumerate(app.vue.saved_locations)
+      app.enumerate(app.vue.saved_locations);
     }
   };
 
