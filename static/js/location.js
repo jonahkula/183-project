@@ -9,11 +9,11 @@ let init = (app) => {
     location_stock: false,
     locations: {
       "Costco": {
-        "img":"assets/Costco.jpg",
+        "img":"assets/new_Costco.png",
         "site": "https://www.costco.com/covid-vaccine.html",
       },
       "Ralphs": {
-        "img": "assets/Ralphs.jpg",
+        "img": "assets/Ralphs.png",
         "site": "https://www.ralphs.com/rx/covid-eligibility",
       },
       "CVS": {
