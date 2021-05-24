@@ -555,8 +555,8 @@ a.box:active {
 }
 
 .button:focus:not(:active), .button.is-focused:not(:active) {
-  -webkit-box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
-          box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+  -webkit-box-shadow: 0 0 0 0.125em none;
+          box-shadow: 0 0 0 0.125em none;
 }
 
 .button:active, .button.is-active {

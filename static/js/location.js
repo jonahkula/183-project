@@ -25,7 +25,7 @@ let init = (app) => {
         "site": "https://www.riteaid.com/pharmacy/covid-qualifier",
       },
       "SAFEWAY": {
-        "img": "assets/Safeway.jpg",
+        "img": "assets/new_safeway.png",
         "site": "https://www.safeway.com/pharmacy/covid-19.html",
       },
       "Walgreens": {
@@ -33,7 +33,7 @@ let init = (app) => {
         "site": "https://www.walgreens.com/findcare/vaccination/covid-19",
       },
       "Walmart": {
-        "img": "assets/Walmart.jpg",
+        "img": "assets/new_Walmart.png",
         "site": "https://www.walmart.com/cp/flu-shots-immunizations/1228302",
       },
       "Other": {
