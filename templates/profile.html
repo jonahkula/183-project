@@ -15,6 +15,29 @@ still trying to figure out how to add custom header here for its style sheet -->
     <h1 class="title is-1">{{first_name}} {{last_name}}'s Profile</h1>
     <div class="columns">
       <div class="column is-two-fifths">
+        <!-- Uploading profile picture -->
+        <div class="field has-addons block">
+          <p class="control">
+          <div class="file is-info">
+            <div class="container is-widescreen is-flex is-justify-content-space-between" style="width: 400px;">
+              <img width="200" height="200" :src="img_url"
+                style="min-width: 270px; min-height: 200px; max-width: 270px; max-height: 200px" />
+              <label class="file-label">
+                <input class="file-input" type="file" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                  @change="select_file($event)">
+                <span class="file-cta">
+                  <span class="file-label">
+                    <span>Choose file</span>
+                  </span>
+                </span>
+              </label>
+            </div>
+          </div>
+          </p>
+        </div>
+
+        <!-- Uploading profile picture end-->
+
         <h4 class="subtitle is-4">Email: {{email}}</h4>
         <h4 class="subtitle is-4">Vaccinated: Yes</h4>
         <h4 class="subtitle is-4">Saved Locations:</h4>

@@ -12,7 +12,14 @@ let init = (app) => {
     last_name: "",
     email: "",
     saved_locations: [],
+    selection_done: false,
+    uploading: false,
+    uploaded_file: "",
+    uploaded: false,
+    img_url: "../static/assets/no-img.jpg",
   };
+
+  app.file = null;
 
   app.enumerate = (a) => {
     // This adds an _idx field to each element of the array.
@@ -35,9 +42,64 @@ let init = (app) => {
       });
   };
 
+  app.select_file = function (event) {
+    // Reads the file.
+    let input = event.target;
+    app.file = input.files[0];
+    if (app.file) {
+      app.vue.selection_done = true;
+      // We read the file.
+      let reader = new FileReader();
+      reader.addEventListener("load", function () {
+        app.vue.img_url = reader.result;
+        console.log(app.vue.img_url);
+        localStorage.setItem("profile-pic", app.vue.img_url);
+      });
+      reader.readAsDataURL(app.file);
+    }
+  };
+
+  app.upload_complete = function (file_name, file_type) {
+    app.vue.uploading = false;
+    app.vue.upload_done = true;
+    app.vue.uploaded_file = file_name;
+  };
+
+  app.upload_file = function (event) {
+    // We need the event to find the file.
+    let self = this;
+    // Reads the file.
+    let input = event.target;
+    let file = input.files[0];
+    if (file) {
+      self.uploading = true;
+      let file_type = file.type;
+      let file_name = file.name;
+      console.log(encodeURIComponent(file_name));
+      // let full_url =
+      //   file_upload_url +
+      //   "&file_name=" +
+      //   encodeURIComponent(file_name) +
+      //   "&file_type=" +
+      //   encodeURIComponent(file_type);
+      // // Uploads the file, using the low-level streaming interface. This avoid any
+      // // encoding.
+      // app.vue.uploading = true;
+      // let req = new XMLHttpRequest();
+      // req.addEventListener("load", function () {
+      //   app.upload_complete(file_name, file_type);
+      //   console.log(file_name);
+      // });
+      // req.open("PUT", full_url, true);
+      // req.send(file);
+    }
+  };
+
   // This contains all the methods.
   app.methods = {
     unsave_profile: app.unsave_profile,
+    upload_file: app.upload_file,
+    select_file: app.select_file,
   };
 
   // This creates the Vue instance.
@@ -64,6 +126,8 @@ let init = (app) => {
       app.enumerate(app.vue.saved_locations);
     }
   };
+  if (localStorage.getItem("profile-pic") !== null)
+    app.vue.img_url = localStorage.getItem("profile-pic");
 
   // Call to the initializer.
   app.init();
