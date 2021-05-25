@@ -12,6 +12,8 @@ let init = (app) => {
     last_name: "",
     email: "",
     saved_locations: [],
+    coordinates: {'longitude': '', 'latitude': ''},
+    map: ""
   };
 
   app.enumerate = (a) => {
@@ -40,11 +42,29 @@ let init = (app) => {
     unsave_profile: app.unsave_profile,
   };
 
+  app.mounted = function () {
+    console.log("Check app.vue.coordinates before long & lat(1):", app.vue.coordinates);
+    if (app.vue.coordinates !== "") {
+      mapboxgl.accessToken = 'pk.eyJ1Ijoib29tZWxjaGUiLCJhIjoiY2twM2M2bXlxMDRxOTJ2bzZieXQ5cWZ5eSJ9.mRi_Q_vf9wrup84Lu_1wQA';
+      console.log("Check app.vue.coordinates before long & lat:", app.vue.coordinates);
+      let long = app.vue.coordinates['longitude'];
+      let lat = app.vue.coordinates['latitude'];
+      console.log("Check long & lat:", long, lat);
+      app.vue.map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        // center: [long[long.length - 1], lat[lat.length - 1]]
+      });
+    }
+  };
+
   // This creates the Vue instance.
   app.vue = new Vue({
     el: "#vue-target",
     data: app.data,
+    created: app.init,
     methods: app.methods,
+    mounted: app.mounted
   });
 
   // And this initializes it.
@@ -61,8 +81,12 @@ let init = (app) => {
     app.vue.email = user_info[2];
     if (user_info[3].length != 0) {
       app.vue.saved_locations = user_info[3];
+      let location = user_info[3][0];
+      app.vue.coordinates = {'longitude': location[4], 'latitude': location[5]};
       app.enumerate(app.vue.saved_locations);
     }
+    console.log("Check user_info:", user_info, user_info[3][0], user_info[3]);
+    console.log("Check app.vue.coordinates:", app.vue.coordinates);
   };
 
   // Call to the initializer.

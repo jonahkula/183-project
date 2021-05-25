@@ -61,9 +61,11 @@ def get_user_info(db):
         radius = saved_locations_info['saved_location']['location_radius']
         location_name = saved_locations_info['location']['location_name']
         location_address = saved_locations_info['location']['location_address']
+        longitude = saved_locations_info['saved_location']['longitude']
+        latitude = saved_locations_info['saved_location']['latitude']
         # print(location_name, location_address, zipcode, radius)
         single_location.extend(
-            (location_name, location_address, zipcode, radius))
+            (location_name, location_address, zipcode, radius, longitude, latitude))
         # print(single_location)
         saved_locations.append(single_location)
 
@@ -72,8 +74,9 @@ def get_user_info(db):
 
 
 # saves a location to a user
-def saveToUser(address, zipCode, radius, user_id):
+def saveToUser(user_tuple):
     # Get the id of the location we just inserted
+    address, zipCode, radius, user_id, longitude, latitude = user_tuple
     location = db(db.location.location_address == address).select().first()
 
     # Insert into users saved locations
@@ -81,7 +84,9 @@ def saveToUser(address, zipCode, radius, user_id):
         user_id=user_id,
         location_id=location['id'],
         location_zipcode=zipCode,
-        location_radius=radius
+        location_radius=radius,
+        longitude=longitude,
+        latitude=latitude
     )
 
 
@@ -194,6 +199,8 @@ def save():
 
     address = location_data['address1']
     name = location_data['name']
+    long = location_data['long']
+    lat = location_data['lat']
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -204,16 +211,16 @@ def save():
 
     # check is used to determine if the location is already added into the locations db
     check = db(db.location.location_address == address).select().first()
-
+    user_tuple = address, zipCode, radius, user_id, long, lat
     if (check is not None):
-        saveToUser(address, zipCode, radius, user_id)
+        saveToUser(user_tuple)
     else:
         # Inserting into location table
         db.location.insert(
             location_name=name,
             location_address=address
         )
-        saveToUser(address, zipCode, radius, user_id)
+        saveToUser(user_tuple)
 
     saved_address = get_saved_work()
     # print(saved_address)
