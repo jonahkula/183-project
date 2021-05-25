@@ -26,8 +26,8 @@ still trying to figure out how to add custom header here for its style sheet -->
           <nav class="level">
             <div class="level-left">
               <div class="level-item">
-                <a class=" subtitle is-5 has-text-success" @click=" redirect_saved_location('[[=URL('location', vars=dict(zip='ZIP_REMOVE' , rad='RAD_REMOVE' ,
-                  loc='LOC_REMOVE' , addr='ADDR_REMOVE' ),scheme=True) ]]', sl[2], sl[3], sl[0], sl[1])">
+                <a class=" subtitle is-5 has-text-success"
+                  :href='`/183-project/location?zip=${sl[2]}&rad=${sl[3]}&loc=${sl[0].replace(/ /g, "%20").replace("#", "%23")}&addr=${sl[1]}`'>
                   {{sl[0]}} {{sl[1]}}
                 </a>
               </div>
@@ -41,7 +41,7 @@ still trying to figure out how to add custom header here for its style sheet -->
             </div>
           </nav>
         </div>
-        
+
       </div>
       <div class="column">
         <!-- <figure class="image">

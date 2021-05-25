@@ -34,23 +34,23 @@
               </div>
               <div class="level-right">
                 <p class="level-item">
-                  <div class="dropdown">
-                    <div class="dropdown-trigger">
-                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span>Radius</span>
-                        <span class="icon is-small">
-                          <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div class="dropdown-content">
-                        <a class="dropdown-item" v-for="radius in radii" @click="get_radius(radius, $event)">
-                          {{radius.distance}}
-                        </a>
-                      </div>
+                <div class="dropdown">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span>Radius</span>
+                      <span class="icon is-small">
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a class="dropdown-item" v-for="radius in radii" @click="get_radius(radius, $event)">
+                        {{radius.distance}}
+                      </a>
                     </div>
                   </div>
+                </div>
                 </p>
               </div>
             </div>
@@ -74,9 +74,8 @@
             <!-- location name -->
             <div class="level-left">
               <div class="level-item">
-                <!-- href= the site url, use :href tag -->
-                <a @click="redirect_location('[[=URL('location', vars=dict(zip='ZIP_REMOVE' , rad='RAD_REMOVE' ,
-            loc='LOC_REMOVE' , addr='ADDR_REMOVE' ),scheme=True) ]]', l)">
+                <a
+                  :href='`/183-project/location?zip=${l.zip}&rad=25&loc=${l.name.replace(/ /g, "%20").replace("#", "%23")}&addr=${l.address1}`'>
                   <p class="title color-example" v-if="l.name.split(' ')[0] === 'CVS'">
                     <u>{{l.name.split("#")[0].trim().replace(",", "")}}</u>
                   </p>
