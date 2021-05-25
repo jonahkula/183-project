@@ -19,3 +19,15 @@ $body-background-color: whitesmoke;
   padding-bottom: 0;
   color: white;
 }
+
+.marker {
+  background-image: url('pharmacy-15.svg');
+  background-size: cover;
+  cursor: pointer;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  justify-content: center;
+  font-family: 'Open Sans', sans-serif;
+}

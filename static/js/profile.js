@@ -81,30 +81,69 @@ let init = (app) => {
     app.vue.email = user_info[2];
     if (user_info[3].length != 0) {
       app.vue.saved_locations = user_info[3];
-      let location = user_info[3][0];
-      app.vue.coordinates = {'longitude': location[4], 'latitude': location[5]};
       app.enumerate(app.vue.saved_locations);
+      let lastLocation = app.vue.saved_locations[user_info[3].length - 1];
+      let long = lastLocation[4];
+      let lat = lastLocation[5];
       mapboxgl.accessToken = 'pk.eyJ1Ijoib29tZWxjaGUiLCJhIjoiY2twM2M2bXlxMDRxOTJ2bzZieXQ5cWZ5eSJ9.mRi_Q_vf9wrup84Lu_1wQA';
-      console.log("Check app.vue.coordinates before long & lat:", app.vue.coordinates);
-      let long = app.vue.coordinates['longitude'];
-      let lat = app.vue.coordinates['latitude'];
-      console.log("Check long & lat:", long, lat);
       app.vue.map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [long, lat],
-        zoom: 12
+        center: [long, lat], // where the map is initially centered at
+        zoom: 12 // initial zoom level
       });
-      
-      // adds a compass, zoom in/out functionality //
-      const nav = new mapboxgl.NavigationControl();
-      app.vue.map.addControl(nav, 'top-left');
 
-      // adds a marker on the map //
-      const marker = new mapboxgl.Marker()
-      .setLngLat([long, lat])
-      .setPopup(new mapboxgl.Popup().setHTML(location.slice(0, 3))) // only need the store, address, & zipcode
-      .addTo(app.vue.map);
+      const geojson = {
+        'type': 'FeatureCollection',
+        'features': []
+      };
+
+      app.vue.saved_locations.forEach(location => {
+        app.vue.coordinates = {'longitude': location[4], 'latitude': location[5]};
+        long = app.vue.coordinates['longitude'];
+        lat = app.vue.coordinates['latitude'];
+        const store = location.slice(0, 1);
+        const address = location.slice(1, 2);
+        const zipCode = location.slice(2, 3);
+
+        geojson['features'].push({
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [long, lat]
+          },
+          'properties': {
+            'store': store,
+            'address': address,
+            'zipCode': zipCode
+          }
+        });
+
+        // adds a marker on the map //
+        // const marker = new mapboxgl.Marker()
+        // .setLngLat([long, lat])
+        // .setPopup(new mapboxgl.Popup().setHTML('<h4>' + store + '</h4>' + 
+        //                                        '<p>' + address + ", " + zipCode + "</p>")) // only need the store, address, & zipcode
+        // .addTo(app.vue.map);
+      });
+      const element = document.getElementsByClassName('marker');
+      let index = 0;
+      geojson.features.forEach( (location) => {
+        new mapboxgl.Marker(element[index])
+        .setLngLat(location.geometry.coordinates)
+        .setPopup(new mapboxgl.Popup().setHTML('<h4>' + location.properties.store + '</h4>' + 
+                                               '<p>' + location.properties.address + ", " + location.properties.zipCode + "</p>")) // only need the store, address, & zipcode
+        .addTo(app.vue.map);
+      });
+
+      // add a fullscreen feature (didn't work previously) //
+      app.vue.map.addControl(new mapboxgl.FullscreenControl());
+      
+      // adds zoom in/out functionality //
+      const nav = new mapboxgl.NavigationControl({
+        showCompass: false
+      });
+      app.vue.map.addControl(nav, 'top-left');
     }
     console.log("Check user_info:", user_info, user_info[3][0], user_info[3]);
     console.log("Check app.vue.coordinates:", app.vue.coordinates);
