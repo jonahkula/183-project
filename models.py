@@ -11,7 +11,7 @@ def get_user():
 def get_time():
     return datetime.datetime.utcnow()
 
-# Location Table
+# Locations Table
 db.define_table(
     'location',
     Field('location_name', requires=IS_NOT_EMPTY()),
@@ -37,19 +37,17 @@ db.define_table(
     Field('service', requires=IS_NOT_EMPTY()),
     Field('title', requires=IS_NOT_EMPTY()),
     Field('vaccine', requires=IS_NOT_EMPTY()),
-    Field('review_user_rating', 'integer', requires=IS_NOT_EMPTY()),
-    Field('review_message_rating', 'integer', requires=IS_NOT_EMPTY()),
 )
 
-# Review Threads Table
+# Review Thread Table
 db.define_table(
     'thread',
-    Field('user_id', 'reference auth_user', requires=IS_NOT_EMPTY()),
     Field('review_id', 'reference review', requires=IS_NOT_EMPTY()),
-    Field('message', requires=IS_NOT_EMPTY())
+    Field('user_id', 'reference auth_user', requires=IS_NOT_EMPTY()),
+    Field('thread_message', requires=IS_NOT_EMPTY()),
 )
 
-# Ratings on a review
+# Review Rating Table
 db.define_table(
     'review_rating',
     Field('review', 'reference review'),
@@ -57,7 +55,7 @@ db.define_table(
     Field('rater', 'reference auth_user', default=get_user),
 )
 
-# Total number of raters on review
+# Total Review Ratings Table
 db.define_table(
     'review_raters',
     Field('review', 'reference review'),

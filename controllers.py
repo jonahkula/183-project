@@ -311,8 +311,6 @@ def add_review():
         service = service,
         title = title,
         vaccine = vaccine,
-        review_user_rating = 4,
-        review_message_rating = 5,
     )
 
     return dict(name=name, id=id)
