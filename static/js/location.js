@@ -24,7 +24,6 @@ let init = (app) => {
     add_review_vaccine: "",
     add_review_title: "",
     review_list: [],
-    review_thread_text: "",
     bad_input: false,
   };
 
@@ -57,6 +56,8 @@ let init = (app) => {
       e.dislikers = 0;
       e.rating = 0;
       e.num_thumbs_display = 0;
+      e.thread_list = [];
+      e.thread_text = "";
     });
     return a;
   };
@@ -175,6 +176,8 @@ let init = (app) => {
           likers: 0,
           dislikers: 0,
           show_review_likers: false,
+          thread_list: [],
+          thread_text: "",
         });
         app.enumerate(app.vue.review_list);
         app.review_input_clear();
@@ -186,13 +189,31 @@ let init = (app) => {
   };
 
   // adds a new thread to db on a review
-  app.add_review = function () {
+  app.add_review_thread = function (_idx) {
+    let review = app.vue.review_list[_idx];
+
     // if input value is not filled out, return
-    if (app.vue.review_thread_text === "") {
+    if (review.thread_text === "") {
       return;
     }
 
-    // TBD
+    // update server with new review thread message
+    axios
+      .post(add_review_thread_url, {
+        review: review.id,
+        thread_message: review.thread_text,
+      })
+      .then(function (response) {
+        review.thread_list.push({
+          id: response.data.id,
+          thread_message: review.thread_text,
+        });
+        app.enumerate(review.thread_list);
+        review.thread_text = "";
+      })
+      .catch(function (error) {
+        console.log("The error attempting to send a POST request:", error);
+      });
   };
 
   // clear review input field
@@ -230,6 +251,11 @@ let init = (app) => {
             .then((result) => {
               review.rating = result.data.rating;
               review.num_thumbs_display = result.data.rating;
+            });
+          axios
+            .get(load_review_thread_url, { params: { review: review.id } })
+            .then((result) => {
+              review.thread_list = result.data.threads;
             });
         }
       })
@@ -272,7 +298,7 @@ let init = (app) => {
       app.vue.location_phone = phone;
       app.vue.location_stock = in_stock;
 
-      console.log("Check location_name:", app.vue.location_name);
+      // console.log("Check location_name:", app.vue.location_name);
       app.display_image();
       // load reviews
       app.load();
