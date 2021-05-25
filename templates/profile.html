@@ -44,9 +44,11 @@ still trying to figure out how to add custom header here for its style sheet -->
         
       </div>
       <div class="column">
-        <figure class="image">
+        <!-- <figure class="image">
           <img src="../static/assets/placeholder-map.png" />
-        </figure>
+        </figure> -->
+        <!-- the code below is provided by the Mapbox API -->
+        <div id='map' style='width: 400px; height: 300px;'></div>
       </div>
     </div>
   </div>
@@ -60,4 +62,11 @@ still trying to figure out how to add custom header here for its style sheet -->
   let unsave_profile_url = "[[=XML(unsave_profile_url)]]";
 </script>
 <script src="js/profile.js"></script>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1Ijoib29tZWxjaGUiLCJhIjoiY2twM2M2bXlxMDRxOTJ2bzZieXQ5cWZ5eSJ9.mRi_Q_vf9wrup84Lu_1wQA';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11'
+  });
+</script>
 [[end]]

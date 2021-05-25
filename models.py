@@ -24,7 +24,9 @@ db.define_table(
     Field('user_id', 'reference auth_user', requires=IS_NOT_EMPTY()),
     Field('location_id', 'reference location', requires=IS_NOT_EMPTY()),
     Field('location_zipcode', requires=IS_NOT_EMPTY()),
-    Field('location_radius', 'float', requires=IS_NOT_EMPTY())
+    Field('location_radius', 'float', requires=IS_NOT_EMPTY()),
+    # Field('longitude', 'float', requires=IS_NOT_EMPTY()),
+    # Field('latitude', 'float', requires=IS_NOT_EMPTY())
 )
 
 # Reviews Table

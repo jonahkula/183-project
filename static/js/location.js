@@ -51,6 +51,7 @@ let init = (app) => {
     bad_input: false,
   };
 
+  // displays the necessary images based on which review page is clicked on //
   app.display_image = () => {
     let image = app.vue.locations[app.vue.location_name.split(' ')[0]];
     if (image === undefined) {
@@ -60,6 +61,7 @@ let init = (app) => {
     }
   };
 
+  // displays dynamic information on the top of the review page //
   app.vaccine_site = () => {
     // console.log("In app.vaccine_site!!");
     // console.log("check app.vue.locations:", app.vue.locations[app.vue.location_name.split(' ')[0]]);
