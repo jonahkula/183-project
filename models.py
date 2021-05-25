@@ -44,6 +44,7 @@ db.define_table(
     'thread',
     Field('review_id', 'reference review', requires=IS_NOT_EMPTY()),
     Field('user_id', 'reference auth_user', requires=IS_NOT_EMPTY()),
+    Field('thread_name', requires=IS_NOT_EMPTY()),
     Field('thread_message', requires=IS_NOT_EMPTY()),
 )
 

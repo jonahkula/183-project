@@ -328,6 +328,7 @@ def add_review_thread():
     id = db.thread.insert(
         review_id = review,
         user_id = user['id'],
+        thread_name = name,
         thread_message = thread_message,
     )
 

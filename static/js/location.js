@@ -207,6 +207,7 @@ let init = (app) => {
         review.thread_list.push({
           id: response.data.id,
           thread_message: review.thread_text,
+          thread_name: response.data.name,
         });
         app.enumerate(review.thread_list);
         review.thread_text = "";
