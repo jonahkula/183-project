@@ -316,6 +316,40 @@ def add_review():
     return dict(name=name, id=id)
 
 
+# add a thread to a review
+@action('add_review_thread', method=["POST"])
+@action.uses(db, auth)
+def add_review_thread():
+    thread_message = request.json.get('thread_message')
+    address = request.json.get('address')
+    location_name = request.json.get('location_name')
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    name = user.first_name + " " + user.last_name
+
+    # Getting the location of the post that we want to add a review to
+    location = db(db.location.location_address == address).select().first()
+
+    # Check if there exists a location field
+    if (location is None):
+        location = db.location.insert(
+            location_address = address,
+            location_name = location_name,
+        )
+
+    # id = db.review.insert(
+    #     location_id = location['id'],
+    #     user_id = user['id'],
+    #     review_message = text,
+    #     wait_time = wait,
+    #     service = service,
+    #     title = title,
+    #     vaccine = vaccine,
+    # )
+
+    # return dict(name=name, id=id)
+    return "TBD"
+
+
 # load reviews
 @action('load_review', method=["GET"])
 @action.uses(db, auth)
@@ -328,6 +362,21 @@ def load_review():
         reviews = db(db.review.location_id == location['id']).select().as_list()
 
     return dict(reviews = reviews)
+
+
+# load review thread
+@action('load_review_thread', method=["GET"])
+@action.uses(db, auth)
+def load_review_thread():
+    # address = request.params.get('address')
+    # location = db(db.location.location_address == address).select().first()
+    # if location is None:
+    #     reviews = []
+    # else :
+    #     reviews = db(db.review.location_id == location['id']).select().as_list()
+
+    # return dict(reviews = reviews)
+    return "TBD"
 
 
 # used to get name of user
@@ -418,14 +467,11 @@ def location():
     if location_info == None:
         redirect(URL('index'))
 
-    rating_information = []
-    rating_num = 4
-    reviews_len = 14
-    return dict(rating_num=rating_num,
-                reviews_len=reviews_len,
-                load_location_info_url = URL('location_info', signer=url_signer),
+    return dict(load_location_info_url = URL('location_info', signer=url_signer),
                 add_review_url = URL('add_review'),
                 load_review_url = URL('load_review'),
+                add_review_thread_url = URL('add_review_thread'),
+                load_review_thread_url = URL('load_review_thread'),
                 get_name_url = URL('get_name'),
                 location_info = location_info,
                 get_review_rating_url = URL('get_review_rating', signer=url_signer),

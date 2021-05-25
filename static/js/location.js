@@ -8,14 +8,14 @@ let init = (app) => {
     location_phone: "",
     location_stock: false,
     locations: {
-      "Costco": "assets/Costco.jpg",
-      "Ralphs": "assets/Ralphs.jpg",
-      "CVS": "assets/CVS.jpg",
-      "Rite": "assets/Riteaid.jpg",
-      "SAFEWAY": "assets/Safeway.jpg",
-      "Walgreens": "assets/Walgreens.jpg",
-      "Walmart": "assets/Walmart.jpg",
-      "Other": "assets/vaccine.jpg"
+      Costco: "assets/Costco.jpg",
+      Ralphs: "assets/Ralphs.jpg",
+      CVS: "assets/CVS.jpg",
+      Rite: "assets/Riteaid.jpg",
+      SAFEWAY: "assets/Safeway.jpg",
+      Walgreens: "assets/Walgreens.jpg",
+      Walmart: "assets/Walmart.jpg",
+      Other: "assets/vaccine.jpg",
     },
     image: "",
     add_review_text: "",
@@ -24,11 +24,12 @@ let init = (app) => {
     add_review_vaccine: "",
     add_review_title: "",
     review_list: [],
+    review_thread_text: "",
     bad_input: false,
   };
 
   app.display_image = () => {
-    let image = app.vue.locations[app.vue.location_name.split(' ')[0]];
+    let image = app.vue.locations[app.vue.location_name.split(" ")[0]];
     if (image === undefined) {
       app.vue.image = app.vue.locations["Other"];
     } else {
@@ -184,6 +185,16 @@ let init = (app) => {
       });
   };
 
+  // adds a new thread to db on a review
+  app.add_review = function () {
+    // if input value is not filled out, return
+    if (app.vue.review_thread_text === "") {
+      return;
+    }
+
+    // TBD
+  };
+
   // clear review input field
   app.review_input_clear = () => {
     app.vue.add_review_text = "";
@@ -231,6 +242,7 @@ let init = (app) => {
   app.methods = {
     display_image: app.display_image,
     add_review: app.add_review,
+    add_review_thread: app.add_review_thread,
     load: app.load,
     set_review_rating: app.set_review_rating,
     review_ratings_out: app.review_ratings_out,
