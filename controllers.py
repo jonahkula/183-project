@@ -36,6 +36,8 @@ url_signer = URLSigner(session)
 def setup():
     db(db.review).delete()
     db(db.thread).delete()
+    db(db.review_rating).delete()
+    db(db.review_raters).delete()
     return "reviews reset, head back to home"
 
 
