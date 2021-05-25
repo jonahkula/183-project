@@ -316,38 +316,22 @@ def add_review():
     return dict(name=name, id=id)
 
 
-# add a thread to a review
+# add a thread to an existing review
 @action('add_review_thread', method=["POST"])
 @action.uses(db, auth)
 def add_review_thread():
+    review = request.json.get('review')
     thread_message = request.json.get('thread_message')
-    address = request.json.get('address')
-    location_name = request.json.get('location_name')
     user = db(db.auth_user.email == get_user_email()).select().first()
     name = user.first_name + " " + user.last_name
 
-    # Getting the location of the post that we want to add a review to
-    location = db(db.location.location_address == address).select().first()
+    id = db.thread.insert(
+        review_id = review,
+        user_id = user['id'],
+        thread_message = thread_message,
+    )
 
-    # Check if there exists a location field
-    if (location is None):
-        location = db.location.insert(
-            location_address = address,
-            location_name = location_name,
-        )
-
-    # id = db.review.insert(
-    #     location_id = location['id'],
-    #     user_id = user['id'],
-    #     review_message = text,
-    #     wait_time = wait,
-    #     service = service,
-    #     title = title,
-    #     vaccine = vaccine,
-    # )
-
-    # return dict(name=name, id=id)
-    return "TBD"
+    return dict(name=name, id=id)
 
 
 # load reviews
@@ -368,15 +352,15 @@ def load_review():
 @action('load_review_thread', method=["GET"])
 @action.uses(db, auth)
 def load_review_thread():
-    # address = request.params.get('address')
-    # location = db(db.location.location_address == address).select().first()
-    # if location is None:
-    #     reviews = []
-    # else :
-    #     reviews = db(db.review.location_id == location['id']).select().as_list()
+    review = request.params.get('review')
+    thread = db(db.thread.review_id == review).select().first()
 
-    # return dict(reviews = reviews)
-    return "TBD"
+    if thread is None:
+        threads = []
+    else:
+        threads = db(db.thread.review_id == review).select().as_list()
+
+    return dict(threads=threads)
 
 
 # used to get name of user
