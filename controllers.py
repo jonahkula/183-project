@@ -38,6 +38,36 @@ def setup():
     db(db.thread).delete()
     return "reviews reset, head back to home"
 
+# gets the coordinates residing in the map database
+@action('load_map', method="GET")
+@action.uses(db, auth)
+def load_map():
+    coordinates = db(db.map).select().first()
+    assert coordinates is not None
+    longitude = coordinates['longitude']
+    latitude = coordinates['latitude']
+    return dict(longitude=longitude, latitude=latitude)
+
+# saves the longitude & latitude coordinates in the map database 
+@action('save_map', method="POST")
+@action.uses(db, auth)
+def save_map():
+    longitude = request.json.get('longitude')
+    latitude = request.json.get('latitude')
+    assert longitude is not None and latitude is not None
+    print("check longitude & latitude in save_map:", longitude, latitude)
+    db.map.update_or_insert(db.map.id == 1,
+                            longitude=longitude,
+                            latitude=latitude)
+    
+    # if len(db(db.map).select().as_list()) == 0:
+    #     db.map.insert(longitude=longitude,
+    #                   latitude=latitude)
+    # else:
+    #     db.map.update(id=1,
+    #                   longitude=longitude,
+    #                   latitude=latitude)
+    return "ok"
 
 # gets the users first name, last name, email, and saved locations
 def get_user_info(db):
@@ -178,6 +208,8 @@ def profile():
         user_info=user_info,
         load_user_info_url=URL('load_user_info', signer=url_signer),
         unsave_profile_url=URL('unsave_profile'),
+        load_map_url=URL('load_map'),
+        save_map_url=URL('save_map')
     )
 
 

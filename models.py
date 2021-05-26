@@ -67,6 +67,13 @@ db.define_table(
     Field('dislikers', 'integer', default=0),
 )
 
+# Holds only one longitude & latitude to ensure that the map is loaded at all times 
+db.define_table(
+    'map',
+    Field('longitude', 'double', requires=IS_NOT_EMPTY()),
+    Field('latitude', 'double', requires=IS_NOT_EMPTY())
+)
+
 db.location.id.readable = db.location.id.writable = False
 
 db.commit()

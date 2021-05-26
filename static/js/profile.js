@@ -13,7 +13,8 @@ let init = (app) => {
     email: "",
     saved_locations: [],
     coordinates: {'longitude': '', 'latitude': ''},
-    map: ""
+    map: "",
+    all_markers: []
   };
 
   app.enumerate = (a) => {
@@ -31,8 +32,12 @@ let init = (app) => {
         address: app.vue.saved_locations[index][1],
       })
       .then(function () {
+        console.log("Check all_markers before:", app.vue.all_markers);
         app.vue.saved_locations.splice(index, 1);
+        app.vue.all_markers[index].remove();
+        app.vue.all_markers.splice(index, 1);
         app.enumerate(app.vue.saved_locations);
+        console.log("Check all_markers after removal:", app.vue.all_markers);
         console.log("Success in Deleting Saved Location");
       });
   };
@@ -80,6 +85,14 @@ let init = (app) => {
         zoom: 12 // initial zoom level
       });
 
+      // add the long & lat to the map db //
+      axios.post(
+        save_map_url,
+        {
+          longitude: long,
+          latitude: lat
+        });
+
       const geojson = {
         'type': 'FeatureCollection',
         'features': []
@@ -89,8 +102,8 @@ let init = (app) => {
         app.vue.coordinates = {'longitude': location[4], 'latitude': location[5]};
         long = app.vue.coordinates['longitude'];
         lat = app.vue.coordinates['latitude'];
-        const store = location.slice(0, 1)[0].split("#")[0];
-        const address = location.slice(1, 2);
+        const store = location.slice(0, 1)[0].split("#")[0].trim();
+        const address = location.slice(1, 2)[0].split("#")[0].trim();
         const zipCode = location.slice(2, 3);
 
         geojson['features'].push({
@@ -113,13 +126,15 @@ let init = (app) => {
       let index = 0;
       geojson.features.forEach( (location) => { 
 
-        new mapboxgl.Marker(element[index])
+        let marker = new mapboxgl.Marker(element[index])
         .setLngLat(location.geometry.coordinates)
         .setPopup(new mapboxgl.Popup().setHTML('<b>' + location.properties.store + '</b>' + 
                                                '<p>' + location.properties.address + ", " + location.properties.zipCode + "</p>")) // only need the store, address, & zipcode
         .addTo(app.vue.map);
         index++;
+        app.vue.all_markers.push(marker);
       });
+      console.log("Check all_markers after:", app.vue.all_markers);
 
       // add a fullscreen feature //
       app.vue.map.addControl(new mapboxgl.FullscreenControl());
@@ -129,6 +144,19 @@ let init = (app) => {
         showCompass: false
       });
       app.vue.map.addControl(nav, 'top-left');
+    } else {
+      axios.get(
+        load_map_url
+      )
+      .then( (response) => {
+        mapboxgl.accessToken = 'pk.eyJ1Ijoib29tZWxjaGUiLCJhIjoiY2twM2M2bXlxMDRxOTJ2bzZieXQ5cWZ5eSJ9.mRi_Q_vf9wrup84Lu_1wQA';
+        app.vue.map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [response.data['longitude'], response.data['latitude']], // where the map is initially centered at
+        zoom: 12 // initial zoom level
+        });
+      });
     }
     console.log("Check user_info:", user_info, user_info[3][0], user_info[3]);
     console.log("Check app.vue.coordinates:", app.vue.coordinates);
