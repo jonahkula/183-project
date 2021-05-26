@@ -23,8 +23,11 @@ let init = (app) => {
     add_review_service: "",
     add_review_vaccine: "",
     add_review_title: "",
+    save_radius: "",
+    save_zip: "",
     review_list: [],
     bad_input: false,
+    save_state: "",
   };
 
   app.display_image = () => {
@@ -193,6 +196,29 @@ let init = (app) => {
     app.vue.add_review_vaccine = "";
   };
 
+  app.save = () => {
+    axios
+      .post(save_url, {
+        address: app.vue.location_address,
+        name: app.vue.location_name,
+        zipCode: app.vue.save_zipCode,
+        radius: app.vue.save_radius,
+      })
+      .then(
+        app.vue.save_state = false
+      )
+  }
+
+  app.unsave = () => {
+    axios
+      .post(unsave_url, {
+        address: app.vue.location_address,
+      })
+      .then(
+        app.vue.save_state = true
+      )
+  }
+
   // load reviews on location
   app.load = function () {
     axios
@@ -235,6 +261,8 @@ let init = (app) => {
     set_review_rating: app.set_review_rating,
     review_ratings_out: app.review_ratings_out,
     review_ratings_over: app.review_ratings_over,
+    save: app.save,
+    unsave: app.unsave,
   };
 
   // creates the vue instance
@@ -253,6 +281,14 @@ let init = (app) => {
       location_info = location_info.replace("False", "false");
       location_info = JSON.parse(location_info);
 
+      app.vue.save_radius = radius
+      app.vue.save_zipCode = zipCode
+      if (save_state == 'True') {
+        app.vue.save_state = true
+      } else if (save_state == 'False') {
+        app.vue.save_state = false
+      }
+      
       // storing loaded information into vue
       const { name, address1, zip, phone, in_stock } = location_info;
       app.vue.location_name = name;
@@ -260,7 +296,6 @@ let init = (app) => {
       app.vue.location_phone = phone;
       app.vue.location_stock = in_stock;
 
-      console.log("Check location_name:", app.vue.location_name);
       app.display_image();
       // load reviews
       app.load();

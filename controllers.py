@@ -188,12 +188,10 @@ def load_user_info():
 @action('save', method=['POST'])
 @action.uses(db, auth)
 def save():
-    location_data = request.json.get('address')
+    address = request.json.get('address')
+    name = request.json.get('name')
     zipCode = request.json.get('zipCode')
     radius = request.json.get('radius')
-
-    address = location_data['address1']
-    name = location_data['name']
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -215,8 +213,6 @@ def save():
         )
         saveToUser(address, zipCode, radius, user_id)
 
-    saved_address = get_saved_work()
-    # print(saved_address)
     redirect(URL('main'))
     return dict()
 
@@ -225,8 +221,7 @@ def save():
 @action('unsave', method=["GET", "POST"])
 @action.uses(db, auth)
 def unsave():
-    location_data = request.json.get('address')
-    address = location_data['address1']
+    address = request.json.get('address')
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -244,8 +239,6 @@ def unsave():
 
     db(db.saved_location.id == unsave_location[0]['id']).delete()
 
-    saved_address = get_saved_work()
-    # print(saved_address)
     redirect(URL('main'))
     return dict()
 
@@ -420,6 +413,19 @@ def location():
     if location_info == None:
         redirect(URL('index'))
 
+    # Check if the location has been saved
+    location = db(db.location.location_address == location_info['address1']).select().first()
+    saved = db(
+        (db.saved_location.location_id == location['id']) & 
+        (db.auth_user.email == get_user_email())
+    ).select().first()
+
+    if saved is None:
+        save_state = True
+    else:
+        save_state = False
+    print(save_state)
+
     rating_information = []
     rating_num = 4
     reviews_len = 14
@@ -434,6 +440,11 @@ def location():
                 set_review_rating_url = URL('set_review_rating', signer=url_signer),
                 get_review_raters_url = URL('get_review_raters', signer=url_signer),
                 set_review_raters_url = URL('set_review_raters', signer=url_signer),
+                zipCode = zipcode,
+                radius = radius,
+                save_state = save_state,
+                save_url = URL('save'),
+                unsave_url = URL('unsave'),
                 )
 
 
