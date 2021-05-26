@@ -43,19 +43,6 @@ let init = (app) => {
   };
 
   app.mounted = function () {
-    // console.log("Check app.vue.coordinates before long & lat(1):", app.vue.coordinates);
-    // if (app.vue.coordinates !== "") {
-    //   mapboxgl.accessToken = 'pk.eyJ1Ijoib29tZWxjaGUiLCJhIjoiY2twM2M2bXlxMDRxOTJ2bzZieXQ5cWZ5eSJ9.mRi_Q_vf9wrup84Lu_1wQA';
-    //   console.log("Check app.vue.coordinates before long & lat:", app.vue.coordinates);
-    //   let long = app.vue.coordinates['longitude'];
-    //   let lat = app.vue.coordinates['latitude'];
-    //   console.log("Check long & lat:", long, lat);
-    //   app.vue.map = new mapboxgl.Map({
-    //     container: 'map',
-    //     style: 'mapbox://styles/mapbox/streets-v11',
-    //     // center: [long[long.length - 1], lat[lat.length - 1]]
-    //   });
-    // }
   };
 
   // This creates the Vue instance.
@@ -102,7 +89,7 @@ let init = (app) => {
         app.vue.coordinates = {'longitude': location[4], 'latitude': location[5]};
         long = app.vue.coordinates['longitude'];
         lat = app.vue.coordinates['latitude'];
-        const store = location.slice(0, 1);
+        const store = location.slice(0, 1)[0].split("#")[0];
         const address = location.slice(1, 2);
         const zipCode = location.slice(2, 3);
 
@@ -115,28 +102,26 @@ let init = (app) => {
           'properties': {
             'store': store,
             'address': address,
-            'zipCode': zipCode
+            'zipCode': zipCode,
+            'icon': 'pharmacy-15'
           }
         });
 
-        // adds a marker on the map //
-        // const marker = new mapboxgl.Marker()
-        // .setLngLat([long, lat])
-        // .setPopup(new mapboxgl.Popup().setHTML('<h4>' + store + '</h4>' + 
-        //                                        '<p>' + address + ", " + zipCode + "</p>")) // only need the store, address, & zipcode
-        // .addTo(app.vue.map);
-      });
-      const element = document.getElementsByClassName('marker');
-      let index = 0;
-      geojson.features.forEach( (location) => {
-        new mapboxgl.Marker(element[index])
-        .setLngLat(location.geometry.coordinates)
-        .setPopup(new mapboxgl.Popup().setHTML('<h4>' + location.properties.store + '</h4>' + 
-                                               '<p>' + location.properties.address + ", " + location.properties.zipCode + "</p>")) // only need the store, address, & zipcode
-        .addTo(app.vue.map);
       });
 
-      // add a fullscreen feature (didn't work previously) //
+      const element = document.getElementsByClassName('marker');
+      let index = 0;
+      geojson.features.forEach( (location) => { 
+
+        new mapboxgl.Marker(element[index])
+        .setLngLat(location.geometry.coordinates)
+        .setPopup(new mapboxgl.Popup().setHTML('<b>' + location.properties.store + '</b>' + 
+                                               '<p>' + location.properties.address + ", " + location.properties.zipCode + "</p>")) // only need the store, address, & zipcode
+        .addTo(app.vue.map);
+        index++;
+      });
+
+      // add a fullscreen feature //
       app.vue.map.addControl(new mapboxgl.FullscreenControl());
       
       // adds zoom in/out functionality //

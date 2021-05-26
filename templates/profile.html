@@ -28,7 +28,7 @@ still trying to figure out how to add custom header here for its style sheet -->
               <div class="level-item">
                 <a class=" subtitle is-5 has-text-success"
                   :href='`/183-project/location?zip=${sl[2]}&rad=${sl[3]}&loc=${sl[0].replace(/ /g, "%20").replace("#", "%23")}&addr=${sl[1]}`'>
-                  {{sl[0]}} {{sl[1]}}
+                  {{sl[0].split("#")[0]}} {{sl[1]}}
                 </a>
               </div>
             </div>
@@ -44,11 +44,7 @@ still trying to figure out how to add custom header here for its style sheet -->
 
       </div>
       <div class="column">
-        <!-- <figure class="image">
-          <img src="../static/assets/placeholder-map.png" />
-        </figure> -->
-        <!-- the code below is provided by the Mapbox API -->
-        <div id="map" style='width: 400px; height: 300px;'></div>
+        <div id="map" style="width: 50vw; height: 75vh;"></div>
         <div v-for="_ in saved_locations" class="marker"></div>
       </div>
     </div>
