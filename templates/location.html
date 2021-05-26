@@ -18,8 +18,7 @@
 
   <section class="section no-margin" id="vue-target" v-cloak>
     <!-- This section contains the all the location information such as location name, website, etc -->
-    <div 
-          class="
+    <div class="
           full-width-container
           box
           is-flex is-justify-content-space-between is-flex-wrap-wrap
@@ -154,50 +153,70 @@
       <hr class="line" v-if="review_list.length > 0" />
 
       <!-- vue loop going through reviews -->
-      <div class="
-            review-content
-            is-flex is-justify-content-space-between is-flex-wrap-wrap
-          " v-for="review in review_list.slice().reverse()">
-
-        <!-- contains review information -->
-        <div class="left ml-6">
-          <!-- info -->
-          <div class="review-item title main-color">{{review.name}}</div>
-          <div class="review-item">Waiting Time: {{review.wait_time}}</div>
-          <div class="review-item">Customer Service: {{review.service}}</div>
-          <div class="review-item mb-1">Vaccine: {{review.vaccine}}</div>
-          <!-- thumbs up and down rating -->
-          <div>
-            <span @mouseout="review_ratings_out(review._idx)">
-              <span @mouseover="review_ratings_over(review._idx, thumb_idx)"
-                @click="set_review_rating(review._idx, thumb_idx)" v-for="thumb_idx in [1, 2]">
-                <span v-if="thumb_idx == 1" class="mr-2">
-                  <i v-if="thumb_idx == review.num_thumbs_display" class="fa fa-thumbs-up fa-lg has-text-info"></i>
-                  <i v-if="thumb_idx !== review.num_thumbs_display" class="fa fa-thumbs-o-up fa-lg has-text-info"></i>
-                </span>
-                <span v-if="thumb_idx == 2">
-                  <i v-if="thumb_idx == review.num_thumbs_display" class="fa fa-thumbs-down fa-lg has-text-danger"></i>
-                  <i v-if="thumb_idx !== review.num_thumbs_display"
-                    class="fa fa-thumbs-o-down fa-lg has-text-danger"></i>
+      <div v-for="review in review_list.slice().reverse()">
+        <div class="review-content is-flex is-justify-content-space-between is-flex-wrap-wrap">
+          <!-- contains review information -->
+          <div class="left ml-6">
+            <!-- info -->
+            <div class="review-item title main-color">{{review.name}}</div>
+            <div class="review-item">Waiting Time: {{review.wait_time}}</div>
+            <div class="review-item">Customer Service: {{review.service}}</div>
+            <div class="review-item mb-1">Vaccine: {{review.vaccine}}</div>
+            <!-- thumbs up and down rating -->
+            <div>
+              <span @mouseout="review_ratings_out(review._idx)">
+                <span @mouseover="review_ratings_over(review._idx, thumb_idx)"
+                  @click="set_review_rating(review._idx, thumb_idx)" v-for="thumb_idx in [1, 2]">
+                  <span v-if="thumb_idx == 1" class="mr-2">
+                    <i v-if="thumb_idx == review.num_thumbs_display" class="fa fa-thumbs-up fa-lg has-text-info"></i>
+                    <i v-if="thumb_idx !== review.num_thumbs_display" class="fa fa-thumbs-o-up fa-lg has-text-info"></i>
+                  </span>
+                  <span v-if="thumb_idx == 2">
+                    <i v-if="thumb_idx == review.num_thumbs_display"
+                      class="fa fa-thumbs-down fa-lg has-text-danger"></i>
+                    <i v-if="thumb_idx !== review.num_thumbs_display"
+                      class="fa fa-thumbs-o-down fa-lg has-text-danger"></i>
+                  </span>
                 </span>
               </span>
-            </span>
+            </div>
+            <!-- displays current likers and dislikers of review -->
+            <p v-if="review.show_review_likers">
+              Likes: {{review.likers}} Dislikes: {{review.dislikers}}
+            </p>
           </div>
-          <!-- displays current likers and dislikers of review -->
-          <p v-if="review.show_review_likers">
-            Likes: {{review.likers}} Dislikes: {{review.dislikers}}
-          </p>
+
+          <!-- contains review itself -->
+          <div class="right mr-6">
+            <!-- review title -->
+            <div class="container title review-title has-text-white">
+              {{review.title}}
+            </div>
+            <!-- review message -->
+            <div class="review-message subtitle">
+              {{ review.review_message }}
+            </div>
+          </div>
         </div>
 
-        <!-- contains review itself -->
-        <div class="right mr-6">
-          <!-- review title -->
-          <div class="container title review-title has-text-white">
-            {{review.title}}
+        <div class="mx-6 my-5">
+          <!-- for loop displaying current threads with thread message and user of thread -->
+          <div v-for="thread in review.thread_list">
+            <p>{{thread.thread_message}}</p>
+            <p>{{thread.thread_name}}</p>
           </div>
-          <!-- review message -->
-          <div class="review-message subtitle">
-            {{ review.review_message }}
+
+          <!-- input for adding new review -->
+          <div class="field has-addons">
+            <div class="control is-flex-grow-1">
+              <input class="input" type="text" placeholder="Enter comment here" v-model="review.thread_text">
+            </div>
+            <div class="control">
+              <a class="button is-success" @click="add_review_thread(review._idx)">
+                <span class="icon"><i class="fa fa-reply"></i></span>
+                <span>Reply</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -217,6 +236,8 @@
   let location_info = "[[=XML(location_info)]]";
   let add_review_url = "[[=XML(add_review_url) ]]";
   let load_review_url = "[[=XML(load_review_url) ]]";
+  let add_review_thread_url = "[[=XML(add_review_thread_url) ]]";
+  let load_review_thread_url = "[[=XML(load_review_thread_url) ]]";
   let get_name_url = "[[=XML(get_name_url) ]]";
   let get_review_rating_url = "[[=XML(get_review_rating_url)]]";
   let set_review_rating_url = "[[=XML(set_review_rating_url)]]";

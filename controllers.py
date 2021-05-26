@@ -36,6 +36,8 @@ url_signer = URLSigner(session)
 def setup():
     db(db.review).delete()
     db(db.thread).delete()
+    db(db.review_rating).delete()
+    db(db.review_raters).delete()
     return "reviews reset, head back to home"
 
 
@@ -304,8 +306,25 @@ def add_review():
         service = service,
         title = title,
         vaccine = vaccine,
-        review_user_rating = 4,
-        review_message_rating = 5,
+    )
+
+    return dict(name=name, id=id)
+
+
+# add a thread to an existing review
+@action('add_review_thread', method=["POST"])
+@action.uses(db, auth)
+def add_review_thread():
+    review = request.json.get('review')
+    thread_message = request.json.get('thread_message')
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    name = user.first_name + " " + user.last_name
+
+    id = db.thread.insert(
+        review_id = review,
+        user_id = user['id'],
+        thread_name = name,
+        thread_message = thread_message,
     )
 
     return dict(name=name, id=id)
@@ -323,6 +342,21 @@ def load_review():
         reviews = db(db.review.location_id == location['id']).select().as_list()
 
     return dict(reviews = reviews)
+
+
+# load review thread
+@action('load_review_thread', method=["GET"])
+@action.uses(db, auth)
+def load_review_thread():
+    review = request.params.get('review')
+    thread = db(db.thread.review_id == review).select().first()
+
+    if thread is None:
+        threads = []
+    else:
+        threads = db(db.thread.review_id == review).select().as_list()
+
+    return dict(threads=threads)
 
 
 # used to get name of user
@@ -434,6 +468,8 @@ def location():
                 load_location_info_url = URL('location_info', signer=url_signer),
                 add_review_url = URL('add_review'),
                 load_review_url = URL('load_review'),
+                add_review_thread_url = URL('add_review_thread'),
+                load_review_thread_url = URL('load_review_thread'),
                 get_name_url = URL('get_name'),
                 location_info = location_info,
                 get_review_rating_url = URL('get_review_rating', signer=url_signer),

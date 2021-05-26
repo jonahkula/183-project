@@ -8,14 +8,14 @@ let init = (app) => {
     location_phone: "",
     location_stock: false,
     locations: {
-      "Costco": "assets/Costco.jpg",
-      "Ralphs": "assets/Ralphs.jpg",
-      "CVS": "assets/CVS.jpg",
-      "Rite": "assets/Riteaid.jpg",
-      "SAFEWAY": "assets/Safeway.jpg",
-      "Walgreens": "assets/Walgreens.jpg",
-      "Walmart": "assets/Walmart.jpg",
-      "Other": "assets/vaccine.jpg"
+      Costco: "assets/Costco.jpg",
+      Ralphs: "assets/Ralphs.jpg",
+      CVS: "assets/CVS.jpg",
+      Rite: "assets/Riteaid.jpg",
+      SAFEWAY: "assets/Safeway.jpg",
+      Walgreens: "assets/Walgreens.jpg",
+      Walmart: "assets/Walmart.jpg",
+      Other: "assets/vaccine.jpg",
     },
     image: "",
     add_review_text: "",
@@ -31,7 +31,7 @@ let init = (app) => {
   };
 
   app.display_image = () => {
-    let image = app.vue.locations[app.vue.location_name.split(' ')[0]];
+    let image = app.vue.locations[app.vue.location_name.split(" ")[0]];
     if (image === undefined) {
       app.vue.image = app.vue.locations["Other"];
     } else {
@@ -59,6 +59,8 @@ let init = (app) => {
       e.dislikers = 0;
       e.rating = 0;
       e.num_thumbs_display = 0;
+      e.thread_list = [];
+      e.thread_text = "";
     });
     return a;
   };
@@ -177,10 +179,41 @@ let init = (app) => {
           likers: 0,
           dislikers: 0,
           show_review_likers: false,
+          thread_list: [],
+          thread_text: "",
         });
         app.enumerate(app.vue.review_list);
         app.review_input_clear();
         app.vue.bad_input = false;
+      })
+      .catch(function (error) {
+        console.log("The error attempting to send a POST request:", error);
+      });
+  };
+
+  // adds a new thread to db on a review
+  app.add_review_thread = function (_idx) {
+    let review = app.vue.review_list[_idx];
+
+    // if input value is not filled out, return
+    if (review.thread_text === "") {
+      return;
+    }
+
+    // update server with new review thread message
+    axios
+      .post(add_review_thread_url, {
+        review: review.id,
+        thread_message: review.thread_text,
+      })
+      .then(function (response) {
+        review.thread_list.push({
+          id: response.data.id,
+          thread_message: review.thread_text,
+          thread_name: response.data.name,
+        });
+        app.enumerate(review.thread_list);
+        review.thread_text = "";
       })
       .catch(function (error) {
         console.log("The error attempting to send a POST request:", error);
@@ -246,6 +279,11 @@ let init = (app) => {
               review.rating = result.data.rating;
               review.num_thumbs_display = result.data.rating;
             });
+          axios
+            .get(load_review_thread_url, { params: { review: review.id } })
+            .then((result) => {
+              review.thread_list = result.data.threads;
+            });
         }
       })
       .catch(function (error) {
@@ -257,6 +295,7 @@ let init = (app) => {
   app.methods = {
     display_image: app.display_image,
     add_review: app.add_review,
+    add_review_thread: app.add_review_thread,
     load: app.load,
     set_review_rating: app.set_review_rating,
     review_ratings_out: app.review_ratings_out,
@@ -296,6 +335,7 @@ let init = (app) => {
       app.vue.location_phone = phone;
       app.vue.location_stock = in_stock;
 
+      // console.log("Check location_name:", app.vue.location_name);
       app.display_image();
       // load reviews
       app.load();
