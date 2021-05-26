@@ -37,6 +37,7 @@
       </div>
       <!-- user options -->
       <div class="navbar-end">
+        <img id="pfp" width="50" style="max-width:100%; max-height:100%; object-fit: cover; border-radius: 50%;" src="">
         <div class="navbar-item">
           <div class="buttons align">
             [[if globals().get('user'):]]
@@ -67,6 +68,15 @@
 <script src="js/axios.min.js"></script>
 <script src="js/vue.js"></script>
 <script src="js/utils.js"></script>
+<script>
+  let pfp = document.getElementById("pfp");
+  console.log(pfp);
+  let user_email = "[[=globals().get('user').get('email')]]"
+  console.log(user_email)
+
+  pfp.src = localStorage.getItem(user_email) !== null ? localStorage.getItem(user_email) : "../static/assets/no-img.jpg"
+
+</script>
 [[block page_scripts]]
 <!-- individual pages can add scripts here -->[[end]]
 

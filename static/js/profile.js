@@ -53,7 +53,11 @@ let init = (app) => {
       reader.addEventListener("load", function () {
         app.vue.img_url = reader.result;
         console.log(app.vue.img_url);
-        localStorage.setItem("profile-pic", app.vue.img_url);
+        localStorage.setItem(`${app.vue.email}`, app.vue.img_url);
+
+        // Update it on the same page on the navbar
+        let pfp = document.getElementById("pfp");
+        pfp.src = localStorage.getItem(`${app.vue.email}`);
       });
       reader.readAsDataURL(app.file);
     }
@@ -112,6 +116,7 @@ let init = (app) => {
   // And this initializes it.
   app.init = async () => {
     // Loading user info such as name, email, and saved locations
+
     const response = await axios.get(load_user_info_url);
     console.log("Successfully got response:", response);
     console.log(response.data["user_info"]);
@@ -125,9 +130,11 @@ let init = (app) => {
       app.vue.saved_locations = user_info[3];
       app.enumerate(app.vue.saved_locations);
     }
+
+    if (localStorage.getItem(`${app.vue.email}`) !== null) {
+      app.vue.img_url = localStorage.getItem(`${app.vue.email}`);
+    }
   };
-  if (localStorage.getItem("profile-pic") !== null)
-    app.vue.img_url = localStorage.getItem("profile-pic");
 
   // Call to the initializer.
   app.init();
