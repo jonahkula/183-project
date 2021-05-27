@@ -26,26 +26,11 @@ body {
 }
 
 #map {
-  position: absolute;
+  display: flex;
   top: 0;
   bottom: 0;
   width: 100%;
   height: 100%;
-}
-
-h3 {
-  text-align: center;
-  
-}
-
-.marker {
-  background-image: url('pharmacy-15.svg');
-  background-size: cover;
-  cursor: pointer;
-}
-
-.mapboxgl-popup-content {
-  text-align: center;
   justify-content: center;
-  font-family: 'Open Sans', sans-serif;
+  align-items: center;
 }

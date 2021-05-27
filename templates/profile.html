@@ -1,8 +1,5 @@
 [[extend './layout.html']]
 
-<!-- looking at layout.html this page is connected to content.css
-when it should be connected to profile.css
-still trying to figure out how to add custom header here for its style sheet -->
 
 <style>
   [v-cloak] {
@@ -10,41 +7,15 @@ still trying to figure out how to add custom header here for its style sheet -->
   }
 </style>
 
-<section class="section" id="vue-target" v-cloak>
+<section class="section pb-2" id="vue-target" v-cloak>
   <div class="container">
     <h1 class="title is-1">{{first_name}} {{last_name}}'s Profile</h1>
     <div class="columns">
       <div class="column is-two-fifths">
-        <!-- Uploading profile picture -->
-        <div class="field has-addons block">
-          <p class="control">
-          <div class="file is-info">
-            <div class="container is-widescreen is-flex is-justify-content-space-between" style="width: 400px;">
-              <img width="200" height="200" :src="img_url"
-                style="min-width: 270px; min-height: 200px; max-width: 270px; max-height: 200px; object-fit: contain" />
-              <label class="file-label">
-                <input class="file-input" type="file" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-                  @change="select_file($event)">
-                <span class="file-cta">
-                  <span class="file-label">
-                    <span>Choose file</span>
-                  </span>
-                </span>
-              </label>
-            </div>
-          </div>
-          </p>
-        </div>
-
-        <!-- Uploading profile picture end-->
-
-        <h4 class="subtitle is-4">Email: {{email}}</h4>
-        <h4 class="subtitle is-4">Vaccinated: Yes</h4>
-        <h4 class="subtitle is-4">Saved Locations:</h4>
+        <h4 class="subtitle is-4 has-text-left mb-0">Saved Locations:</h4>
         <h4 class="subtitle is-5 has-text-danger" v-if="saved_locations.length === 0">
           You do not have any saved locations.
         </h4>
-
         <div class="sl-container mb-3" v-for="(sl, index) in saved_locations">
           <nav class="level">
             <div class="level-left">
@@ -54,8 +25,6 @@ still trying to figure out how to add custom header here for its style sheet -->
                   {{sl[0].split("#")[0]}} {{sl[1].split("#")[0]}}
                 </a>
               </div>
-            </div>
-            <div class="level-right">
               <div class="level-item">
                 <a class="button" @click="unsave_profile(index)">
                   <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
@@ -64,13 +33,43 @@ still trying to figure out how to add custom header here for its style sheet -->
             </div>
           </nav>
         </div>
-
       </div>
-      <div class="column">
-        <div id="map" style="width: 50vw; height: 75vh;"></div>
-        <div v-for="_ in saved_locations" class="marker"></div>
+      <div class="column is-narrow">
+        <!-- Uploading profile picture -->
+        <div class="field has-addons has-addons-centered">
+            <div class="file is-info">
+              <div class="container is-widescreen" style="width: 400px;">
+                <nav class="level">
+                  <div class="level-item has-text-centered">
+                <img width="200" height="200" :src="img_url"
+                  style="min-width: 270px; min-height: 200px; max-width: 270px; max-height: 200px; object-fit: contain" />
+                </div>
+                </nav>
+                <nav class="level">
+                  <div class="level-item has-text-centered">
+                  <div class="file is-centered">
+                  <label class="file-label">
+                    <input class="file-input" type="file" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                      @change="select_file($event)">
+                    <span class="file-cta">
+                      <span class="file-label">
+                        <span>Choose file</span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              </nav>
+              </div>
+            </div>
+        </div>
+        <!-- Uploading profile picture end-->
+          <h4 class="subtitle is-4 has-text-centered">Email: {{email}}</h4>
       </div>
     </div>
+
+    <div id="map" style="width: 90vw; height: 25vh;"></div>
+    <div v-for="_ in saved_locations" class="marker"></div>
   </div>
 </section>
 
