@@ -122,6 +122,15 @@ let init = (app) => {
 
       });
 
+      // add a fullscreen feature //
+      app.vue.map.addControl(new mapboxgl.FullscreenControl());
+        
+      // adds zoom in/out functionality //
+      const nav = new mapboxgl.NavigationControl({
+        showCompass: false
+      });
+      app.vue.map.addControl(nav, 'top-left');
+
       const element = document.getElementsByClassName('marker');
       let index = 0;
       geojson.features.forEach( (location) => { 
@@ -135,16 +144,8 @@ let init = (app) => {
         app.vue.all_markers.push(marker);
       });
       console.log("Check all_markers after:", app.vue.all_markers);
-
-      // add a fullscreen feature //
-      app.vue.map.addControl(new mapboxgl.FullscreenControl());
-      
-      // adds zoom in/out functionality //
-      const nav = new mapboxgl.NavigationControl({
-        showCompass: false
-      });
-      app.vue.map.addControl(nav, 'top-left');
     } else {
+      console.log("In else statement currently");
       axios.get(
         load_map_url
       )
@@ -156,6 +157,14 @@ let init = (app) => {
         center: [response.data['longitude'], response.data['latitude']], // where the map is initially centered at
         zoom: 12 // initial zoom level
         });
+        // add a fullscreen feature //
+        app.vue.map.addControl(new mapboxgl.FullscreenControl());
+          
+        // adds zoom in/out functionality //
+        const nav = new mapboxgl.NavigationControl({
+          showCompass: false
+        });
+        app.vue.map.addControl(nav, 'top-left');
       });
     }
     console.log("Check user_info:", user_info, user_info[3][0], user_info[3]);
