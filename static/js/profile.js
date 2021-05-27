@@ -13,9 +13,6 @@ let init = (app) => {
     email: "",
     saved_locations: [],
     selection_done: false,
-    uploading: false,
-    uploaded_file: "",
-    uploaded: false,
     img_url: "../static/assets/no-img.jpg",
   };
 
@@ -47,6 +44,11 @@ let init = (app) => {
     let input = event.target;
     app.file = input.files[0];
     if (app.file) {
+      // Making sure the image is less than 1MB, otherwise show an error.
+      if (app.file.size > 1000000) {
+        app.vue.img_url = "../static/assets/picture-too-big.png";
+        return;
+      }
       app.vue.selection_done = true;
       // We read the file.
       let reader = new FileReader();
@@ -63,46 +65,9 @@ let init = (app) => {
     }
   };
 
-  app.upload_complete = function (file_name, file_type) {
-    app.vue.uploading = false;
-    app.vue.upload_done = true;
-    app.vue.uploaded_file = file_name;
-  };
-
-  app.upload_file = function (event) {
-    // We need the event to find the file.
-    let self = this;
-    // Reads the file.
-    let input = event.target;
-    let file = input.files[0];
-    if (file) {
-      self.uploading = true;
-      let file_type = file.type;
-      let file_name = file.name;
-      console.log(encodeURIComponent(file_name));
-      // let full_url =
-      //   file_upload_url +
-      //   "&file_name=" +
-      //   encodeURIComponent(file_name) +
-      //   "&file_type=" +
-      //   encodeURIComponent(file_type);
-      // // Uploads the file, using the low-level streaming interface. This avoid any
-      // // encoding.
-      // app.vue.uploading = true;
-      // let req = new XMLHttpRequest();
-      // req.addEventListener("load", function () {
-      //   app.upload_complete(file_name, file_type);
-      //   console.log(file_name);
-      // });
-      // req.open("PUT", full_url, true);
-      // req.send(file);
-    }
-  };
-
   // This contains all the methods.
   app.methods = {
     unsave_profile: app.unsave_profile,
-    upload_file: app.upload_file,
     select_file: app.select_file,
   };
 
