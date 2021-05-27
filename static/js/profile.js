@@ -14,8 +14,12 @@ let init = (app) => {
     saved_locations: [],
     coordinates: {'longitude': '', 'latitude': ''},
     map: "",
-    all_markers: []
+    all_markers: [],
+    selection_done: false,
+    img_url: "../static/assets/no-img.jpg",
   };
+
+  app.file = null;
 
   app.enumerate = (a) => {
     // This adds an _idx field to each element of the array.
@@ -42,9 +46,36 @@ let init = (app) => {
       });
   };
 
+  app.select_file = function (event) {
+    // Reads the file.
+    let input = event.target;
+    app.file = input.files[0];
+    if (app.file) {
+      // Making sure the image is less than 1MB, otherwise show an error.
+      if (app.file.size > 1000000) {
+        app.vue.img_url = "../static/assets/picture-too-big.png";
+        return;
+      }
+      app.vue.selection_done = true;
+      // We read the file.
+      let reader = new FileReader();
+      reader.addEventListener("load", function () {
+        app.vue.img_url = reader.result;
+        console.log(app.vue.img_url);
+        localStorage.setItem(`${app.vue.email}`, app.vue.img_url);
+
+        // Update it on the same page on the navbar
+        let pfp = document.getElementById("pfp");
+        pfp.src = localStorage.getItem(`${app.vue.email}`);
+      });
+      reader.readAsDataURL(app.file);
+    }
+  };
+
   // This contains all the methods.
   app.methods = {
     unsave_profile: app.unsave_profile,
+    select_file: app.select_file,
   };
 
   app.mounted = function () {
@@ -62,6 +93,7 @@ let init = (app) => {
   // And this initializes it.
   app.init = async () => {
     // Loading user info such as name, email, and saved locations
+
     const response = await axios.get(load_user_info_url);
     console.log("Successfully got response:", response);
     console.log(response.data["user_info"]);
@@ -167,8 +199,10 @@ let init = (app) => {
         app.vue.map.addControl(nav, 'top-left');
       });
     }
-    console.log("Check user_info:", user_info, user_info[3][0], user_info[3]);
-    console.log("Check app.vue.coordinates:", app.vue.coordinates);
+
+    if (localStorage.getItem(`${app.vue.email}`) !== null) {
+      app.vue.img_url = localStorage.getItem(`${app.vue.email}`);
+    }
   };
 
   // Call to the initializer.

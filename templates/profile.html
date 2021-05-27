@@ -15,6 +15,29 @@ still trying to figure out how to add custom header here for its style sheet -->
     <h1 class="title is-1">{{first_name}} {{last_name}}'s Profile</h1>
     <div class="columns">
       <div class="column is-two-fifths">
+        <!-- Uploading profile picture -->
+        <div class="field has-addons block">
+          <p class="control">
+          <div class="file is-info">
+            <div class="container is-widescreen is-flex is-justify-content-space-between" style="width: 400px;">
+              <img width="200" height="200" :src="img_url"
+                style="min-width: 270px; min-height: 200px; max-width: 270px; max-height: 200px; object-fit: contain" />
+              <label class="file-label">
+                <input class="file-input" type="file" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                  @change="select_file($event)">
+                <span class="file-cta">
+                  <span class="file-label">
+                    <span>Choose file</span>
+                  </span>
+                </span>
+              </label>
+            </div>
+          </div>
+          </p>
+        </div>
+
+        <!-- Uploading profile picture end-->
+
         <h4 class="subtitle is-4">Email: {{email}}</h4>
         <h4 class="subtitle is-4">Vaccinated: Yes</h4>
         <h4 class="subtitle is-4">Saved Locations:</h4>
@@ -26,7 +49,7 @@ still trying to figure out how to add custom header here for its style sheet -->
           <nav class="level">
             <div class="level-left">
               <div class="level-item">
-                <a class=" subtitle is-5 has-text-success"
+                <a class=" mr-1 subtitle is-5 has-text-success"
                   :href='`/183-project/location?zip=${sl[2]}&rad=${sl[3]}&loc=${sl[0].replace(/ /g, "%20").replace("#", "%23")}&addr=${sl[1]}`'>
                   {{sl[0].split("#")[0]}} {{sl[1].split("#")[0]}}
                 </a>
