@@ -458,7 +458,6 @@ def location():
         save_state = True
     else:
         save_state = False
-    print(save_state)
 
     rating_information = []
     rating_num = 4

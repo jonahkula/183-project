@@ -200,11 +200,17 @@
         </div>
 
         <div class="mx-6 my-5">
-          <!-- for loop displaying current threads with thread message and user of thread -->
-          <div v-for="thread in review.thread_list">
-            <p>{{thread.thread_message}}</p>
-            <p>{{thread.thread_name}}</p>
+          <div class="columns">
+            <div class="column is-1"></div>
+            <div class="column">
+              <!-- for loop displaying current threads with thread message and user of thread -->
+              <div v-for="thread in review.thread_list" class="box">
+                <p>{{thread.thread_message}}</p>
+                <p> &nbsp &nbsp &nbsp &nbsp - {{thread.thread_name}}</p>
+              </div>
+            </div>
           </div>
+          
 
           <!-- input for adding new review -->
           <div class="field has-addons">
