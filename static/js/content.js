@@ -36,19 +36,19 @@ let init = (app) => {
   };
 
   app.get_radius = function (radius, event) {
-    console.log(
-      "Check get_radius event.target.value, radius.distance:",
-      event.target.value,
-      radius.distance
-    );
-    console.log(typeof radius.distance);
+    // console.log(
+    //   "Check get_radius event.target.value, radius.distance:",
+    //   event.target.value,
+    //   radius.distance
+    // );
+    // console.log(typeof radius.distance);
     if (radius.distance !== undefined) {
       app.vue.radius = radius.distance.split(/\s+/)[0];
     }
   };
 
   app.add_locations = function () {
-    console.log("Check radius before sending POST:", app.vue.radius);
+    // console.log("Check radius before sending POST:", app.vue.radius);
     axios
       .post(add_locations_url, {
         zipCode: app.vue.zipCode,
@@ -59,8 +59,8 @@ let init = (app) => {
         app.vue.savedLocations = response.data.saved;
         sessionStorage.setItem("zipCode", app.vue.zipCode);
         sessionStorage.setItem("radius", app.vue.radius);
-        console.log("Hi", app.vue.radius);
-        console.log("Received response from POST request:", app.vue.locations);
+        // console.log("Hi", app.vue.radius);
+        // console.log("Received response from POST request:", app.vue.locations);
       })
       .catch(function (error) {
         console.log("The error attempting to send a POST request:", error);
@@ -76,15 +76,15 @@ let init = (app) => {
       })
       .then(function (response) {
         // app.vue.savedLocations = response.data.saved
-        console.log(
-          "Received POST response after saving:",
-          response.data.saved
-        );
+        // console.log(
+        //   "Received POST response after saving:",
+        //   response.data.saved
+        // );
 
         // Doing this because the save/unsave response is not giving back saved data???
         axios.get(load_saved_url).then(function (response) {
           app.vue.savedLocations = response.data.saved;
-          console.log("Saved stuff in here", app.vue.savedLocations);
+          // console.log("Saved stuff in here", app.vue.savedLocations);
         });
       })
       .catch(function (error) {
@@ -99,15 +99,15 @@ let init = (app) => {
       })
       .then(function (response) {
         // app.vue.savedLocations = response.data.saved
-        console.log(
-          "Received POST response after saving:",
-          response.data.saved
-        );
+        // console.log(
+        //   "Received POST response after saving:",
+        //   response.data.saved
+        // );
 
         // Doing this because the save/unsave response is not giving back saved data???
         axios.get(load_saved_url).then(function (response) {
           app.vue.savedLocations = response.data.saved;
-          console.log("Saved stuff in here", app.vue.savedLocations);
+          // console.log("Saved stuff in here", app.vue.savedLocations);
         });
       })
       .catch(function (error) {
@@ -136,7 +136,7 @@ let init = (app) => {
     axios
       .get(load_home_url)
       .then(function (response) {
-        console.log("response to GET request:", response);
+        // console.log("response to GET request:", response);
       })
       .catch(function (error) {
         console.log("The error attempting to send a GET request:", error);

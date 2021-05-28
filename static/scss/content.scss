@@ -13,7 +13,7 @@ $body-background-color: whitesmoke;
 
 .form-container {
   @extend .container;
-  max-width: 700px !important;
+  max-width: 900px !important;
 }
 
 @import "../bulma.sass";
@@ -53,6 +53,5 @@ $body-background-color: whitesmoke;
 
 .overflow {
   height: 40rem;
-  overflow-y: scroll hidden;
-  overflow-x: hidden;
+  overflow: auto;
 }

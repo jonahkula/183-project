@@ -31,14 +31,15 @@ from .models import get_user
 url_signer = URLSigner(session)
 
 # clean reset of review data
-@action('reset-reviews')
-@action.uses(db)
-def setup():
-    db(db.review).delete()
-    db(db.thread).delete()
-    db(db.review_rating).delete()
-    db(db.review_raters).delete()
-    return "reviews reset, head back to home"
+# commented out for production
+# @action('reset-reviews')
+# @action.uses(db)
+# def setup():
+#     db(db.review).delete()
+#     db(db.thread).delete()
+#     db(db.review_rating).delete()
+#     db(db.review_raters).delete()
+#     return "reviews reset, head back to home"
 
 
 # gets the users first name, last name, email, and saved locations

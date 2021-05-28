@@ -31,7 +31,7 @@ let init = (app) => {
       .then(function () {
         app.vue.saved_locations.splice(index, 1);
         app.enumerate(app.vue.saved_locations);
-        console.log("Success in Deleting Saved Location");
+        // console.log("Success in Deleting Saved Location");
       });
   };
 
@@ -51,8 +51,8 @@ let init = (app) => {
   app.init = async () => {
     // Loading user info such as name, email, and saved locations
     const response = await axios.get(load_user_info_url);
-    console.log("Successfully got response:", response);
-    console.log(response.data["user_info"]);
+    // console.log("Successfully got response:", response);
+    // console.log(response.data["user_info"]);
 
     // Putting loaded user info into Vue
     user_info = response.data["user_info"];
