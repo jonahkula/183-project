@@ -50,7 +50,7 @@ still trying to figure out how to add custom header here for its style sheet -->
             <div class="level-left">
               <div class="level-item">
                 <a class=" mr-1 subtitle is-5 has-text-success"
-                  :href='`/183-project/location?zip=${sl[2]}&rad=${sl[3]}&loc=${sl[0].replace(/ /g, "%20").replace("#", "%23")}&addr=${sl[1]}`'>
+                  :href='`/183-project/location?zip=${encodeURIComponent(sl[2])}&rad=${encodeURIComponent(sl[3])}&loc=${encodeURIComponent(sl[0])}&addr=${encodeURIComponent(sl[1])}`'>
                   {{sl[0]}} {{sl[1]}}
                 </a>
               </div>
