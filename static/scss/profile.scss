@@ -19,3 +19,18 @@ $body-background-color: whitesmoke;
   padding-bottom: 0;
   color: white;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  display: flex;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}

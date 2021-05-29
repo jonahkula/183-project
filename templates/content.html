@@ -75,7 +75,7 @@
             <div class="level-left">
               <div class="level-item">
                 <a
-                  :href='`/183-project/location?zip=${l.zip}&rad=25&loc=${l.name.replace(/ /g, "%20").replace("#", "%23")}&addr=${l.address1}`'>
+                  :href='`/183-project/location?zip=${encodeURIComponent(l.zip)}&rad=25&loc=${encodeURIComponent(l.name)}&addr=${encodeURIComponent(l.address1)}`'>
                   <p class="title color-example" v-if="l.name.split(' ')[0] === 'CVS'">
                     <u>{{l.name.split("#")[0].trim().replace(",", "")}}</u>
                   </p>

@@ -3,19 +3,44 @@ let app = {};
 let init = (app) => {
   // vue data
   app.data = {
+    location_data: [],
     location_name: "",
     location_address: "",
     location_phone: "",
     location_stock: false,
     locations: {
-      Costco: "assets/Costco.jpg",
-      Ralphs: "assets/Ralphs.jpg",
-      CVS: "assets/CVS.jpg",
-      Rite: "assets/Riteaid.jpg",
-      SAFEWAY: "assets/Safeway.jpg",
-      Walgreens: "assets/Walgreens.jpg",
-      Walmart: "assets/Walmart.jpg",
-      Other: "assets/vaccine.jpg",
+      "Costco": {
+        "img":"assets/new_Costco.png",
+        "site": "https://www.costco.com/covid-vaccine.html",
+      },
+      "Ralphs": {
+        "img": "assets/Ralphs.png",
+        "site": "https://www.ralphs.com/rx/covid-eligibility",
+      },
+      "CVS": {
+        "img":  "assets/CVS.png",
+        "site": "https://www.cvs.com/immunizations/covid-19-vaccine",
+      },
+      "Rite": {
+        "img": "assets/Riteaid.jpg",
+        "site": "https://www.riteaid.com/pharmacy/covid-qualifier",
+      },
+      "SAFEWAY": {
+        "img": "assets/new_safeway.png",
+        "site": "https://www.safeway.com/pharmacy/covid-19.html",
+      },
+      "Walgreens": {
+        "img": "assets/Walgreens.jpg",
+        "site": "https://www.walgreens.com/findcare/vaccination/covid-19",
+      },
+      "Walmart": {
+        "img": "assets/new_Walmart.png",
+        "site": "https://www.walmart.com/cp/flu-shots-immunizations/1228302",
+      },
+      "Other": {
+        "img": "assets/vaccine.jpg",
+        "site": "https://www.cdc.gov/coronavirus/2019-ncov/vaccines/index.html",
+      }
     },
     image: "",
     add_review_text: "",
@@ -30,13 +55,22 @@ let init = (app) => {
     save_state: "",
   };
 
+  // displays the necessary images based on which review page is clicked on //
   app.display_image = () => {
     let image = app.vue.locations[app.vue.location_name.split(" ")[0]];
     if (image === undefined) {
-      app.vue.image = app.vue.locations["Other"];
+      app.vue.image = app.vue.locations["Other"]["img"];
     } else {
-      app.vue.image = image;
+      app.vue.image = image["img"];
     }
+  };
+
+  // displays dynamic information on the top of the review page //
+  app.vaccine_site = () => {
+    // console.log("In app.vaccine_site!!");
+    // console.log("check app.vue.locations:", app.vue.locations[app.vue.location_name.split(' ')[0]]);
+    let location = app.vue.locations[app.vue.location_name.split(' ')[0]];
+    window.location.href = location !== undefined ? location["site"] : app.vue.locations["Other"]["site"];
   };
 
   // console.log("Check location_name:", app.vue.location_name);
@@ -232,8 +266,7 @@ let init = (app) => {
   app.save = () => {
     axios
       .post(save_url, {
-        address: app.vue.location_address,
-        name: app.vue.location_name,
+        location_data: app.vue.location_data,
         zipCode: app.vue.save_zipCode,
         radius: app.vue.save_radius,
       })
@@ -302,6 +335,7 @@ let init = (app) => {
     review_ratings_over: app.review_ratings_over,
     save: app.save,
     unsave: app.unsave,
+    vaccine_site: app.vaccine_site,
   };
 
   // creates the vue instance
@@ -320,6 +354,7 @@ let init = (app) => {
       location_info = location_info.replace("False", "false");
       location_info = JSON.parse(location_info);
 
+      app.vue.location_data = location_info
       app.vue.save_radius = radius
       app.vue.save_zipCode = zipCode
       if (save_state == 'True') {

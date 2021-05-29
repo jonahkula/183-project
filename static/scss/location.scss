@@ -12,7 +12,10 @@ $body-background-color: whitesmoke;
 // @import "../bulma.sass";
 
 .full-width-container {
-  object-fit: contain;
+  background-position: center;
+  // object-fit: cover;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
 }
 
 .test-color {
@@ -69,13 +72,18 @@ hr {
 }
 
 #phone {
-  // color: white;
+  // color: whitesmoke;
+  // border-color: black;
+  // -webkit-text-stroke-color: black;
   // -webkit-text-stroke-width: 0.9px;
-  background: linear-gradient(135deg, rgba(255,214,94,1) 0%,rgba(254,191,4,1) 100%);
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-stroke-width: 0.4px;
+  // background: linear-gradient(135deg, rgba(255,214,94,1) 0%,rgba(254,191,4,1) 100%);
+  // background: linear-gradient(135deg, rgb(148, 116, 28) 0%,rrgb(139, 107, 11)100%);
+  // -webkit-text-fill-color: transparent;
+  // background-clip: text;
+  // -webkit-background-clip: text;
+  border-color: black;
+  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-width: 0.05rem;
 }
 
 #review{
