@@ -36,6 +36,8 @@ url_signer = URLSigner(session)
 def setup():
     db(db.review).delete()
     db(db.thread).delete()
+    db(db.review_rating).delete()
+    db(db.review_raters).delete()
     return "reviews reset, head back to home"
 
 # gets the coordinates residing in the map database
@@ -225,7 +227,7 @@ def load_user_info():
 @action('save', method=['POST'])
 @action.uses(db, auth)
 def save():
-    location_data = request.json.get('address')
+    location_data = request.json.get('location_data')
     zipCode = request.json.get('zipCode')
     radius = request.json.get('radius')
 
@@ -254,8 +256,6 @@ def save():
         )
         saveToUser(user_tuple)
 
-    saved_address = get_saved_work()
-    # print(saved_address)
     redirect(URL('main'))
     return dict()
 
@@ -264,8 +264,7 @@ def save():
 @action('unsave', method=["GET", "POST"])
 @action.uses(db, auth)
 def unsave():
-    location_data = request.json.get('address')
-    address = location_data['address1']
+    address = request.json.get('address')
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -283,8 +282,6 @@ def unsave():
 
     db(db.saved_location.id == unsave_location[0]['id']).delete()
 
-    saved_address = get_saved_work()
-    # print(saved_address)
     redirect(URL('main'))
     return dict()
 
@@ -330,7 +327,7 @@ def add_review():
     location_name = request.json.get('location_name')
 
     user = db(db.auth_user.email == get_user_email()).select().first()
-    name = user.first_name + " " + user.last_name
+    name = user['first_name'] + " " + user['last_name']
 
     # Getting the location of the post that we want to add a review to
     location = db(db.location.location_address == address).select().first()
@@ -350,8 +347,25 @@ def add_review():
         service = service,
         title = title,
         vaccine = vaccine,
-        review_user_rating = 4,
-        review_message_rating = 5,
+    )
+
+    return dict(name=name, id=id)
+
+
+# add a thread to an existing review
+@action('add_review_thread', method=["POST"])
+@action.uses(db, auth)
+def add_review_thread():
+    review = request.json.get('review')
+    thread_message = request.json.get('thread_message')
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    name = user.first_name + " " + user.last_name
+
+    id = db.thread.insert(
+        review_id = review,
+        user_id = user['id'],
+        thread_name = name,
+        thread_message = thread_message,
     )
 
     return dict(name=name, id=id)
@@ -369,6 +383,21 @@ def load_review():
         reviews = db(db.review.location_id == location['id']).select().as_list()
 
     return dict(reviews = reviews)
+
+
+# load review thread
+@action('load_review_thread', method=["GET"])
+@action.uses(db, auth)
+def load_review_thread():
+    review = request.params.get('review')
+    thread = db(db.thread.review_id == review).select().first()
+
+    if thread is None:
+        threads = []
+    else:
+        threads = db(db.thread.review_id == review).select().as_list()
+
+    return dict(threads=threads)
 
 
 # used to get name of user
@@ -459,6 +488,18 @@ def location():
     if location_info == None:
         redirect(URL('index'))
 
+    # Check if the location has been saved
+    location = db(db.location.location_address == location_info['address1']).select().first()
+    saved = db(
+        (db.saved_location.location_id == location['id']) & 
+        (db.auth_user.email == get_user_email())
+    ).select().first()
+
+    if saved is None:
+        save_state = True
+    else:
+        save_state = False
+
     rating_information = []
     rating_num = 4
     reviews_len = 14
@@ -467,12 +508,19 @@ def location():
                 load_location_info_url = URL('location_info', signer=url_signer),
                 add_review_url = URL('add_review'),
                 load_review_url = URL('load_review'),
+                add_review_thread_url = URL('add_review_thread'),
+                load_review_thread_url = URL('load_review_thread'),
                 get_name_url = URL('get_name'),
                 location_info = location_info,
                 get_review_rating_url = URL('get_review_rating', signer=url_signer),
                 set_review_rating_url = URL('set_review_rating', signer=url_signer),
                 get_review_raters_url = URL('get_review_raters', signer=url_signer),
                 set_review_raters_url = URL('set_review_raters', signer=url_signer),
+                zipCode = zipcode,
+                radius = radius,
+                save_state = save_state,
+                save_url = URL('save'),
+                unsave_url = URL('unsave'),
                 )
 
 

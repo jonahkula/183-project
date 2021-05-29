@@ -26,13 +26,12 @@ hr {
 }
 
 .review-title {
-  background-color: linear-gradient(135deg, #49c0f0 0%, #2cafe3 100%) !important;
+  background-color: #1d72aa !important;
   padding: 12px;
 }
 
 .right {
   width: 50%;
-  height: 300px;
 }
 
 .circle {
@@ -41,7 +40,12 @@ hr {
 }
 
 .main-color {
-  color: linear-gradient(135deg, #49c0f0 0%, #2cafe3 100%);
+  color: #1d72aa;
+}
+
+.column.is-1 {
+  border-left: 6px solid #1d72aa;
+  left: 50%;
 }
 
 #check, #write {
@@ -65,4 +69,3 @@ hr {
 #stars {
   opacity: 0.8;
 }
-/*# sourceMappingURL=location.css.map */

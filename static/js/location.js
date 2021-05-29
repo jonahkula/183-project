@@ -3,6 +3,7 @@ let app = {};
 let init = (app) => {
   // vue data
   app.data = {
+    location_data: [],
     location_name: "",
     location_address: "",
     location_phone: "",
@@ -47,13 +48,16 @@ let init = (app) => {
     add_review_service: "",
     add_review_vaccine: "",
     add_review_title: "",
+    save_radius: "",
+    save_zip: "",
     review_list: [],
     bad_input: false,
+    save_state: "",
   };
 
   // displays the necessary images based on which review page is clicked on //
   app.display_image = () => {
-    let image = app.vue.locations[app.vue.location_name.split(' ')[0]];
+    let image = app.vue.locations[app.vue.location_name.split(" ")[0]];
     if (image === undefined) {
       app.vue.image = app.vue.locations["Other"]["img"];
     } else {
@@ -89,6 +93,8 @@ let init = (app) => {
       e.dislikers = 0;
       e.rating = 0;
       e.num_thumbs_display = 0;
+      e.thread_list = [];
+      e.thread_text = "";
     });
     return a;
   };
@@ -207,10 +213,41 @@ let init = (app) => {
           likers: 0,
           dislikers: 0,
           show_review_likers: false,
+          thread_list: [],
+          thread_text: "",
         });
         app.enumerate(app.vue.review_list);
         app.review_input_clear();
         app.vue.bad_input = false;
+      })
+      .catch(function (error) {
+        console.log("The error attempting to send a POST request:", error);
+      });
+  };
+
+  // adds a new thread to db on a review
+  app.add_review_thread = function (_idx) {
+    let review = app.vue.review_list[_idx];
+
+    // if input value is not filled out, return
+    if (review.thread_text === "") {
+      return;
+    }
+
+    // update server with new review thread message
+    axios
+      .post(add_review_thread_url, {
+        review: review.id,
+        thread_message: review.thread_text,
+      })
+      .then(function (response) {
+        review.thread_list.push({
+          id: response.data.id,
+          thread_message: review.thread_text,
+          thread_name: response.data.name,
+        });
+        app.enumerate(review.thread_list);
+        review.thread_text = "";
       })
       .catch(function (error) {
         console.log("The error attempting to send a POST request:", error);
@@ -225,6 +262,28 @@ let init = (app) => {
     app.vue.add_review_service = "";
     app.vue.add_review_vaccine = "";
   };
+
+  app.save = () => {
+    axios
+      .post(save_url, {
+        location_data: app.vue.location_data,
+        zipCode: app.vue.save_zipCode,
+        radius: app.vue.save_radius,
+      })
+      .then(
+        app.vue.save_state = false
+      )
+  }
+
+  app.unsave = () => {
+    axios
+      .post(unsave_url, {
+        address: app.vue.location_address,
+      })
+      .then(
+        app.vue.save_state = true
+      )
+  }
 
   // load reviews on location
   app.load = function () {
@@ -253,6 +312,11 @@ let init = (app) => {
               review.rating = result.data.rating;
               review.num_thumbs_display = result.data.rating;
             });
+          axios
+            .get(load_review_thread_url, { params: { review: review.id } })
+            .then((result) => {
+              review.thread_list = result.data.threads;
+            });
         }
       })
       .catch(function (error) {
@@ -264,10 +328,13 @@ let init = (app) => {
   app.methods = {
     display_image: app.display_image,
     add_review: app.add_review,
+    add_review_thread: app.add_review_thread,
     load: app.load,
     set_review_rating: app.set_review_rating,
     review_ratings_out: app.review_ratings_out,
     review_ratings_over: app.review_ratings_over,
+    save: app.save,
+    unsave: app.unsave,
     vaccine_site: app.vaccine_site,
   };
 
@@ -287,6 +354,15 @@ let init = (app) => {
       location_info = location_info.replace("False", "false");
       location_info = JSON.parse(location_info);
 
+      app.vue.location_data = location_info
+      app.vue.save_radius = radius
+      app.vue.save_zipCode = zipCode
+      if (save_state == 'True') {
+        app.vue.save_state = true
+      } else if (save_state == 'False') {
+        app.vue.save_state = false
+      }
+      
       // storing loaded information into vue
       const { name, address1, zip, phone, in_stock } = location_info;
       app.vue.location_name = name;

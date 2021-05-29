@@ -41,14 +41,13 @@ hr {
 }
 
 .review-title {
-  background-color: $main_display_color !important;
+  background-color: #1d72aa !important;
   padding: 12px;
 }
 
 .right {
   // background-color: black;
   width: 50%; //Maybe remove if it messes up mobile
-  height: 300px;
 }
 
 .circle {
@@ -57,7 +56,14 @@ hr {
 }
 
 .main-color {
-  color: $main_display_color;
+  // color: $main_display_color;
+  color: #1d72aa;
+}
+
+.column.is-1 {
+  border-left: 6px solid #1d72aa;
+  left: 50%;
+  
 }
 
 

@@ -70,7 +70,9 @@ let init = (app) => {
   app.save_option = function (index) {
     axios
       .post(save_url, {
-        address: app.vue.locations[index],
+        location_data: app.vue.locations[index],
+        address: app.vue.locations[index]['address1'],
+        name: app.vue.locations[index]['name'],
         zipCode: app.vue.zipCode,
         radius: app.vue.radius,
       })
@@ -95,7 +97,7 @@ let init = (app) => {
   app.unsave_option = function (index) {
     axios
       .post(unsave_url, {
-        address: app.vue.locations[index],
+        address: app.vue.locations[index]['address1'],
       })
       .then(function (response) {
         // app.vue.savedLocations = response.data.saved
