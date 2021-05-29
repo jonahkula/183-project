@@ -38,6 +38,36 @@ def setup():
     db(db.thread).delete()
     return "reviews reset, head back to home"
 
+# gets the coordinates residing in the map database
+@action('load_map', method="GET")
+@action.uses(db, auth)
+def load_map():
+    coordinates = db(db.map).select().first()
+    assert coordinates is not None
+    longitude = coordinates['longitude']
+    latitude = coordinates['latitude']
+    return dict(longitude=longitude, latitude=latitude)
+
+# saves the longitude & latitude coordinates in the map database 
+@action('save_map', method="POST")
+@action.uses(db, auth)
+def save_map():
+    longitude = request.json.get('longitude')
+    latitude = request.json.get('latitude')
+    assert longitude is not None and latitude is not None
+    print("check longitude & latitude in save_map:", longitude, latitude)
+    db.map.update_or_insert(db.map.id == 1,
+                            longitude=longitude,
+                            latitude=latitude)
+    
+    # if len(db(db.map).select().as_list()) == 0:
+    #     db.map.insert(longitude=longitude,
+    #                   latitude=latitude)
+    # else:
+    #     db.map.update(id=1,
+    #                   longitude=longitude,
+    #                   latitude=latitude)
+    return "ok"
 
 # gets the users first name, last name, email, and saved locations
 def get_user_info(db):
@@ -61,9 +91,11 @@ def get_user_info(db):
         radius = saved_locations_info['saved_location']['location_radius']
         location_name = saved_locations_info['location']['location_name']
         location_address = saved_locations_info['location']['location_address']
+        longitude = saved_locations_info['saved_location']['longitude']
+        latitude = saved_locations_info['saved_location']['latitude']
         # print(location_name, location_address, zipcode, radius)
         single_location.extend(
-            (location_name, location_address, zipcode, radius))
+            (location_name, location_address, zipcode, radius, longitude, latitude))
         # print(single_location)
         saved_locations.append(single_location)
 
@@ -72,8 +104,9 @@ def get_user_info(db):
 
 
 # saves a location to a user
-def saveToUser(address, zipCode, radius, user_id):
+def saveToUser(user_tuple):
     # Get the id of the location we just inserted
+    address, zipCode, radius, user_id, longitude, latitude = user_tuple
     location = db(db.location.location_address == address).select().first()
 
     # Insert into users saved locations
@@ -81,7 +114,9 @@ def saveToUser(address, zipCode, radius, user_id):
         user_id=user_id,
         location_id=location['id'],
         location_zipcode=zipCode,
-        location_radius=radius
+        location_radius=radius,
+        longitude=longitude,
+        latitude=latitude
     )
 
 
@@ -173,6 +208,8 @@ def profile():
         user_info=user_info,
         load_user_info_url=URL('load_user_info', signer=url_signer),
         unsave_profile_url=URL('unsave_profile'),
+        load_map_url=URL('load_map'),
+        save_map_url=URL('save_map')
     )
 
 
@@ -194,6 +231,8 @@ def save():
 
     address = location_data['address1']
     name = location_data['name']
+    long = location_data['long']
+    lat = location_data['lat']
 
     if get_user_email() == None:
         redirect(URL('index'))
@@ -204,16 +243,16 @@ def save():
 
     # check is used to determine if the location is already added into the locations db
     check = db(db.location.location_address == address).select().first()
-
+    user_tuple = address, zipCode, radius, user_id, long, lat
     if (check is not None):
-        saveToUser(address, zipCode, radius, user_id)
+        saveToUser(user_tuple)
     else:
         # Inserting into location table
         db.location.insert(
             location_name=name,
             location_address=address
         )
-        saveToUser(address, zipCode, radius, user_id)
+        saveToUser(user_tuple)
 
     saved_address = get_saved_work()
     # print(saved_address)

@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="scss/content.css" />
   <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" />
   <link rel="shortcut icon" type="image/png" href="assets/favicon.png" />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <title>Suppress19</title>
   [[block page_head]]
   <!-- individual pages can customize header here -->[[end]]
@@ -37,6 +41,10 @@
       </div>
       <!-- user options -->
       <div class="navbar-end">
+        <a href="/183-project/profile">
+          <img class="mt-2 mb-1" id="pfp" width="50"
+            style="height:50px; overflow: hidden; object-fit: cover; border-radius: 50%;" src="">
+        </a>
         <div class="navbar-item">
           <div class="buttons align">
             [[if globals().get('user'):]]
@@ -67,6 +75,11 @@
 <script src="js/axios.min.js"></script>
 <script src="js/vue.js"></script>
 <script src="js/utils.js"></script>
+<script>
+  let pfp = document.getElementById("pfp");
+  let user_email = "[[=globals().get('user').get('email')]]"
+  pfp.src = localStorage.getItem(user_email) !== null ? localStorage.getItem(user_email) : "../static/assets/no-img.jpg"
+</script>
 [[block page_scripts]]
 <!-- individual pages can add scripts here -->[[end]]
 

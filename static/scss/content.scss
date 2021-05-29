@@ -10,6 +10,7 @@ $hover_border: #0e1f21;
 $main_display_color: hsl(204, 71%, 39%);
 $input-focus-box-shadow-color: none;
 $body-background-color: whitesmoke;
+$button-focus-box-shadow-color: none; // removes the shadow color for dropdown on raidus & locate vaccines button
 
 .form-container {
   @extend .container;
