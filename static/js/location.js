@@ -294,7 +294,7 @@ let init = (app) => {
       app.vue.location_phone = phone;
       app.vue.location_stock = in_stock;
 
-      console.log("Check location_name:", app.vue.location_name);
+      // console.log("Check location_name:", app.vue.location_name);
       app.display_image();
       // load reviews
       app.load();
