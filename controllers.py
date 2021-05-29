@@ -55,7 +55,7 @@ def save_map():
     longitude = request.json.get('longitude')
     latitude = request.json.get('latitude')
     assert longitude is not None and latitude is not None
-    print("check longitude & latitude in save_map:", longitude, latitude)
+    # print("check longitude & latitude in save_map:", longitude, latitude)
     db.map.update_or_insert(db.map.id == 1,
                             longitude=longitude,
                             latitude=latitude)

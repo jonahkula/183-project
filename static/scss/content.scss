@@ -14,7 +14,7 @@ $button-focus-box-shadow-color: none; // removes the shadow color for dropdown o
 
 .form-container {
   @extend .container;
-  max-width: 700px !important;
+  max-width: 900px !important;
 }
 
 @import "../bulma.sass";
@@ -54,6 +54,5 @@ $button-focus-box-shadow-color: none; // removes the shadow color for dropdown o
 
 .overflow {
   height: 40rem;
-  overflow-y: scroll hidden;
-  overflow-x: hidden;
+  overflow: auto;
 }

@@ -36,13 +36,13 @@ let init = (app) => {
         address: app.vue.saved_locations[index][1],
       })
       .then(function () {
-        console.log("Check all_markers before:", app.vue.all_markers);
+        // console.log("Check all_markers before:", app.vue.all_markers);
         app.vue.saved_locations.splice(index, 1);
         app.vue.all_markers[index].remove();
         app.vue.all_markers.splice(index, 1);
         app.enumerate(app.vue.saved_locations);
-        console.log("Check all_markers after removal:", app.vue.all_markers);
-        console.log("Success in Deleting Saved Location");
+        // console.log("Check all_markers after removal:", app.vue.all_markers);
+        // console.log("Success in Deleting Saved Location");
       });
   };
 
@@ -61,7 +61,7 @@ let init = (app) => {
       let reader = new FileReader();
       reader.addEventListener("load", function () {
         app.vue.img_url = reader.result;
-        console.log(app.vue.img_url);
+        // console.log(app.vue.img_url);
         localStorage.setItem(`${app.vue.email}`, app.vue.img_url);
 
         // Update it on the same page on the navbar
@@ -95,8 +95,8 @@ let init = (app) => {
     // Loading user info such as name, email, and saved locations
 
     const response = await axios.get(load_user_info_url);
-    console.log("Successfully got response:", response);
-    console.log(response.data["user_info"]);
+    // console.log("Successfully got response:", response);
+    // console.log(response.data["user_info"]);
 
     // Putting loaded user info into Vue
     user_info = response.data["user_info"];
@@ -175,9 +175,9 @@ let init = (app) => {
         index++;
         app.vue.all_markers.push(marker);
       });
-      console.log("Check all_markers after:", app.vue.all_markers);
+      // console.log("Check all_markers after:", app.vue.all_markers);
     } else {
-      console.log("In else statement currently");
+      // console.log("In else statement currently");
       axios.get(
         load_map_url
       )
