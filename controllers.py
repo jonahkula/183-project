@@ -286,7 +286,7 @@ def add_review():
     location_name = request.json.get('location_name')
 
     user = db(db.auth_user.email == get_user_email()).select().first()
-    name = user.first_name + " " + user.last_name
+    name = user['first_name'] + " " + user['last_name']
 
     # Getting the location of the post that we want to add a review to
     location = db(db.location.location_address == address).select().first()
