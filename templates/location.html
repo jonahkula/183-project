@@ -27,16 +27,17 @@
         <nav class="level mb-0">
           <div class="level-left">
             <div class="level-item">
-              <div class="location-name is-size-1" id="pharmacy">{{location_name.substring(0, location_name.lastIndexOf(" "))}}</div>
+              <div class="location-name is-size-1" id="pharmacy">{{location_name.substring(0,
+                location_name.lastIndexOf(" "))}}</div>
             </div>
           </div>
           <div class="level-right">
             <div class="level-item" :style="{'flex-direction': 'column'}">
-                  <div class="location-info is-size-3" id="phone">Phone: {{location_phone}}</div>
-                  <div class="location-info is-size-3 has-text-weight-bold" id="stock"
-                  :class="{'has-text-primary': location_stock, 'has-text-danger': !location_stock}">Vaccine
-                  in stock:
-                  {{location_stock ? "Yes" : "No"}}</div>
+              <div class="location-info is-size-3" id="phone">Phone: {{location_phone}}</div>
+              <div class="location-info is-size-3 has-text-weight-bold" id="stock"
+                :class="{'has-text-primary': location_stock, 'has-text-danger': !location_stock}">Vaccine
+                in stock:
+                {{location_stock ? "Yes" : "No"}}</div>
             </div>
           </div>
         </nav>
@@ -66,16 +67,12 @@
             Check eligibility
           </button>
 
-          <!-- Button doesn't work. Used to write a review -->
-          <button class="button has-text-white has-background-info-dark" id="write">
-            Write a Review
-          </button>
-
           <button class="button has-text-white has-background-info-dark" id="write" @click="save" v-if="save_state">
             Save
           </button>
 
-          <button class="button has-text-white has-background-info-dark" id="write" @click="unsave" v-if="!(save_state)">
+          <button class="button has-text-white has-background-info-dark" id="write" @click="unsave"
+            v-if="!(save_state)">
             Unsave
           </button>
 
@@ -210,7 +207,7 @@
               </div>
             </div>
           </div>
-          
+
 
           <!-- input for adding new review -->
           <div class="field has-addons">
@@ -247,6 +244,8 @@
   let get_name_url = "[[=XML(get_name_url) ]]";
   let get_review_rating_url = "[[=XML(get_review_rating_url)]]";
   let set_review_rating_url = "[[=XML(set_review_rating_url)]]";
+  let get_review_raters_url = "[[=XML(get_review_raters_url)]]";
+  let set_review_raters_url = "[[=XML(set_review_raters_url)]]";
   let save_url = "[[=XML(save_url)]]";
   let unsave_url = "[[=XML(unsave_url)]]";
   let radius = "[[=XML(radius)]]";

@@ -31,6 +31,7 @@ from .models import get_user
 url_signer = URLSigner(session)
 
 # clean reset of review data
+# comment out for production
 @action('reset-reviews')
 @action.uses(db)
 def setup():
@@ -39,6 +40,16 @@ def setup():
     db(db.review_rating).delete()
     db(db.review_raters).delete()
     return "reviews reset, head back to home"
+
+# clean reset of location data
+# comment out for production
+@action('reset-locations')
+@action.uses(db)
+def setup():
+    db(db.location).delete()
+    db(db.saved_location).delete()
+    db(db.map).delete()
+    return "locations reset, head back to home"
 
 # gets the coordinates residing in the map database
 @action('load_map', method="GET")
@@ -478,7 +489,7 @@ def location():
     zipcode = request.params.get('zip')
     radius = request.params.get('rad')
     saved_location = request.params.get('loc')
-    saved_address = request.params.get('addr')
+    # saved_address = request.params.get('addr')
     # print(zipcode, radius, saved_location, saved_address)
 
     # We use the zipcode and radius to find the information on a single saved_location
@@ -490,22 +501,21 @@ def location():
 
     # Check if the location has been saved
     location = db(db.location.location_address == location_info['address1']).select().first()
-    saved = db(
-        (db.saved_location.location_id == location['id']) & 
-        (db.auth_user.email == get_user_email())
-    ).select().first()
 
-    if saved is None:
+    if location is None:
         save_state = True
     else:
-        save_state = False
+        saved = db(
+            (db.saved_location.location_id == location['id']) & 
+            (db.auth_user.email == get_user_email())
+        ).select().first()
 
-    rating_information = []
-    rating_num = 4
-    reviews_len = 14
-    return dict(rating_num=rating_num,
-                reviews_len=reviews_len,
-                load_location_info_url = URL('location_info', signer=url_signer),
+        if saved is None:
+            save_state = True
+        else:
+            save_state = False
+
+    return dict(load_location_info_url = URL('location_info', signer=url_signer),
                 add_review_url = URL('add_review'),
                 load_review_url = URL('load_review'),
                 add_review_thread_url = URL('add_review_thread'),
