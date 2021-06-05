@@ -34,8 +34,9 @@
           Sign up or log in today to find your vaccine
         </h4>
         <p class="buttons center">
-          <a class="button is-rounded mr-2" href="[[=URL('auth/register')]]">Sign Up</a>
-          <a class="button is-rounded ml-2" href="[[=URL('auth/login')]]">Log In</a>
+          <a class="button is-rounded ml-2"
+            href="[[=URL('auth/plugin/oauth2google/login', vars=dict(next='../../..'))]]">Log
+            In</a>
         </p>
         [[pass]]
       </div>

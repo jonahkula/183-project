@@ -6,3 +6,4 @@ databases/*
 templates/.DS_Store
 static/.sass-cache
 *ignore
+private/*
